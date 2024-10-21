@@ -1,5 +1,6 @@
 {
   "name": "mqtt-hono--context-server-bridge",
+  "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "start": "tsx watch src/index.ts"
