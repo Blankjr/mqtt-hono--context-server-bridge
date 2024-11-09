@@ -1,10 +1,22 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import mqtt from 'mqtt'
+import { serveStatic } from '@hono/node-server/serve-static'
 import { handleGuideRequest } from './guideService'
+import { handleGetPosition, handleUpdatePosition, handlePositionInterface } from './positionService'
 
 const app = new Hono()
 const port = 3000
+
+
+// Serve static files
+//This allows me to access the images in /static/maps/floor0.png with /maps/floor0.png
+app.use('/maps/*', serveStatic({
+  root: 'static/',
+  onNotFound: (path, c) => {
+    console.log(`${path} is not found, you access ${c.req.path}`)
+  }
+}));
 
 // MQTT client setup
 const mqttClient = mqtt.connect('mqtt://test.mosquitto.org')
@@ -65,8 +77,11 @@ app.post('/send-message', async (c) => {
   })
 })
 
-// Add the guide route
+// routes from external files
 app.get('/guide', handleGuideRequest)
+app.get('/simulatedPosition/admin', handlePositionInterface)  // Admin panel UI
+app.get('/simulatedPosition', handleGetPosition)             // For React Native app
+app.post('/simulatedPosition', handleUpdatePosition)         // For position updates
 
 console.log(`Server is running on port ${port}`)
 serve({
