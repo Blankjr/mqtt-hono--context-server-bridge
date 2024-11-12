@@ -33,7 +33,7 @@ const images: ImageItem[] = [
     {
         id: 'e2_w2-1',
         url: `${baseUrl}e2/w2/w2-1.png`,
-        description: 'Der Orientierungspunkt befindet geradeaus am Ende des Flures'
+        description: 'Der Orientierungspunkt befindet sich geradeaus am Ende des Flures'
     },
     {
         id: 'e2_w2-2',
@@ -48,88 +48,38 @@ const images: ImageItem[] = [
     {
         id: 'e2_w3-1',
         url: `${baseUrl}e2/w3/w3-1.png`,
-        description: 'Der Orientierungspunkt befindet geradeaus am Ende des Flures'
+        description: 'Der Orientierungspunkt befindet sich geradeaus am Ende des Flures'
     },
     {
         id: 'e2_w3-2',
         url: `${baseUrl}e2/w3/w3-2.png`,
-        description: 'Der Orientierungspunkt befindet an der Wand, direkt vor dir.'
+        description: 'Der Orientierungspunkt befindet sich an der Wand, direkt vor dir.'
     },
     {
         id: 'e2_w3-3',
         url: `${baseUrl}e2/w3/w3-3.png`,
-        description: 'Der Orientierungspunkt links an der Wand des Zwischenflures.'
+        description: 'Der Orientierungspunkt befindet sich links an der Wand des Zwischenflures.'
     },
     {
         id: 'e2_w4-1',
         url: `${baseUrl}e2/w4/w4-1.png`,
-        description: 'Der Orientierungspunkt befindet geradeaus, am Ende des Flures'
+        description: 'Der Orientierungspunkt befindet sich geradeaus, am Ende des Flures'
     },
     {
         id: 'e2_w4-2',
         url: `${baseUrl}e2/w4/w4-2.png`,
-        description: 'Der Orientierungspunkt befindet an der Wand direkt vor dir.'
+        description: 'Der Orientierungspunkt befindet sich an der Wand direkt vor dir.'
     },
     {
         id: 'e2_w5-1',
         url: `${baseUrl}e2/w5/w5-1.png`,
-        description: 'Der Orientierungspunkt links an der Wand des Zwischenflures.'
+        description: 'Der Orientierungspunkt befindet sich links an der Wand des Zwischenflures.'
     },
     {
         id: 'e2_w5-2',
         url: `${baseUrl}e2/w5/w5-2.png`,
-        description: 'Der Orientierungspunkt befindet geradeaus, am Ende des Flures'
+        description: 'Der Orientierungspunkt befindet sich geradeaus, am Ende des Flures'
     },
-    // {
-    //     id: 'mountain_lake',
-    //     url: 'https://picsum.photos/seed/696/3000/2000',
-    //     description: 'Eine malerische Aussicht auf eine Berglandschaft mit einem See im Vordergrund'
-    // },
-    // {
-    //     id: 'city_street',
-    //     url: 'https://picsum.photos/seed/697/3000/2000',
-    //     description: 'Eine belebte Stadtstraße mit hohen Gebäuden und gehenden Menschen'
-    // },
-    // {
-    //     id: 'flower_closeup',
-    //     url: 'https://picsum.photos/seed/698/3000/2000',
-    //     description: 'Eine Nahaufnahme einer farbenfrohen Blume mit Tautropfen auf ihren Blütenblättern'
-    // },
-    // {
-    //     id: 'beach_scene',
-    //     url: 'https://picsum.photos/seed/699/3000/2000',
-    //     description: 'Eine friedliche Strandszene mit weißem Sand und klarem blauen Wasser'
-    // },
-    // {
-    //     id: 'forest_aerial',
-    //     url: 'https://picsum.photos/seed/700/3000/2000',
-    //     description: 'Eine Luftaufnahme eines dichten Waldes mit verschiedenen Grüntönen'
-    // },
-    // {
-    //     id: 'vintage_cafe',
-    //     url: 'https://picsum.photos/seed/701/3000/2000',
-    //     description: 'Ein gemütliches Cafe-Interieur mit Vintage-Möbeln und warmer Beleuchtung'
-    // },
-    // {
-    //     id: 'waterfall',
-    //     url: 'https://picsum.photos/seed/702/3000/2000',
-    //     description: 'Ein majestätischer Wasserfall, der in einen türkisfarbenen Pool stürzt'
-    // },
-    // {
-    //     id: 'winter_landscape',
-    //     url: 'https://picsum.photos/seed/703/3000/2000',
-    //     description: 'Eine verschneite Winterlandschaft mit schneebedeckten Bäumen und einem gefrorenen See'
-    // },
-    // {
-    //     id: 'sunset_ocean',
-    //     url: 'https://picsum.photos/seed/704/3000/2000',
-    //     description: 'Ein bunter Sonnenuntergang über einem ruhigen Ozean mit Segelbooten am Horizont'
-    // },
-    // {
-    //     id: 'ivy_wall',
-    //     url: 'https://picsum.photos/seed/705/3000/2000',
-    //     description: 'Eine alte, mit Efeu bewachsene Steinmauer in einem üppigen Garten'
-    // }
 ];
 const tactileLandmarks: TactileLandmark[] = [
     {
