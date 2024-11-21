@@ -96,7 +96,7 @@ app.use('/sample-waypoints/*', serveStatic({
 
 // // routes from external files
 app.get('/guide', handleGuideRequest)
-app.get('/simulatedPosition/admin', handlePositionInterface)  // Admin panel UI
+app.get('/simulatedPosition/admin/', handlePositionInterface)  // Admin panel UI
 app.get('/simulatedPosition/', handleGetPosition)             // For React Native app
 app.post('/simulatedPosition/', handleUpdatePosition)         // For position updates
 
