@@ -1,0 +1,252 @@
+{
+    "fingerprints": [
+        {
+            "id": "04.2.H1-P4",
+            "position": {
+                "x": 112,
+                "y": 126,
+                "floor": "2"
+            },
+            "samples": [
+                {
+                    "ssid": "eduroam",
+                    "rssi": -45,
+                    "channel": 11,
+                    "band": "2.4GHz",
+                    "bssid": "f0:5c:19:87:fd:e0"
+                },
+                {
+                    "ssid": "FBM 1510",
+                    "rssi": -48,
+                    "channel": 11,
+                    "band": "2.4GHz",
+                    "bssid": "f0:5c:19:87:fd:e1"
+                },
+                {
+                    "ssid": "CIT_managed",
+                    "rssi": -57,
+                    "channel": 44,
+                    "band": "5GHz",
+                    "bssid": "f0:5c:19:86:a2:72"
+                }
+            ]
+        },
+        {
+            "id": "04.2.H1-P7",
+            "position": {
+                "x": 228,
+                "y": 125,
+                "floor": "2"
+            },
+            "samples": [
+                {
+                    "ssid": "eduroam",
+                    "rssi": -52,
+                    "channel": 11,
+                    "band": "2.4GHz",
+                    "bssid": "f0:5c:19:87:fd:e0"
+                },
+                {
+                    "ssid": "FBM 1510",
+                    "rssi": -54,
+                    "channel": 11,
+                    "band": "2.4GHz",
+                    "bssid": "f0:5c:19:87:fd:e1"
+                },
+                {
+                    "ssid": "CIT_managed",
+                    "rssi": -61,
+                    "channel": 44,
+                    "band": "5GHz",
+                    "bssid": "f0:5c:19:86:a2:72"
+                }
+            ]
+        },
+        {
+            "id": "04.2.H1-P13",
+            "position": {
+                "x": 521,
+                "y": 128,
+                "floor": "2"
+            },
+            "samples": [
+                {
+                    "ssid": "eduroam",
+                    "rssi": -68,
+                    "channel": 11,
+                    "band": "2.4GHz",
+                    "bssid": "f0:5c:19:87:fd:e0"
+                },
+                {
+                    "ssid": "FBM 1510",
+                    "rssi": -65,
+                    "channel": 124,
+                    "band": "5GHz",
+                    "bssid": "f0:5c:19:86:1d:11"
+                },
+                {
+                    "ssid": "CIT_managed",
+                    "rssi": -74,
+                    "channel": 124,
+                    "band": "5GHz",
+                    "bssid": "f0:5c:19:86:1d:15"
+                }
+            ]
+        },
+        {
+            "id": "04.2.H2-P1",
+            "position": {
+                "x": 112,
+                "y": 329,
+                "floor": "2"
+            },
+            "samples": [
+                {
+                    "ssid": "eduroam",
+                    "rssi": -57,
+                    "channel": 60,
+                    "band": "5GHz",
+                    "bssid": "f0:5c:19:86:8c:10"
+                },
+                {
+                    "ssid": "FBM 1510",
+                    "rssi": -61,
+                    "channel": 1,
+                    "band": "2.4GHz",
+                    "bssid": "f0:5c:19:88:01:80"
+                },
+                {
+                    "ssid": "CIT_managed",
+                    "rssi": -64,
+                    "channel": 112,
+                    "band": "5GHz",
+                    "bssid": "f0:5c:19:86:29:d2"
+                }
+            ]
+        },
+        {
+            "id": "04.2.H2-P4",
+            "position": {
+                "x": 230,
+                "y": 331,
+                "floor": "2"
+            },
+            "samples": [
+                {
+                    "ssid": "eduroam",
+                    "rssi": -62,
+                    "channel": 60,
+                    "band": "5GHz",
+                    "bssid": "f0:5c:19:86:8c:10"
+                },
+                {
+                    "ssid": "FBM 1510",
+                    "rssi": -65,
+                    "channel": 112,
+                    "band": "5GHz",
+                    "bssid": "f0:5c:19:86:29:d3"
+                },
+                {
+                    "ssid": "CIT_managed",
+                    "rssi": -67,
+                    "channel": 112,
+                    "band": "5GHz",
+                    "bssid": "f0:5c:19:86:29:d2"
+                }
+            ]
+        },
+        {
+            "id": "04.2.H3-P1",
+            "position": {
+                "x": 111,
+                "y": 462,
+                "floor": "2"
+            },
+            "samples": [
+                {
+                    "ssid": "eduroam",
+                    "rssi": -73,
+                    "channel": 56,
+                    "band": "5GHz",
+                    "bssid": "f0:5c:19:87:3a:f0"
+                },
+                {
+                    "ssid": "FBM 1510",
+                    "rssi": -73,
+                    "channel": 56,
+                    "band": "5GHz",
+                    "bssid": "f0:5c:19:87:3a:f1"
+                },
+                {
+                    "ssid": "CIT_managed",
+                    "rssi": -76,
+                    "channel": 40,
+                    "band": "5GHz",
+                    "bssid": "f0:5c:19:86:9e:71"
+                }
+            ]
+        },
+        {
+            "id": "04.2.H3-P3",
+            "position": {
+                "x": 230,
+                "y": 464,
+                "floor": "2"
+            },
+            "samples": [
+                {
+                    "ssid": "eduroam",
+                    "rssi": -76,
+                    "channel": 40,
+                    "band": "5GHz",
+                    "bssid": "f0:5c:19:86:9e:70"
+                },
+                {
+                    "ssid": "FBM 1510",
+                    "rssi": -75,
+                    "channel": 124,
+                    "band": "5GHz",
+                    "bssid": "f0:5c:19:86:1d:11"
+                },
+                {
+                    "ssid": "CIT_managed",
+                    "rssi": -78,
+                    "channel": 1,
+                    "band": "2.4GHz",
+                    "bssid": "f0:5c:19:87:55:42"
+                }
+            ]
+        },
+        {
+            "id": "04.2.H3-P6",
+            "position": {
+                "x": 517,
+                "y": 460,
+                "floor": "2"
+            },
+            "samples": [
+                {
+                    "ssid": "eduroam",
+                    "rssi": -82,
+                    "channel": 48,
+                    "band": "5GHz",
+                    "bssid": "f0:5c:19:87:34:70"
+                },
+                {
+                    "ssid": "FBM 1510",
+                    "rssi": -83,
+                    "channel": 48,
+                    "band": "5GHz",
+                    "bssid": "f0:5c:19:87:34:71"
+                },
+                {
+                    "ssid": "CIT_managed",
+                    "rssi": -83,
+                    "channel": 48,
+                    "band": "5GHz",
+                    "bssid": "f0:5c:19:87:34:72"
+                }
+            ]
+        }
+    ]
+}

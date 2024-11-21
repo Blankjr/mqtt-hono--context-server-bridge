@@ -3,10 +3,14 @@ import { Hono } from 'hono'
 import mqtt from 'mqtt'
 import { serveStatic } from '@hono/node-server/serve-static'
 import { handleGuideRequest } from './guideService'
-import { handleGetPosition, handleUpdatePosition, handlePositionInterface } from './positionService'
+import { handleGetPosition, handleUpdatePosition, handlePositionInterface, handleGetGridSquare } from './positionService'
+import { handleApiGuide } from './apiGuide'
 
 const app = new Hono()
 const port = 3000
+
+// Root route - API Guide
+app.get('/', handleApiGuide)
 
 // Add trailing slash middleware
 app.use('*', async (c, next) => {
@@ -99,6 +103,7 @@ app.get('/guide', handleGuideRequest)
 app.get('/simulatedPosition/admin/', handlePositionInterface)  // Admin panel UI
 app.get('/simulatedPosition/', handleGetPosition)             // For React Native app
 app.post('/simulatedPosition/', handleUpdatePosition)         // For position updates
+app.get('/simulatedPosition/gridSquare/', handleGetGridSquare) // get calculated closes grid square of position
 
 console.log(`Server is running on port ${port}`)
 serve({
