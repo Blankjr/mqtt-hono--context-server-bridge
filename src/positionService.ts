@@ -2,40 +2,40 @@
 import { Context } from 'hono'
 
 interface MockPosition {
-    x: number
-    y: number
-    floor: string
-    timestamp: number
+  x: number
+  y: number
+  floor: string
+  timestamp: number
 }
 
 let mockPosition: MockPosition = {
-    x: 0,
-    y: 0,
-    floor: '1',
-    timestamp: Date.now()
+  x: 0,
+  y: 0,
+  floor: '1',
+  timestamp: Date.now()
 }
 
 export async function handleGetPosition(c: Context) {
-    return c.json(mockPosition)
+  return c.json(mockPosition)
 }
 
 export async function handleUpdatePosition(c: Context) {
-    try {
-        const body = await c.req.json()
-        mockPosition = {
-            x: body.x || 0,
-            y: body.y || 0,
-            floor: body.floor || '1',
-            timestamp: Date.now()
-        }
-        return c.json(mockPosition)
-    } catch (error) {
-        return c.json({ error: 'Invalid request body' }, 400)
+  try {
+    const body = await c.req.json()
+    mockPosition = {
+      x: body.x || 0,
+      y: body.y || 0,
+      floor: body.floor || '1',
+      timestamp: Date.now()
     }
+    return c.json(mockPosition)
+  } catch (error) {
+    return c.json({ error: 'Invalid request body' }, 400)
+  }
 }
 
 export async function handlePositionInterface(c: Context) {
-    return c.html(`
+  return c.html(`
     <!DOCTYPE html>
     <html>
       <head>
@@ -74,12 +74,6 @@ export async function handlePositionInterface(c: Context) {
           .map img {
             display: block;
             max-width: none;
-          }
-
-          /* Special handling for floor2.png */
-          .map img[src="/maps/floor2.png"] {
-            width: 690px; /* Half of original 1380px */
-            height: auto;
           }
 
           .marker {
@@ -136,22 +130,26 @@ export async function handlePositionInterface(c: Context) {
         <script>
           async function updatePosition(x, y, floor) {
             try {
-              // Scale up coordinates for floor2 since we're displaying it at half size
-              if (floor === '2') {
-                x = x * 2;
-                y = y * 2;
-              }
+              // Log the data being sent
+              console.log('Sending position:', { x, y, floor });
               
-              const response = await fetch('/simulatedPosition', {
+              const response = await fetch('/simulatedPosition/', {  // Note: added trailing slash
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ x, y, floor }),
               });
+              
+              if (!response.ok) {
+                throw new Error('Network response was not ok');
+              }
+              
               const data = await response.json();
+              console.log('Received data:', data);  // Log the received data
               updateStatusDisplay(data);
             } catch (error) {
+              console.error('Error:', error);  // Detailed error logging
               document.getElementById('status').textContent = 'Error: ' + error.message;
             }
           }
@@ -159,92 +157,110 @@ export async function handlePositionInterface(c: Context) {
           function updateStatusDisplay(data) {
             const img = document.getElementById('map-image');
             const status = document.getElementById('status');
+            
+            // Format the content with spaces and line breaks
             status.innerHTML = \`
               <div class="coordinates">
                 <div class="coordinate-box">
                   <strong>Coordinates:</strong><br>
-                  X: \${data.x}<br>
-                  Y: \${data.y}<br>
-                  Floor: \${data.floor}
+                  X: \${data.x || 0}<br>
+                  Y: \${data.y || 0}<br>
+                  Floor: \${data.floor || '1'}
                 </div>
                 <div class="coordinate-box">
                   <strong>Image Size:</strong><br>
                   Width: \${img.naturalWidth}px<br>
                   Height: \${img.naturalHeight}px
                 </div>
+                <div class="coordinate-box">
+                  <strong>Last Updated:</strong><br>
+                  \${new Date(data.timestamp).toLocaleTimeString()}
+                </div>
               </div>
-            \`;
+            \`;img
           }
 
           function handleMapClick(event) {
-            const map = document.querySelector('.map');
-            const rect = map.getBoundingClientRect();
-            const scrollLeft = map.parentElement.scrollLeft;
-            const scrollTop = map.parentElement.scrollTop;
+            const img = document.getElementById('map-image');
+            const rect = img.getBoundingClientRect();
+            const mapWrapper = document.querySelector('.map-wrapper');
             
-            // Calculate click position relative to image, accounting for scroll
+            // Calculate position
+            const scrollLeft = mapWrapper.scrollLeft;
+            const scrollTop = mapWrapper.scrollTop;
+            
             const x = Math.round(event.clientX - rect.left + scrollLeft);
             const y = Math.round(event.clientY - rect.top + scrollTop);
             
-            // Update marker position
+            // Log all relevant values
+            console.log('Click event:', {
+              clientX: event.clientX,
+              clientY: event.clientY,
+              rectLeft: rect.left,
+              rectTop: rect.top,
+              scrollLeft,
+              scrollTop,
+              finalX: x,
+              finalY: y
+            });
+            
+            // Update marker
             const marker = document.getElementById('marker');
             marker.style.left = x + 'px';
             marker.style.top = y + 'px';
             marker.style.display = 'block';
             
-            // Get selected floor
+            // Get floor and update position
             const floor = document.getElementById('floor-select').value;
-            
-            // Update position
             updatePosition(x, y, floor);
           }
 
-          function updateFloorPlan() {
-            const floor = document.getElementById('floor-select').value;
-            const mapImage = document.getElementById('map-image');
-            mapImage.src = '/maps/floor' + floor + '.png';
-            
-            // Reset marker when floor changes
-            const marker = document.getElementById('marker');
-            marker.style.display = 'none';
-          }
+      function updateFloorPlan() {
+        const floor = document.getElementById('floor-select').value;
+        const mapImage = document.getElementById('map-image');
+        mapImage.src = '/maps/floor' + floor + '.png';
+        
+        // Reset marker when floor changes
+        const marker = document.getElementById('marker');
+        marker.style.display = 'none';
+      }
 
-          async function loadPosition() {
-            try {
-              const response = await fetch('/simulatedPosition');
-              const data = await response.json();
-              
-              // Set floor select
-              document.getElementById('floor-select').value = data.floor;
-              updateFloorPlan();
-              
-              // Wait for image to load before positioning marker
-              const mapImage = document.getElementById('map-image');
-              mapImage.onload = function() {
-                // Scale down coordinates for floor2 display
-                let displayX = data.x;
-                let displayY = data.y;
-                if (data.floor === '2') {
-                  displayX = displayX / 2;
-                  displayY = displayY / 2;
-                }
-                
-                // Update marker
-                const marker = document.getElementById('marker');
-                marker.style.left = displayX + 'px';
-                marker.style.top = displayY + 'px';
-                marker.style.display = 'block';
-                
-                updateStatusDisplay(data);
-              };
-            } catch (error) {
-              document.getElementById('status').textContent = 'Error loading position: ' + error.message;
+      async function loadPosition() {
+        try {
+          const response = await fetch('/simulatedPosition');
+          const data = await response.json();
+          
+          // Set floor select
+          document.getElementById('floor-select').value = data.floor;
+          updateFloorPlan();
+          
+          // Wait for image to load before positioning marker
+          const mapImage = document.getElementById('map-image');
+          mapImage.onload = function() {
+            // Scale down coordinates for floor2 display
+            let displayX = data.x;
+            let displayY = data.y;
+            if (data.floor === '2') {
+              displayX = displayX / 2;
+              displayY = displayY / 2;
             }
-          }
+            
+            // Update marker
+            const marker = document.getElementById('marker');
+            marker.style.left = displayX + 'px';
+            marker.style.top = displayY + 'px';
+            marker.style.display = 'block';
+            
+            updateStatusDisplay(data);
+          };
+        } catch (error) {
+          document.getElementById('status').textContent = 'Error loading position: ' + error.message;
+        }
+      }
 
-          // Initialize on load
-          window.addEventListener('load', loadPosition);
-        </script>
+      // Initialize on load
+      window.addEventListener('load', loadPosition);
+    </script>
       </head>
       <body>
         <div class="map-container">
