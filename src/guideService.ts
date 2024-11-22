@@ -13,10 +13,24 @@ export interface TactileLandmark {
 }
 
 export interface RouteStep {
-    x: number;
-    y: number;
+    gridSquare: string;
     waypointId?: string;
 }
+const roomToGridMap: Record<string, string> = {
+    // Regular rooms in building 04.2
+    '04.2.005': '04.2.H3-P3',  // Prof. Huldtgren & Prof. Schwab-Trapp
+    '04.2.006': '04.2.H3-P3',  // Prof. Bonse & Prof. Mostafawy
+    '04.2.009': '04.2.H3-P6',  // Prof. Herder & Prof. Huber
+    '04.2.010': '04.2.H3-P6',  // Prof. Dahm & Prof. Wojciechowski
+    '04.2.039': '04.2.H2-P4',  // Prof. Rakow
+
+    // Special rooms/facilities
+    'lernraum': '04.2.H1-P4',
+    'fachschaft': '04.2.H1-P7',
+    'toilette': '04.2.H2-P1',
+    'audimax': '04.2.H1-P13',
+    'pc_pool': '04.2.H2-P4',
+};
 
 const baseUrl = getBaseUrl() + '/sample-waypoints/'
 const images: ImageItem[] = [
@@ -149,22 +163,37 @@ function getRandomSubset<T>(arr: T[], count: number): T[] {
     return shuffled.slice(0, count);
 }
 
-function generateRandomSteps(
-    start: { x: number, y: number },
-    end: { x: number, y: number },
+function findPathBetweenGridSquares(startGrid: string, targetGrid: string, stepCount: number): string[] {
+    const availableGrids = [
+        '04.2.H1-P4', '04.2.H1-P7', '04.2.H1-P13',
+        '04.2.H2-P1', '04.2.H2-P4',
+        '04.2.H3-P1', '04.2.H3-P3', '04.2.H3-P6'
+    ];
+
+    const result = [startGrid];
+    const remainingGrids = availableGrids.filter(g => g !== startGrid && g !== targetGrid);
+
+    // Get random intermediate points
+    const intermediatePoints = getRandomSubset(remainingGrids, stepCount - 2);
+    result.push(...intermediatePoints);
+
+    result.push(targetGrid);
+    return result;
+}
+
+function generateRoute(
+    startGrid: string,
+    endGrid: string,
     stepCount: number,
     navigationMode: 'visual' | 'tactile'
 ): { steps: RouteStep[], usedWaypoints: (ImageItem | TactileLandmark)[] } {
-    const steps: RouteStep[] = [{ x: start.x, y: start.y }];
+    const gridSquares = findPathBetweenGridSquares(startGrid, endGrid, stepCount);
     const waypointPool = navigationMode === 'visual' ? images : tactileLandmarks;
     const selectedWaypoints = getRandomSubset(waypointPool, Math.floor(stepCount / 2));
     const usedWaypoints: (ImageItem | TactileLandmark)[] = [];
 
-    for (let i = 1; i < stepCount - 1; i++) {
-        const step: RouteStep = {
-            x: Math.floor(Math.random() * (end.x - start.x) + start.x),
-            y: Math.floor(Math.random() * (end.y - start.y) + start.y),
-        };
+    const steps: RouteStep[] = gridSquares.map(gridSquare => {
+        const step: RouteStep = { gridSquare };
 
         if (selectedWaypoints.length > 0 && Math.random() < 0.5) {
             const waypoint = selectedWaypoints.pop()!;
@@ -172,34 +201,43 @@ function generateRandomSteps(
             usedWaypoints.push(waypoint);
         }
 
-        steps.push(step);
-    }
+        return step;
+    });
 
-    steps.push({ x: end.x, y: end.y });
     return { steps, usedWaypoints };
 }
 
 export async function handleGuideRequest(c: Context) {
-    const startFloor = parseInt(c.req.query('start_floor') || '0');
-    const startRoom = parseInt(c.req.query('start_room') || '0');
-    const destinationFloor = parseInt(c.req.query('destination_floor') || '0');
-    const destinationRoom = parseInt(c.req.query('destination_room') || '0');
+    const startGridSquare = c.req.query('start_gridsquare') || '';
+    const destinationRoom = c.req.query('destination_room') || '';
     const navigationMode = c.req.query('mode') === 'tactile' ? 'tactile' : 'visual';
 
-    // Mock position mapping (you would replace this with actual logic)
-    const start = { x: 12, y: 24 };
-    const end = { x: 70, y: 50 };
+    // Convert destination room to grid square
+    const endGridSquare = roomToGridMap[destinationRoom];
 
-    const stepCount = Math.floor(Math.random() * 9) + 2; // Random number between 2 and 10
-    const { steps, usedWaypoints } = generateRandomSteps(start, end, stepCount, navigationMode);
+    if (!endGridSquare) {
+        return c.json({ error: 'Invalid destination room' }, 400);
+    }
 
-    // Simulate network delay (between 100ms and 2000ms)
+    if (!startGridSquare) {
+        return c.json({ error: 'Invalid start grid square' }, 400);
+    }
+
+    const stepCount = Math.floor(Math.random() * 5) + 3; // Random number between 3 and 7
+    const { steps, usedWaypoints } = generateRoute(startGridSquare, endGridSquare, stepCount, navigationMode);
+
+    // Simulate network delay
     const delay = Math.floor(Math.random() * 1900) + 100;
     await new Promise(resolve => setTimeout(resolve, delay));
 
     return c.json({
-        start: { floor: startFloor, room: startRoom },
-        destination: { floor: destinationFloor, room: destinationRoom },
+        start: {
+            gridSquare: startGridSquare
+        },
+        destination: {
+            room: destinationRoom,
+            gridSquare: endGridSquare
+        },
         route: steps,
         waypoints: usedWaypoints,
         navigationMode
