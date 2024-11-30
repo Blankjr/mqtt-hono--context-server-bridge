@@ -1,0 +1,1376 @@
+{
+  "executionTimeMS": 674,
+  "size": 1,
+  "optimizationSteps": 203,
+  "timeout reached": false,
+  "result": [
+    [
+      {
+        "aggregation": {
+          "distance": 923.9165759261214
+        }
+      },
+      {
+        "relation": {
+          "relationtype": "VerbindungInPlanquadrat",
+          "attributes": {
+            "istWahr": true
+          }
+        },
+        "fromEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116796,
+          "name": "04.E.H2-P2",
+          "fingerprint": "04.E.H2-P2",
+          "attributes": {
+            "groesse": 9.0,
+            "etage": 0,
+            "position": {
+              "xStart": -13.046085357666016,
+              "xEnd": -10.14608383178711,
+              "yStart": -6.332829475402832,
+              "yEnd": -3.332829475402832,
+              "zStart": 27.899961471557617,
+              "zEnd": 30.399961471557617,
+              "xCentral": -11.596084594726562,
+              "yCentral": -4.832829475402832,
+              "zCentral": 29.149961471557617,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "toEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116817,
+          "name": "04.E.H3-P2",
+          "fingerprint": "04.E.H3-P2",
+          "attributes": {
+            "groesse": 10.0,
+            "etage": 0,
+            "position": {
+              "xStart": -13.442846298217773,
+              "xEnd": -10.542844772338867,
+              "yStart": -6.03098201751709,
+              "yEnd": -2.7309818267822266,
+              "zStart": 30.992034912109375,
+              "zEnd": 33.492034912109375,
+              "xCentral": -11.99284553527832,
+              "yCentral": -4.380981922149658,
+              "zCentral": 32.242034912109375,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "aggregation": {
+          "_stepCalculated_distance": 1.0,
+          "_step_distance": 6.598491754234816,
+          "distance": 6.598491754234816
+        },
+        "prioritySelectorResult": 409.9415720917184
+      },
+      {
+        "relation": {
+          "relationtype": "VerbindungInPlanquadrat",
+          "attributes": {
+            "istWahr": true
+          }
+        },
+        "fromEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116817,
+          "name": "04.E.H3-P2",
+          "fingerprint": "04.E.H3-P2",
+          "attributes": {
+            "groesse": 10.0,
+            "etage": 0,
+            "position": {
+              "xStart": -13.442846298217773,
+              "xEnd": -10.542844772338867,
+              "yStart": -6.03098201751709,
+              "yEnd": -2.7309818267822266,
+              "zStart": 30.992034912109375,
+              "zEnd": 33.492034912109375,
+              "xCentral": -11.99284553527832,
+              "yCentral": -4.380981922149658,
+              "zCentral": 32.242034912109375,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "toEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116802,
+          "name": "04.E.H3-P1",
+          "fingerprint": "04.E.H3-P1",
+          "attributes": {
+            "groesse": 84.0,
+            "etage": 0,
+            "position": {
+              "xStart": -14.31582260131836,
+              "xEnd": 11.084178924560547,
+              "yStart": 3.5885000228881836,
+              "yEnd": 6.888500213623047,
+              "zStart": 30.91785430908203,
+              "zEnd": 33.41785430908203,
+              "xCentral": -1.6158218383789062,
+              "yCentral": 5.238500118255615,
+              "zCentral": 32.16785430908203,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "aggregation": {
+          "_stepCalculated_distance": 1.0,
+          "_step_distance": 134.158098806445,
+          "distance": 140.75659056067983
+        },
+        "prioritySelectorResult": 260.68407392112965
+      },
+      {
+        "relation": {
+          "relationtype": "VerbindungInPlanquadrat",
+          "attributes": {
+            "istWahr": true
+          }
+        },
+        "fromEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116802,
+          "name": "04.E.H3-P1",
+          "fingerprint": "04.E.H3-P1",
+          "attributes": {
+            "groesse": 84.0,
+            "etage": 0,
+            "position": {
+              "xStart": -14.31582260131836,
+              "xEnd": 11.084178924560547,
+              "yStart": 3.5885000228881836,
+              "yEnd": 6.888500213623047,
+              "zStart": 30.91785430908203,
+              "zEnd": 33.41785430908203,
+              "xCentral": -1.6158218383789062,
+              "yCentral": 5.238500118255615,
+              "zCentral": 32.16785430908203,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "toEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116715,
+          "name": "04.1.H3-P2",
+          "fingerprint": "04.1.H3-P2",
+          "attributes": {
+            "groesse": 12.0,
+            "etage": 1,
+            "position": {
+              "xStart": -2.9459285736083984,
+              "xEnd": 0.5540714263916016,
+              "yStart": 7.324020862579346,
+              "yEnd": 10.624021530151367,
+              "zStart": 30.42585563659668,
+              "zEnd": 32.92585372924805,
+              "xCentral": -1.1959285736083984,
+              "yCentral": 8.974021196365356,
+              "zCentral": 31.675854682922363,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "aggregation": {
+          "_stepCalculated_distance": 1.0,
+          "_step_distance": 39.57197943901159,
+          "distance": 180.3285699996914
+        },
+        "prioritySelectorResult": 671.1302773237733
+      },
+      {
+        "relation": {
+          "relationtype": "VerbindungInPlanquadrat",
+          "attributes": {
+            "istWahr": true
+          }
+        },
+        "fromEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116715,
+          "name": "04.1.H3-P2",
+          "fingerprint": "04.1.H3-P2",
+          "attributes": {
+            "groesse": 12.0,
+            "etage": 1,
+            "position": {
+              "xStart": -2.9459285736083984,
+              "xEnd": 0.5540714263916016,
+              "yStart": 7.324020862579346,
+              "yEnd": 10.624021530151367,
+              "zStart": 30.42585563659668,
+              "zEnd": 32.92585372924805,
+              "xCentral": -1.1959285736083984,
+              "yCentral": 8.974021196365356,
+              "zCentral": 31.675854682922363,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "toEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116693,
+          "name": "04.1.H2-P2",
+          "fingerprint": "04.1.H2-P2",
+          "attributes": {
+            "groesse": 11.0,
+            "etage": 1,
+            "position": {
+              "xStart": -2.54287052154541,
+              "xEnd": 0.9571294784545898,
+              "yStart": 6.964998245239258,
+              "yEnd": 10.064996719360352,
+              "zStart": 27.284704208374023,
+              "zEnd": 29.784704208374023,
+              "xCentral": -0.7928705215454102,
+              "yCentral": 8.514997482299805,
+              "zCentral": 28.534704208374023,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "aggregation": {
+          "_stepCalculated_distance": 1.0,
+          "_step_distance": 6.703255465544095,
+          "distance": 187.0318254652355
+        },
+        "prioritySelectorResult": 686.2183388500541
+      },
+      {
+        "relation": {
+          "relationtype": "VerbindungInPlanquadrat",
+          "attributes": {
+            "istWahr": true
+          }
+        },
+        "fromEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116693,
+          "name": "04.1.H2-P2",
+          "fingerprint": "04.1.H2-P2",
+          "attributes": {
+            "groesse": 11.0,
+            "etage": 1,
+            "position": {
+              "xStart": -2.54287052154541,
+              "xEnd": 0.9571294784545898,
+              "yStart": 6.964998245239258,
+              "yEnd": 10.064996719360352,
+              "zStart": 27.284704208374023,
+              "zEnd": 29.784704208374023,
+              "xCentral": -0.7928705215454102,
+              "yCentral": 8.514997482299805,
+              "zCentral": 28.534704208374023,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "toEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116680,
+          "name": "04.1.H2-P3",
+          "fingerprint": "04.1.H2-P3",
+          "attributes": {
+            "groesse": 18.0,
+            "etage": 1,
+            "position": {
+              "xStart": -7.189655303955078,
+              "xEnd": -1.2896556854248047,
+              "yStart": 3.769836902618408,
+              "yEnd": 6.869835376739502,
+              "zStart": 27.309343338012695,
+              "zEnd": 29.809343338012695,
+              "xCentral": -4.239655494689941,
+              "yCentral": 5.319836139678955,
+              "zCentral": 28.559343338012695,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "aggregation": {
+          "_stepCalculated_distance": 1.0,
+          "_step_distance": 44.561327359478916,
+          "distance": 231.59315282471442
+        },
+        "prioritySelectorResult": 367.09178476910074
+      },
+      {
+        "relation": {
+          "relationtype": "VerbindungInPlanquadrat",
+          "attributes": {
+            "istWahr": true
+          }
+        },
+        "fromEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116680,
+          "name": "04.1.H2-P3",
+          "fingerprint": "04.1.H2-P3",
+          "attributes": {
+            "groesse": 18.0,
+            "etage": 1,
+            "position": {
+              "xStart": -7.189655303955078,
+              "xEnd": -1.2896556854248047,
+              "yStart": 3.769836902618408,
+              "yEnd": 6.869835376739502,
+              "zStart": 27.309343338012695,
+              "zEnd": 29.809343338012695,
+              "xCentral": -4.239655494689941,
+              "yCentral": 5.319836139678955,
+              "zCentral": 28.559343338012695,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "toEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116696,
+          "name": "04.1.H2-P4",
+          "fingerprint": "04.1.H2-P4",
+          "attributes": {
+            "groesse": 24.0,
+            "etage": 1,
+            "position": {
+              "xStart": -13.24983024597168,
+              "xEnd": -5.349828720092773,
+              "yStart": -0.9209338426589966,
+              "yEnd": 2.1790642738342285,
+              "zStart": 27.34551429748535,
+              "zEnd": 29.84551429748535,
+              "xCentral": -9.299829483032227,
+              "yCentral": 0.629065215587616,
+              "zCentral": 28.59551429748535,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "aggregation": {
+          "_stepCalculated_distance": 1.0,
+          "_step_distance": 65.41983981378687,
+          "distance": 297.01299263850126
+        },
+        "prioritySelectorResult": 206.14843135409907
+      },
+      {
+        "relation": {
+          "relationtype": "VerbindungInPlanquadrat",
+          "attributes": {
+            "istWahr": true
+          }
+        },
+        "fromEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116696,
+          "name": "04.1.H2-P4",
+          "fingerprint": "04.1.H2-P4",
+          "attributes": {
+            "groesse": 24.0,
+            "etage": 1,
+            "position": {
+              "xStart": -13.24983024597168,
+              "xEnd": -5.349828720092773,
+              "yStart": -0.9209338426589966,
+              "yEnd": 2.1790642738342285,
+              "zStart": 27.34551429748535,
+              "zEnd": 29.84551429748535,
+              "xCentral": -9.299829483032227,
+              "yCentral": 0.629065215587616,
+              "zCentral": 28.59551429748535,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "toEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116697,
+          "name": "04.1.H2-P5",
+          "fingerprint": "04.1.H2-P5",
+          "attributes": {
+            "groesse": 9.0,
+            "etage": 1,
+            "position": {
+              "xStart": -14.716264724731445,
+              "xEnd": -11.816263198852539,
+              "yStart": -4.5348005294799805,
+              "yEnd": -1.53480064868927,
+              "zStart": 27.422901153564453,
+              "zEnd": 29.922901153564453,
+              "xCentral": -13.266263961791992,
+              "yCentral": -3.0348005890846252,
+              "zCentral": 28.672901153564453,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "aggregation": {
+          "_stepCalculated_distance": 1.0,
+          "_step_distance": 51.17585897543583,
+          "distance": 348.1888516139371
+        },
+        "prioritySelectorResult": 296.8437976227835
+      },
+      {
+        "relation": {
+          "relationtype": "VerbindungInPlanquadrat",
+          "attributes": {
+            "istWahr": true
+          }
+        },
+        "fromEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116697,
+          "name": "04.1.H2-P5",
+          "fingerprint": "04.1.H2-P5",
+          "attributes": {
+            "groesse": 9.0,
+            "etage": 1,
+            "position": {
+              "xStart": -14.716264724731445,
+              "xEnd": -11.816263198852539,
+              "yStart": -4.5348005294799805,
+              "yEnd": -1.53480064868927,
+              "zStart": 27.422901153564453,
+              "zEnd": 29.922901153564453,
+              "xCentral": -13.266263961791992,
+              "yCentral": -3.0348005890846252,
+              "zCentral": 28.672901153564453,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "toEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116701,
+          "name": "04.1.H3-P5",
+          "fingerprint": "04.1.H3-P5",
+          "attributes": {
+            "groesse": 10.0,
+            "etage": 1,
+            "position": {
+              "xStart": -15.113025665283203,
+              "xEnd": -12.213024139404297,
+              "yStart": -4.232951641082764,
+              "yEnd": -0.9329510927200317,
+              "zStart": 30.514972686767578,
+              "zEnd": 33.01497268676758,
+              "xCentral": -13.66302490234375,
+              "yCentral": -2.5829513669013977,
+              "zCentral": 31.764972686767578,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "aggregation": {
+          "_stepCalculated_distance": 1.0,
+          "_step_distance": 6.5985035802665895,
+          "distance": 354.7873551942037
+        },
+        "prioritySelectorResult": 276.7188568966193
+      },
+      {
+        "relation": {
+          "relationtype": "VerbindungInPlanquadrat",
+          "attributes": {
+            "istWahr": true
+          }
+        },
+        "fromEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116701,
+          "name": "04.1.H3-P5",
+          "fingerprint": "04.1.H3-P5",
+          "attributes": {
+            "groesse": 10.0,
+            "etage": 1,
+            "position": {
+              "xStart": -15.113025665283203,
+              "xEnd": -12.213024139404297,
+              "yStart": -4.232951641082764,
+              "yEnd": -0.9329510927200317,
+              "zStart": 30.514972686767578,
+              "zEnd": 33.01497268676758,
+              "xCentral": -13.66302490234375,
+              "yCentral": -2.5829513669013977,
+              "zCentral": 31.764972686767578,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "toEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116689,
+          "name": "04.1.H3-P4",
+          "fingerprint": "04.1.H3-P4",
+          "attributes": {
+            "groesse": 26.0,
+            "etage": 1,
+            "position": {
+              "xStart": -13.652889251708984,
+              "xEnd": -5.752887725830078,
+              "yStart": -0.561913251876831,
+              "yEnd": 2.7380871772766113,
+              "zStart": 30.486665725708008,
+              "zEnd": 32.986663818359375,
+              "xCentral": -9.702888488769531,
+              "yCentral": 1.0880869626998901,
+              "zCentral": 31.73666477203369,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "aggregation": {
+          "_stepCalculated_distance": 1.0,
+          "_step_distance": 51.19813859901731,
+          "distance": 405.98549379322105
+        },
+        "prioritySelectorResult": 197.92437802778772
+      },
+      {
+        "relation": {
+          "relationtype": "VerbindungInPlanquadrat",
+          "attributes": {
+            "istWahr": true
+          }
+        },
+        "fromEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116689,
+          "name": "04.1.H3-P4",
+          "fingerprint": "04.1.H3-P4",
+          "attributes": {
+            "groesse": 26.0,
+            "etage": 1,
+            "position": {
+              "xStart": -13.652889251708984,
+              "xEnd": -5.752887725830078,
+              "yStart": -0.561913251876831,
+              "yEnd": 2.7380871772766113,
+              "zStart": 30.486665725708008,
+              "zEnd": 32.986663818359375,
+              "xCentral": -9.702888488769531,
+              "yCentral": 1.0880869626998901,
+              "zCentral": 31.73666477203369,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "toEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116707,
+          "name": "04.1.H4-P1",
+          "fingerprint": "04.1.H4-P1",
+          "attributes": {
+            "groesse": 35.0,
+            "etage": 1,
+            "position": {
+              "xStart": -19.891948699951172,
+              "xEnd": -5.291950225830078,
+              "yStart": -2.0484793186187744,
+              "yEnd": 0.3515210747718811,
+              "zStart": 33.302337646484375,
+              "zEnd": 35.802337646484375,
+              "xCentral": -12.591949462890625,
+              "yCentral": -0.8484791219234467,
+              "zCentral": 34.552337646484375,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "aggregation": {
+          "_stepCalculated_distance": 1.0,
+          "_step_distance": 31.970646415580735,
+          "distance": 437.9561402088018
+        },
+        "prioritySelectorResult": 286.37282042966723
+      },
+      {
+        "relation": {
+          "relationtype": "VerbindungInPlanquadrat",
+          "attributes": {
+            "istWahr": true
+          }
+        },
+        "fromEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116707,
+          "name": "04.1.H4-P1",
+          "fingerprint": "04.1.H4-P1",
+          "attributes": {
+            "groesse": 35.0,
+            "etage": 1,
+            "position": {
+              "xStart": -19.891948699951172,
+              "xEnd": -5.291950225830078,
+              "yStart": -2.0484793186187744,
+              "yEnd": 0.3515210747718811,
+              "zStart": 33.302337646484375,
+              "zEnd": 35.802337646484375,
+              "xCentral": -12.591949462890625,
+              "yCentral": -0.8484791219234467,
+              "zCentral": 34.552337646484375,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "toEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116688,
+          "name": "04.1.H3-P6",
+          "fingerprint": "04.1.H3-P6",
+          "attributes": {
+            "groesse": 31.0,
+            "etage": 1,
+            "position": {
+              "xStart": -22.9598445892334,
+              "xEnd": -13.459844589233398,
+              "yStart": -8.447844505310059,
+              "yEnd": -5.147844314575195,
+              "zStart": 30.547473907470703,
+              "zEnd": 33.0474739074707,
+              "xCentral": -18.2098445892334,
+              "yCentral": -6.797844409942627,
+              "zCentral": 31.797473907470703,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "aggregation": {
+          "_stepCalculated_distance": 1.0,
+          "_step_distance": 78.76319080699072,
+          "distance": 516.7193310157925
+        },
+        "prioritySelectorResult": 440.02603785303774
+      },
+      {
+        "relation": {
+          "relationtype": "VerbindungInPlanquadrat",
+          "attributes": {
+            "istWahr": true
+          }
+        },
+        "fromEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116688,
+          "name": "04.1.H3-P6",
+          "fingerprint": "04.1.H3-P6",
+          "attributes": {
+            "groesse": 31.0,
+            "etage": 1,
+            "position": {
+              "xStart": -22.9598445892334,
+              "xEnd": -13.459844589233398,
+              "yStart": -8.447844505310059,
+              "yEnd": -5.147844314575195,
+              "zStart": 30.547473907470703,
+              "zEnd": 33.0474739074707,
+              "xCentral": -18.2098445892334,
+              "yCentral": -6.797844409942627,
+              "zCentral": 31.797473907470703,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "toEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116711,
+          "name": "04.1.H2-P6",
+          "fingerprint": "04.1.H2-P6",
+          "attributes": {
+            "groesse": 29.0,
+            "etage": 1,
+            "position": {
+              "xStart": -22.56308364868164,
+              "xEnd": -13.06308364868164,
+              "yStart": -8.749693870544434,
+              "yEnd": -5.749693870544434,
+              "zStart": 27.455402374267578,
+              "zEnd": 29.955402374267578,
+              "xCentral": -17.81308364868164,
+              "yCentral": -7.249693870544434,
+              "zCentral": 28.705402374267578,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "aggregation": {
+          "_stepCalculated_distance": 1.0,
+          "_step_distance": 6.598505397385703,
+          "distance": 523.3178364131782
+        },
+        "prioritySelectorResult": 512.7925143231779
+      },
+      {
+        "relation": {
+          "relationtype": "VerbindungInPlanquadrat",
+          "attributes": {
+            "istWahr": true
+          }
+        },
+        "fromEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116711,
+          "name": "04.1.H2-P6",
+          "fingerprint": "04.1.H2-P6",
+          "attributes": {
+            "groesse": 29.0,
+            "etage": 1,
+            "position": {
+              "xStart": -22.56308364868164,
+              "xEnd": -13.06308364868164,
+              "yStart": -8.749693870544434,
+              "yEnd": -5.749693870544434,
+              "zStart": 27.455402374267578,
+              "zEnd": 29.955402374267578,
+              "xCentral": -17.81308364868164,
+              "yCentral": -7.249693870544434,
+              "zCentral": 28.705402374267578,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "toEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116682,
+          "name": "04.1.H2-P7",
+          "fingerprint": "04.1.H2-P7",
+          "attributes": {
+            "groesse": 24.0,
+            "etage": 1,
+            "position": {
+              "xStart": -28.1433048248291,
+              "xEnd": -20.243303298950195,
+              "yStart": -14.664144515991211,
+              "yEnd": -11.664144515991211,
+              "zStart": 27.50101089477539,
+              "zEnd": 30.00101089477539,
+              "xCentral": -24.19330406188965,
+              "yCentral": -13.164144515991211,
+              "zCentral": 28.75101089477539,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "aggregation": {
+          "_stepCalculated_distance": 1.0,
+          "_step_distance": 82.48589350842022,
+          "distance": 605.8037299215983
+        },
+        "prioritySelectorResult": 1167.8754272383599
+      },
+      {
+        "relation": {
+          "relationtype": "VerbindungInPlanquadrat",
+          "attributes": {
+            "istWahr": true
+          }
+        },
+        "fromEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116682,
+          "name": "04.1.H2-P7",
+          "fingerprint": "04.1.H2-P7",
+          "attributes": {
+            "groesse": 24.0,
+            "etage": 1,
+            "position": {
+              "xStart": -28.1433048248291,
+              "xEnd": -20.243303298950195,
+              "yStart": -14.664144515991211,
+              "yEnd": -11.664144515991211,
+              "zStart": 27.50101089477539,
+              "zEnd": 30.00101089477539,
+              "xCentral": -24.19330406188965,
+              "yCentral": -13.164144515991211,
+              "zCentral": 28.75101089477539,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "toEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116683,
+          "name": "04.1.H2-P8",
+          "fingerprint": "04.1.H2-P8",
+          "attributes": {
+            "groesse": 9.0,
+            "etage": 1,
+            "position": {
+              "xStart": -29.504179000854492,
+              "xEnd": -26.70417594909668,
+              "yStart": -18.415538787841797,
+              "yEnd": -15.215538024902344,
+              "zStart": 27.430896759033203,
+              "zEnd": 29.930896759033203,
+              "xCentral": -28.104177474975586,
+              "yCentral": -16.81553840637207,
+              "zCentral": 28.680896759033203,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "aggregation": {
+          "_stepCalculated_distance": 1.0,
+          "_step_distance": 50.769276735426054,
+          "distance": 656.5730066570244
+        },
+        "prioritySelectorResult": 1705.0256256389778
+      },
+      {
+        "relation": {
+          "relationtype": "VerbindungInPlanquadrat",
+          "attributes": {
+            "istWahr": true
+          }
+        },
+        "fromEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116683,
+          "name": "04.1.H2-P8",
+          "fingerprint": "04.1.H2-P8",
+          "attributes": {
+            "groesse": 9.0,
+            "etage": 1,
+            "position": {
+              "xStart": -29.504179000854492,
+              "xEnd": -26.70417594909668,
+              "yStart": -18.415538787841797,
+              "yEnd": -15.215538024902344,
+              "zStart": 27.430896759033203,
+              "zEnd": 29.930896759033203,
+              "xCentral": -28.104177474975586,
+              "yCentral": -16.81553840637207,
+              "zCentral": 28.680896759033203,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "toEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116703,
+          "name": "04.1.V3-P5",
+          "fingerprint": "04.1.V3-P5",
+          "attributes": {
+            "groesse": 7.0,
+            "etage": 1,
+            "position": {
+              "xStart": -29.164094924926758,
+              "xEnd": -26.364091873168945,
+              "yStart": -18.502840042114258,
+              "yEnd": -15.902840614318848,
+              "zStart": 24.780548095703125,
+              "zEnd": 27.280548095703125,
+              "xCentral": -27.76409339904785,
+              "yCentral": -17.202840328216553,
+              "zCentral": 26.030548095703125,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "aggregation": {
+          "_stepCalculated_distance": 1.0,
+          "_step_distance": 5.655894763836174,
+          "distance": 662.2289014208606
+        },
+        "prioritySelectorResult": 1763.2865897585036
+      },
+      {
+        "relation": {
+          "relationtype": "VerbindungInPlanquadrat",
+          "attributes": {
+            "istWahr": true
+          }
+        },
+        "fromEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116703,
+          "name": "04.1.V3-P5",
+          "fingerprint": "04.1.V3-P5",
+          "attributes": {
+            "groesse": 7.0,
+            "etage": 1,
+            "position": {
+              "xStart": -29.164094924926758,
+              "xEnd": -26.364091873168945,
+              "yStart": -18.502840042114258,
+              "yEnd": -15.902840614318848,
+              "zStart": 24.780548095703125,
+              "zEnd": 27.280548095703125,
+              "xCentral": -27.76409339904785,
+              "yCentral": -17.202840328216553,
+              "zCentral": 26.030548095703125,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "toEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116782,
+          "name": "04.2.V3-P3",
+          "fingerprint": "04.2.V3-P3",
+          "attributes": {
+            "groesse": 13.0,
+            "etage": 2,
+            "position": {
+              "xStart": -30.927350997924805,
+              "xEnd": -28.127347946166992,
+              "yStart": -18.30481719970703,
+              "yEnd": -13.5048189163208,
+              "zStart": 22.744823455810547,
+              "zEnd": 25.244823455810547,
+              "xCentral": -29.5273494720459,
+              "yCentral": -15.904818058013916,
+              "zCentral": 23.994823455810547,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "aggregation": {
+          "_stepCalculated_distance": 1.0,
+          "_step_distance": 20.346202132023866,
+          "distance": 682.5751035528845
+        },
+        "prioritySelectorResult": 1590.6996435010383
+      },
+      {
+        "relation": {
+          "relationtype": "VerbindungInPlanquadrat",
+          "attributes": {
+            "istWahr": true
+          }
+        },
+        "fromEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116782,
+          "name": "04.2.V3-P3",
+          "fingerprint": "04.2.V3-P3",
+          "attributes": {
+            "groesse": 13.0,
+            "etage": 2,
+            "position": {
+              "xStart": -30.927350997924805,
+              "xEnd": -28.127347946166992,
+              "yStart": -18.30481719970703,
+              "yEnd": -13.5048189163208,
+              "zStart": 22.744823455810547,
+              "zEnd": 25.244823455810547,
+              "xCentral": -29.5273494720459,
+              "yCentral": -15.904818058013916,
+              "zCentral": 23.994823455810547,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "toEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116757,
+          "name": "04.2.V3-P4",
+          "fingerprint": "04.2.V3-P4",
+          "attributes": {
+            "groesse": 11.0,
+            "etage": 2,
+            "position": {
+              "xStart": -31.492895126342773,
+              "xEnd": -28.69289207458496,
+              "yStart": -17.26074981689453,
+              "yEnd": -13.260749816894531,
+              "zStart": 27.15225601196289,
+              "zEnd": 29.65225601196289,
+              "xCentral": -30.092893600463867,
+              "yCentral": -15.260749816894531,
+              "zCentral": 28.40225601196289,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "aggregation": {
+          "_stepCalculated_distance": 1.0,
+          "_step_distance": 9.405526739370242,
+          "distance": 691.9806302922547
+        },
+        "prioritySelectorResult": 1590.7743915145536
+      },
+      {
+        "relation": {
+          "relationtype": "VerbindungInPlanquadrat",
+          "attributes": {
+            "istWahr": true
+          }
+        },
+        "fromEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116757,
+          "name": "04.2.V3-P4",
+          "fingerprint": "04.2.V3-P4",
+          "attributes": {
+            "groesse": 11.0,
+            "etage": 2,
+            "position": {
+              "xStart": -31.492895126342773,
+              "xEnd": -28.69289207458496,
+              "yStart": -17.26074981689453,
+              "yEnd": -13.260749816894531,
+              "zStart": 27.15225601196289,
+              "zEnd": 29.65225601196289,
+              "xCentral": -30.092893600463867,
+              "yCentral": -15.260749816894531,
+              "zCentral": 28.40225601196289,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "toEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116779,
+          "name": "04.2.H3-P6",
+          "fingerprint": "04.2.H3-P6",
+          "attributes": {
+            "groesse": 10.0,
+            "etage": 2,
+            "position": {
+              "xStart": -31.895952224731445,
+              "xEnd": -29.095949172973633,
+              "yStart": -16.001726150512695,
+              "yEnd": -13.601727485656738,
+              "zStart": 30.293405532836914,
+              "zEnd": 32.79340362548828,
+              "xCentral": -30.49595069885254,
+              "yCentral": -14.801726818084717,
+              "zCentral": 31.543404579162598,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "aggregation": {
+          "_stepCalculated_distance": 1.0,
+          "_step_distance": 6.7032450203490255,
+          "distance": 698.6838753126037
+        },
+        "prioritySelectorResult": 1638.3767212631928
+      },
+      {
+        "relation": {
+          "relationtype": "VerbindungInPlanquadrat",
+          "attributes": {
+            "istWahr": true
+          }
+        },
+        "fromEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116779,
+          "name": "04.2.H3-P6",
+          "fingerprint": "04.2.H3-P6",
+          "attributes": {
+            "groesse": 10.0,
+            "etage": 2,
+            "position": {
+              "xStart": -31.895952224731445,
+              "xEnd": -29.095949172973633,
+              "yStart": -16.001726150512695,
+              "yEnd": -13.601727485656738,
+              "zStart": 30.293405532836914,
+              "zEnd": 32.79340362548828,
+              "xCentral": -30.49595069885254,
+              "yCentral": -14.801726818084717,
+              "zCentral": 31.543404579162598,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "toEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116780,
+          "name": "04.2.H3-P5",
+          "fingerprint": "04.2.H3-P5",
+          "attributes": {
+            "groesse": 31.0,
+            "etage": 2,
+            "position": {
+              "xStart": -30.53581428527832,
+              "xEnd": -22.53581428527832,
+              "yStart": -12.330687522888184,
+              "yEnd": -9.93068790435791,
+              "zStart": 30.265098571777344,
+              "zEnd": 32.765098571777344,
+              "xCentral": -26.53581428527832,
+              "yCentral": -11.130687713623047,
+              "zCentral": 31.515098571777344,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "aggregation": {
+          "_stepCalculated_distance": 1.0,
+          "_step_distance": 51.19814478173361,
+          "distance": 749.8820200943373
+        },
+        "prioritySelectorResult": 1045.6200190557975
+      },
+      {
+        "relation": {
+          "relationtype": "VerbindungInPlanquadratZuRaum",
+          "attributes": {
+            "istWahr": true
+          }
+        },
+        "fromEntity": {
+          "entitytype": "Planquadrat",
+          "id": 101127712139116780,
+          "name": "04.2.H3-P5",
+          "fingerprint": "04.2.H3-P5",
+          "attributes": {
+            "groesse": 31.0,
+            "etage": 2,
+            "position": {
+              "xStart": -30.53581428527832,
+              "xEnd": -22.53581428527832,
+              "yStart": -12.330687522888184,
+              "yEnd": -9.93068790435791,
+              "zStart": 30.265098571777344,
+              "zEnd": 32.765098571777344,
+              "xCentral": -26.53581428527832,
+              "yCentral": -11.130687713623047,
+              "zCentral": 31.515098571777344,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "toEntity": {
+          "entitytype": "Raum",
+          "id": 101127712139116613,
+          "name": "04.2.010",
+          "fingerprint": "04.2.010",
+          "attributes": {
+            "groesse": 28.0,
+            "art": "null",
+            "etage": 2,
+            "temperature": 20,
+            "position": {
+              "xStart": -15.966611862182617,
+              "xEnd": -11.76661491394043,
+              "yStart": -1.5373777151107788,
+              "yEnd": 5.262620449066162,
+              "zStart": 34.88194274902344,
+              "zEnd": 37.38194274902344,
+              "xCentral": -13.866613388061523,
+              "yCentral": 1.8626213669776917,
+              "zCentral": 36.13194274902344,
+              "xCircleCenter": 0.0,
+              "yCircleCenter": 0.0,
+              "radius": 0.0,
+              "CoverIndex": 0,
+              "PolygonPoints": [],
+              "PolygonType": ""
+            }
+          }
+        },
+        "aggregation": {
+          "_stepCalculated_distance": 1.0,
+          "_step_distance": 174.03455583178405,
+          "distance": 923.9165759261214
+        }
+      }
+    ]
+  ]
+}
