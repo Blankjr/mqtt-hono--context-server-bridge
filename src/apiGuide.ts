@@ -89,7 +89,7 @@ export function handleApiGuide(c: Context) {
               Request navigation guidance between two points. Provides step-by-step navigation with visual or tactile waypoints.
             </div>
             <div class="try-it">
-              <a href="/guide/?start_gridsquare=04.2.H1-P4&destination_room=04.2.006&mode=visual">Try it →</a>
+              <a href="/guide/?start_gridsquare=04.2.H1-P4&destination_room=04.2.022&mode=visual">Try it →</a>
             </div>
           </div>
 

@@ -64,21 +64,6 @@ export interface RouteStep {
     waypointId?: string
 }
 
-const roomToGridMap: Record<string, string> = {
-    // Regular rooms in building 04.2
-    '04.2.005': '04.2.H3-P3',  // Prof. Huldtgren & Prof. Schwab-Trapp
-    '04.2.006': '04.2.H3-P3',  // Prof. Bonse & Prof. Mostafawy
-    '04.2.009': '04.2.H3-P6',  // Prof. Herder & Prof. Huber
-    '04.2.010': '04.2.H3-P6',  // Prof. Dahm & Prof. Wojciechowski
-    '04.2.039': '04.2.H2-P4',  // Prof. Rakow
-    // Special rooms/facilities
-    'lernraum': '04.2.H1-P4',
-    'fachschaft': '04.2.H1-P7',
-    'toilette': '04.2.H2-P1',
-    'audimax': '04.2.H1-P13',
-    'pc_pool': '04.2.H2-P4',
-}
-
 function isValidContextResponse(data: any): data is ContextResponse {
     return (
         typeof data === 'object' &&
@@ -105,16 +90,11 @@ async function initializeMockResponses() {
             throw new Error('Invalid data format in mock-route-010.json')
         }
 
-        // Store 010 route separately
-        mockContextResponses["04.2.010"] = route010.default
+        // Use route022 as default template for most responses
+        mockContextResponses["04.2.022"] = route022.default
 
-        // Use 022 route as default for all other rooms
-        const validRooms = Object.keys(roomToGridMap)
-        for (const room of validRooms) {
-            if (room !== "04.2.010") {
-                mockContextResponses[room] = route022.default
-            }
-        }
+        // Use specific route for room 010
+        mockContextResponses["04.2.010"] = route010.default
     } catch (error) {
         console.error('Failed to load mock responses:', error)
     }
@@ -126,7 +106,6 @@ function getRandomSubset<T>(arr: T[], count: number): T[] {
 }
 
 function extractRouteFromContextResponse(response: ContextResponse): string[] {
-    // Extract grid squares from the relations, maintaining order
     const gridSquares: string[] = []
 
     // Skip the first element as it's just the aggregation
@@ -142,6 +121,17 @@ function extractRouteFromContextResponse(response: ContextResponse): string[] {
     return [...new Set(gridSquares)]
 }
 
+function getDestinationGridSquare(response: ContextResponse): string {
+    const relations = response.result[0].slice(1) as RouteElement[]
+    const lastRelation = relations[relations.length - 1]
+
+    // If it's a relation to a room, get the last grid square before the room
+    if (lastRelation.toEntity?.entitytype === 'Raum') {
+        return lastRelation.fromEntity?.name || ''
+    }
+
+    return lastRelation.toEntity?.name || ''
+}
 
 function generateRoute(
     startGridSquare: string,
@@ -203,10 +193,7 @@ export async function handleGuideRequest(c: Context) {
     }
 
     const { steps, usedWaypoints } = generateRoute(startGridSquare, contextResponse, navigationMode)
-
-    // Simulate network delay
-    //const delay = Math.floor(Math.random() * 1900) + 100
-    //await new Promise(resolve => setTimeout(resolve, delay))
+    const destinationGridSquare = getDestinationGridSquare(contextResponse)
 
     return c.json({
         start: {
@@ -214,7 +201,7 @@ export async function handleGuideRequest(c: Context) {
         },
         destination: {
             room: destinationRoom,
-            gridSquare: roomToGridMap[destinationRoom]
+            gridSquare: destinationGridSquare
         },
         route: steps,
         waypoints: usedWaypoints,
