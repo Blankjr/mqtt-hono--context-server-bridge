@@ -59,10 +59,130 @@ interface ContextResponse {
     result: RouteElement[][]
 }
 
+interface WaypointQueryResponse {
+    query: { name: string }
+    response?: {
+        executionTimeMS: number
+        size: number
+        result: Array<Array<{
+            relation: { relationtype: string }
+            fromEntity: {
+                entitytype: string;
+                name: string;
+                id: number;
+                fingerprint: string
+            }
+            toEntity: {
+                entitytype: string;
+                id: number;
+                name: string;
+                fingerprint: string
+            }
+        }>>
+    }
+    result?: {
+        executionTimeMS: number
+        size: number
+        result: Array<Array<{
+            relation: { relationtype: string }
+            fromEntity: {
+                entitytype: string;
+                name: string;
+                id: number;
+                fingerprint: string
+            }
+            toEntity: {
+                entitytype: string;
+                id: number;
+                name: string;
+                fingerprint: string
+            }
+        }>>
+    }
+}
+
 export interface RouteStep {
     gridSquare: string
     waypointId?: string
 }
+
+const mockWaypointData: WaypointQueryResponse[] = [
+    {
+        "query": { "name": "04.2.H3-P2" },
+        "response": {
+            "executionTimeMS": 0,
+            "size": 2,
+            "result": [
+                [
+                    {
+                        "relation": {
+                            "relationtype": "SiehtOrientierungshilfsSignal"
+                        },
+                        "fromEntity": {
+                            "entitytype": "Planquadrat",
+                            "id": 101098804895286110,
+                            "name": "04.2.H3-P2",
+                            "fingerprint": "04.2.H3-P2"
+                        },
+                        "toEntity": {
+                            "entitytype": "OrientierungshilfsSignal",
+                            "id": 101098804895286060,
+                            "name": "OrientierungshilfeSignal-04.2.H3-P1-Wand",
+                            "fingerprint": ""
+                        }
+                    }
+                ],
+                [
+                    {
+                        "relation": {
+                            "relationtype": "SiehtOrientierungshilfsSignal"
+                        },
+                        "fromEntity": {
+                            "entitytype": "Planquadrat",
+                            "id": 101098804895286110,
+                            "name": "04.2.H3-P2",
+                            "fingerprint": "04.2.H3-P2"
+                        },
+                        "toEntity": {
+                            "entitytype": "OrientierungshilfsSignal",
+                            "id": 101098804895286100,
+                            "name": "OrientierungshilfeSignal-04.2.H3-P3-Doppelfahrstuhl-Flur",
+                            "fingerprint": ""
+                        }
+                    }
+                ]
+            ]
+        }
+    },
+    {
+        "query": { "name": "04.2.H1-P4" },
+        "result": { "executionTimeMS": 0, "size": 3, "result": [[{ "relation": { "relationtype": "SiehtOrientierungshilfsSignal" }, "fromEntity": { "entitytype": "Planquadrat", "id": 101098804895286080, "name": "04.2.H1-P4", "fingerprint": "04.2.H1-P4" }, "toEntity": { "entitytype": "OrientierungshilfsSignal", "id": 101098804895286080, "name": "OrientierungshilfeSignal-04.2.H1-P4-Richtung-S-Bahn", "fingerprint": "" } }], [{ "relation": { "relationtype": "SiehtOrientierungshilfsSignal" }, "fromEntity": { "entitytype": "Planquadrat", "id": 101098804895286080, "name": "04.2.H1-P4", "fingerprint": "04.2.H1-P4" }, "toEntity": { "entitytype": "OrientierungshilfsSignal", "id": 101098804895286080, "name": "OrientierungshilfeSignal-04.2.H1-P4-Richtung-Strasse", "fingerprint": "" } }], [{ "relation": { "relationtype": "SiehtOrientierungshilfsSignal" }, "fromEntity": { "entitytype": "Planquadrat", "id": 101098804895286080, "name": "04.2.H1-P4", "fingerprint": "04.2.H1-P4" }, "toEntity": { "entitytype": "OrientierungshilfsSignal", "id": 101098804895286080, "name": "OrintierungshilfeSignal-04.2.H1-P4-Richtung-Campus-Zentrum", "fingerprint": "" } }]] }
+    },
+    {
+        "query": { "name": "04.2.H1-P13" },
+        "result": { "executionTimeMS": 1, "size": 2, "result": [[{ "relation": { "relationtype": "SiehtOrientierungshilfsSignal" }, "fromEntity": { "entitytype": "Planquadrat", "id": 101098804895286038, "name": "04.2.H1-P13", "fingerprint": "04.2.H1-P13" }, "toEntity": { "entitytype": "OrientierungshilfsSignal", "id": 101098804895286042, "name": "OrientierungshilfeSignal-04.2.H1-P13-Flur-Fachschaft", "fingerprint": "" } }], [{ "relation": { "relationtype": "SiehtOrientierungshilfsSignal" }, "fromEntity": { "entitytype": "Planquadrat", "id": 101098804895286038, "name": "04.2.H1-P13", "fingerprint": "04.2.H1-P13" }, "toEntity": { "entitytype": "OrientierungshilfsSignal", "id": 101098804895286040, "name": "OrientierungshilfeSignal-04.2.H1-P13-Flur-PC-Pool", "fingerprint": "" } }]] }
+    },
+    {
+        "query": { "name": "04.2.H1-P12" },
+        "result": { "executionTimeMS": 1, "size": 1, "result": [[{ "relation": { "relationtype": "SiehtOrientierungshilfsSignal" }, "fromEntity": { "entitytype": "Planquadrat", "id": 101098804895286003, "name": "04.2.H1-P12", "fingerprint": "04.2.H1-P12" }, "toEntity": { "entitytype": "OrientierungshilfsSignal", "id": 101098804895286041, "name": "OrientierungshilfeSignal-04.2.H1-P13-Sitzbereich", "fingerprint": "" } }]] }
+    },
+    {
+        "query": { "name": "04.2.H1-P11" },
+        "result": { "executionTimeMS": 0, "size": 1, "result": [[{ "relation": { "relationtype": "SiehtOrientierungshilfsSignal" }, "fromEntity": { "entitytype": "Planquadrat", "id": 101098804895286095, "name": "04.2.H1-P11", "fingerprint": "04.2.H1-P11" }, "toEntity": { "entitytype": "OrientierungshilfsSignal", "id": 101098804895286041, "name": "OrientierungshilfeSignal-04.2.H1-P13-Sitzbereich", "fingerprint": "" } }]] }
+    },
+    {
+        "query": { "name": "04.2.H1-P10" },
+        "result": { "executionTimeMS": 0, "size": 1, "result": [[{ "relation": { "relationtype": "SiehtOrientierungshilfsSignal" }, "fromEntity": { "entitytype": "Planquadrat", "id": 101098804895286008, "name": "04.2.H1-P10", "fingerprint": "04.2.H1-P10" }, "toEntity": { "entitytype": "OrientierungshilfsSignal", "id": 101098804895286041, "name": "OrientierungshilfeSignal-04.2.H1-P13-Sitzbereich", "fingerprint": "" } }]] }
+    },
+    {
+        "query": { "name": "04.2.H1-P9" },
+        "result": { "executionTimeMS": 0, "size": 2, "result": [[{ "relation": { "relationtype": "SiehtOrientierungshilfsSignal" }, "fromEntity": { "entitytype": "Planquadrat", "id": 101098804895286033, "name": "04.2.H1-P9", "fingerprint": "04.2.H1-P9" }, "toEntity": { "entitytype": "OrientierungshilfsSignal", "id": 101098804895286019, "name": "OrientierungshilfeSignal-04.2.H1-P7-Richtung-Lastenaufzug", "fingerprint": "" } }], [{ "relation": { "relationtype": "SiehtOrientierungshilfsSignal" }, "fromEntity": { "entitytype": "Planquadrat", "id": 101098804895286033, "name": "04.2.H1-P9", "fingerprint": "04.2.H1-P9" }, "toEntity": { "entitytype": "OrientierungshilfsSignal", "id": 101098804895286041, "name": "OrientierungshilfeSignal-04.2.H1-P13-Sitzbereich", "fingerprint": "" } }]] }
+    },
+    {
+        "query": { "name": "04.2.H1-P8" },
+        "result": { "executionTimeMS": 0, "size": 1, "result": [[{ "relation": { "relationtype": "SiehtOrientierungshilfsSignal" }, "fromEntity": { "entitytype": "Planquadrat", "id": 101098804895286054, "name": "04.2.H1-P8", "fingerprint": "04.2.H1-P8" }, "toEntity": { "entitytype": "OrientierungshilfsSignal", "id": 101098804895286019, "name": "OrientierungshilfeSignal-04.2.H1-P7-Richtung-Lastenaufzug", "fingerprint": "" } }]] }
+    }
+]
 
 function isValidContextResponse(data: any): data is ContextResponse {
     return (
@@ -100,9 +220,15 @@ async function initializeMockResponses() {
     }
 }
 
-function getRandomSubset<T>(arr: T[], count: number): T[] {
-    const shuffled = [...arr].sort(() => 0.5 - Math.random())
-    return shuffled.slice(0, count)
+function getWaypointsForGridSquare(gridSquare: string): string[] {
+    const queryData = mockWaypointData.find(item => item.query.name === gridSquare)
+    if (!queryData) return []
+
+    // Handle both response structures (response or result)
+    const result = queryData.response?.result || queryData.result?.result || []
+
+    // Extract waypoint names from the results
+    return result.flat().map(item => item.toEntity.name)
 }
 
 function extractRouteFromContextResponse(response: ContextResponse): string[] {
@@ -139,23 +265,25 @@ function generateRoute(
     navigationMode: 'visual' | 'tactile'
 ): { steps: RouteStep[], usedWaypoints: (ImageItem | TactileLandmark)[] } {
     const gridSquares = extractRouteFromContextResponse(contextResponse)
-
-    // Ensure the route starts with the given start grid
     if (gridSquares[0] !== startGridSquare) {
         gridSquares.unshift(startGridSquare)
     }
 
-    const waypointPool = navigationMode === 'visual' ? images : tactileLandmarks
-    const selectedWaypoints = getRandomSubset(waypointPool, Math.floor(gridSquares.length / 2))
     const usedWaypoints: (ImageItem | TactileLandmark)[] = []
+    const waypointPool = navigationMode === 'visual' ? images : tactileLandmarks
 
     const steps: RouteStep[] = gridSquares.map(gridSquare => {
         const step: RouteStep = { gridSquare }
+        const gridWaypoints = getWaypointsForGridSquare(gridSquare)
 
-        if (selectedWaypoints.length > 0 && Math.random() < 0.5) {
-            const waypoint = selectedWaypoints.pop()!
-            step.waypointId = waypoint.id
-            usedWaypoints.push(waypoint)
+        // If this grid square has waypoints, use the first one
+        if (gridWaypoints.length > 0) {
+            const signalName = gridWaypoints[0]
+            const waypoint = waypointPool.find(w => w.id === signalName)
+            if (waypoint) {
+                step.waypointId = waypoint.id
+                usedWaypoints.push(waypoint)
+            }
         }
 
         return step
