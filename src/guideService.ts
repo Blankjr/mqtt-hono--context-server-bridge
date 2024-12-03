@@ -341,7 +341,7 @@ function generateRoute(
                     if (!lineDirections[color]) {
                         lineDirections[color] = []
                     }
-                    lineDirections[color].push(nextGridSquare)
+                    lineDirections[color].push(`04.2.${nextGridSquare}`)
                     break
                 }
             }
