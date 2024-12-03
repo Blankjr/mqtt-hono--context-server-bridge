@@ -30,9 +30,9 @@ interface FingerprintData {
 }
 
 let mockPosition: MockPosition = {
-  x: 0,
-  y: 0,
-  floor: '1',
+  x: 111,
+  y: 130,
+  floor: '2',
   timestamp: Date.now()
 }
 
@@ -48,6 +48,9 @@ function findClosestFingerprint(position: MockPosition): string {
     const fingerprintPath = path.join(process.cwd(), 'data', 'fingerprints-mock.json');
     const rawData = fs.readFileSync(fingerprintPath, 'utf8');
     const data: FingerprintData = JSON.parse(rawData);
+
+     // Set default grid square for floor 2 if no fingerprint is found
+     const defaultGridSquare = '04.2.H1-P13';
 
     let closestId = '';
     let minDistance = Infinity;
