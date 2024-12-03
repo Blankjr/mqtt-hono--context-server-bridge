@@ -106,6 +106,21 @@ export interface RouteStep {
     waypointId?: string
 }
 
+// Map user-friendly names to specific room numbers
+function mapUserRequestToRoom(roomType: string): string {
+    const roomMapping: { [key: string]: string } = {
+        'lernraum': '04.2.022',
+        'fachschaft': '04.2.017',
+        'wc': '04.2.032',         // Central WC room
+        'toilette': '04.2.032',   // Alternative name for WC
+        'pc-pool': '04.2.010',    // Central PC Pool room
+        'pcpool': '04.2.010',     // Alternative spelling
+        'pc_pool': '04.2.010'     // Alternative spelling
+    };
+
+    return roomMapping[roomType.toLowerCase()] || '';
+}
+
 const mockWaypointData: WaypointQueryResponse[] = [
     {
         "query": { "name": "04.2.H3-P2" },
@@ -312,9 +327,14 @@ export async function handleGuideRequest(c: Context) {
     if (Object.keys(mockContextResponses).length === 0) {
         await initializeMockResponses()
     }
+    // Map user-friendly room names to actual room numbers
+    const mappedRoom = mapUserRequestToRoom(destinationRoom)
+    if (!mappedRoom) {
+        return c.json({ error: 'Invalid destination room type' }, 400)
+    }
 
     // Get route from context server (currently using mock data)
-    const contextResponse = mockContextResponses[destinationRoom]
+    const contextResponse = mockContextResponses[mappedRoom]
 
     if (!contextResponse) {
         return c.json({ error: 'Route not found for destination' }, 404)
