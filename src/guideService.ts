@@ -129,23 +129,6 @@ interface LineSegment {
     waypoint: string
 }
 
-interface EnhancedRouteResponse {
-    start: {
-        gridSquare: string
-    }
-    destination: {
-        room: string
-        gridSquare: string
-    }
-    route: RouteStep[]
-    waypoints: (ImageItem | TactileLandmark)[]
-    navigationMode: 'visual' | 'tactile'
-    lineDirections: Record<string, string[]>
-}
-
-
-
-
 // Map user-friendly names to specific room numbers
 function mapUserRequestToRoom(roomType: string): string {
     const roomMapping: { [key: string]: string } = {
@@ -318,7 +301,7 @@ function generateRoute(
     startGridSquare: string,
     contextResponse: ContextResponse,
     navigationMode: 'visual' | 'tactile'
-): { steps: RouteStep[], usedWaypoints: (ImageItem | TactileLandmark)[] } {
+): { steps: RouteStep[], usedWaypoints: (ImageItem | TactileLandmark)[], lineDirections: Record<string, string[]> } {
     const gridSquares = extractRouteFromContextResponse(contextResponse)
     if (gridSquares[0] !== startGridSquare) {
         gridSquares.unshift(startGridSquare)
@@ -326,6 +309,7 @@ function generateRoute(
 
     const usedWaypoints: (ImageItem | TactileLandmark)[] = []
     const waypointPool = navigationMode === 'visual' ? images : tactileLandmarks
+    const lineDirections: Record<string, string[]> = {}
 
     const steps: RouteStep[] = gridSquares.map(gridSquare => {
         const step: RouteStep = { gridSquare }
@@ -344,7 +328,27 @@ function generateRoute(
         return step
     })
 
-    return { steps, usedWaypoints }
+    // Check consecutive pairs for colored routes
+    for (let i = 0; i < steps.length - 1; i++) {
+        const currentGridSquare = steps[i].gridSquare.replace('04.2.', '')
+        const nextGridSquare = steps[i + 1].gridSquare.replace('04.2.', '')
+
+        // Check each colored route
+        for (const [color, route] of Object.entries(coloredRoutes)) {
+            // Find if these consecutive squares are part of this route
+            for (let j = 0; j < route.length - 1; j++) {
+                if (route[j] === currentGridSquare && route[j + 1] === nextGridSquare) {
+                    if (!lineDirections[color]) {
+                        lineDirections[color] = []
+                    }
+                    lineDirections[color].push(nextGridSquare)
+                    break
+                }
+            }
+        }
+    }
+
+    return { steps, usedWaypoints, lineDirections }
 }
 
 // Initialize on startup
@@ -380,7 +384,7 @@ export async function handleGuideRequest(c: Context) {
         return c.json({ error: 'Route not found for destination' }, 404)
     }
 
-    const { steps, usedWaypoints } = generateRoute(startGridSquare, contextResponse, navigationMode)
+    const { steps, usedWaypoints, lineDirections } = generateRoute(startGridSquare, contextResponse, navigationMode)
     const destinationGridSquare = getDestinationGridSquare(contextResponse)
 
     return c.json({
@@ -393,6 +397,7 @@ export async function handleGuideRequest(c: Context) {
         },
         route: steps,
         waypoints: usedWaypoints,
-        navigationMode
+        navigationMode,
+        lineDirections
     })
 }
