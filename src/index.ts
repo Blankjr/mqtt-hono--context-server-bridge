@@ -1,13 +1,13 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
-import mqtt from 'mqtt'
 import { serveStatic } from '@hono/node-server/serve-static'
 import { handleGuideRequest } from './guideService'
 import { handleGetPosition, handleUpdatePosition, handlePositionInterface, handleGetGridSquare } from './positionService'
 import { handleApiGuide } from './apiGuide'
+import { SERVER_CONFIG } from './utils/config'
+import { getLocalIpAddress } from './utils/url'
 
 const app = new Hono()
-const port = 3000
 
 // Root route - API Guide
 app.get('/', handleApiGuide)
@@ -23,7 +23,6 @@ app.use('*', async (c, next) => {
 })
 
 // Serve static files
-// This allows me to access the images in /static/maps/floor0.png with /maps/floor0.png
 app.use('/maps/*', serveStatic({
   root: 'static/',
   onNotFound: (path, c) => {
@@ -40,13 +39,18 @@ app.use('/sample-waypoints/*', serveStatic({
 
 // routes from external files
 app.get('/guide/', handleGuideRequest)
-app.get('/simulatedPosition/admin/', handlePositionInterface)  // Admin panel UI
-app.get('/simulatedPosition/', handleGetPosition)             // For React Native app
-app.post('/simulatedPosition/', handleUpdatePosition)         // For position updates
-app.get('/simulatedPosition/gridSquare/', handleGetGridSquare) // get calculated closes grid square of position
+app.get('/simulatedPosition/admin/', handlePositionInterface)
+app.get('/simulatedPosition/', handleGetPosition)
+app.post('/simulatedPosition/', handleUpdatePosition)
+app.get('/simulatedPosition/gridSquare/', handleGetGridSquare)
 
-console.log(`Server is running on port ${port}`)
+const localIp = getLocalIpAddress()
+console.log(`Server is running on:`)
+console.log(`- Local:   http://localhost:${SERVER_CONFIG.PORT}`)
+console.log(`- Network: http://${localIp}:${SERVER_CONFIG.PORT}`)
+
 serve({
   fetch: app.fetch,
-  port
+  port: SERVER_CONFIG.PORT,
+  hostname: SERVER_CONFIG.HOST
 })
