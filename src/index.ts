@@ -44,12 +44,22 @@ app.get('/simulatedPosition/', handleGetPosition)
 app.post('/simulatedPosition/', handleUpdatePosition)
 app.get('/simulatedPosition/gridSquare/', handleGetGridSquare)
 
-const localIp = getLocalIpAddress()
-console.log(`Server is running on:`)
-console.log(`- Local:   http://localhost:${SERVER_CONFIG.PORT}`)
-console.log(`- Network: http://${localIp}:${SERVER_CONFIG.PORT}`)
+try {
+  if (process.env.NODE_ENV === 'production') {
+    console.log(`Production server starting on port ${SERVER_CONFIG.PORT}`)
+  } else {
+    const localIp = getLocalIpAddress()
+    console.log(`Server is running on:`)
+    console.log(`- Local:   http://localhost:${SERVER_CONFIG.PORT}`)
+    console.log(`- Network: http://${localIp}:${SERVER_CONFIG.PORT}`)
+  }
 
-serve({
-  fetch: app.fetch,
-  port: SERVER_CONFIG.PORT
-})
+  serve({
+    fetch: app.fetch,
+    port: SERVER_CONFIG.PORT,
+    hostname: '0.0.0.0'
+  })
+} catch (error) {
+  console.error('Failed to start server:', error)
+  process.exit(1)
+}
