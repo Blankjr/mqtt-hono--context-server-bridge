@@ -57,7 +57,6 @@ try {
   serve({
     fetch: app.fetch,
     port: SERVER_CONFIG.PORT,
-    hostname: '0.0.0.0'
   })
 } catch (error) {
   console.error('Failed to start server:', error)
