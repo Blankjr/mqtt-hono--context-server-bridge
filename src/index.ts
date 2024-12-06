@@ -9,6 +9,16 @@ import { getLocalIpAddress } from './utils/url'
 
 const app = new Hono()
 
+app.use('*', async (c, next) => {
+  console.log(`${new Date().toISOString()} - ${c.req.method} ${c.req.url}`);
+  try {
+    await next()
+  } catch (err) {
+    console.error('Request error:', err);
+    throw err;
+  }
+})
+
 // Root route - API Guide
 app.get('/', handleApiGuide)
 
@@ -44,21 +54,33 @@ app.get('/simulatedPosition/', handleGetPosition)
 app.post('/simulatedPosition/', handleUpdatePosition)
 app.get('/simulatedPosition/gridSquare/', handleGetGridSquare)
 
-try {
-  if (process.env.NODE_ENV === 'production') {
-    console.log(`Production server starting on port ${SERVER_CONFIG.PORT}`)
-  } else {
-    const localIp = getLocalIpAddress()
-    console.log(`Server is running on:`)
-    console.log(`- Local:   http://localhost:${SERVER_CONFIG.PORT}`)
-    console.log(`- Network: http://${localIp}:${SERVER_CONFIG.PORT}`)
-  }
 
+app.get('/health', (c) => {
+  return c.json({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    env: process.env.NODE_ENV
+  })
+})
+
+try {
+  // if (process.env.NODE_ENV === 'production') {
+  //   console.log(`Production server starting on port ${SERVER_CONFIG.PORT}`)
+  // } else {
+  //   const localIp = getLocalIpAddress()
+  //   console.log(`Server is running on:`)
+  //   console.log(`- Local:   http://localhost:${SERVER_CONFIG.PORT}`)
+  //   console.log(`- Network: http://${localIp}:${SERVER_CONFIG.PORT}`)
+  // }
+  const port = SERVER_CONFIG.PORT;
   serve({
     fetch: app.fetch,
-    port: SERVER_CONFIG.PORT,
+    port,
+    hostname: '0.0.0.0'  // Add this to explicitly listen on all interfaces
   })
+
+  console.log(`Server started on port ${port}`);
 } catch (error) {
-  console.error('Failed to start server:', error)
-  process.exit(1)
+  console.error('Failed to start server:', error);
+  process.exit(1);
 }
