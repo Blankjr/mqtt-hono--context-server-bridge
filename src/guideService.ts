@@ -2,38 +2,6 @@ import { Context } from 'hono'
 import { getBaseUrl } from './utils/url'
 import { ImageItem, images, TactileLandmark, tactileLandmarks } from './data/waypoints'
 
-interface Position {
-    xStart: number
-    xEnd: number
-    yStart: number
-    yEnd: number
-    zStart: number
-    zEnd: number
-    xCentral: number
-    yCentral: number
-    zCentral: number
-    xCircleCenter: number
-    yCircleCenter: number
-    radius: number
-    CoverIndex: number
-    PolygonPoints: any[]
-    PolygonType: string
-}
-
-interface Entity {
-    entitytype: string
-    id: number
-    name: string
-    fingerprint: string
-    attributes: {
-        groesse: number
-        etage: number
-        position: Position
-        art?: string
-        temperature?: number
-    }
-}
-
 interface RouteElement {
     aggregation?: {
         distance: number
@@ -46,9 +14,28 @@ interface RouteElement {
             istWahr: boolean
         }
     }
-    fromEntity?: Entity
-    toEntity?: Entity
-    prioritySelectorResult?: number
+    fromEntity?: {
+        entitytype: string
+        id: number
+        name: string
+        fingerprint: string
+        attributes: {
+            groesse: number
+            etage: number
+            position: any  // Simplified for brevity
+        }
+    }
+    toEntity?: {
+        entitytype: string
+        id: number
+        name: string
+        fingerprint: string
+        attributes: {
+            groesse: number
+            etage: number
+            position: any  // Simplified for brevity
+        }
+    }
 }
 
 interface ContextResponse {
@@ -258,6 +245,46 @@ async function initializeMockResponses() {
     }
 }
 
+async function fetchRouteFromContextServer(startGridSquare: string, destinationRoom: string): Promise<ContextResponse> {
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'User-Agent': 'insomnia/10.2.0'
+        },
+        body: new URLSearchParams({
+            application: 'visitor',
+            situation: 'KurzesterWeg',
+            query: 'KurzesterWeg',
+            part_StartPlanquadrat: JSON.stringify({ name:"04.2.H1-P13" }),
+            part_ZielRaum: JSON.stringify({ name: "04.2.022" }),
+            param_breakAfterMS: '1000',
+            param_resultSize: '1',
+            param_maxOptSteps: '300'
+        })
+    };
+
+    try {
+        const response = await fetch('http://localhost:8080/contextserver/ContextServerAPI/predefined', options);
+        
+        if (!response.ok) {
+            throw new Error(`Context server responded with status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        
+        if (!isValidContextResponse(data)) {
+            throw new Error('Invalid response format from context server');
+        }
+
+        return data;
+    } catch (error) {
+        console.error('Failed to fetch route from context server:', error);
+        // Fallback to mock data if available
+        return mockContextResponses[destinationRoom] || null;
+    }
+}
+
 function getWaypointsForGridSquare(gridSquare: string): string[] {
     const queryData = mockWaypointData.find(item => item.query.name === gridSquare)
     if (!queryData) return []
@@ -354,50 +381,132 @@ function generateRoute(
 // Initialize on startup
 initializeMockResponses().catch(console.error)
 
+function findWaypointsForRoute(route: any[], navigationMode: 'visual' | 'tactile'): (ImageItem | TactileLandmark)[] {
+    const waypointPool = navigationMode === 'visual' ? images : tactileLandmarks;
+    const usedWaypoints: (ImageItem | TactileLandmark)[] = [];
+
+    route.forEach(gridSquare => {
+        const matchingWaypoints = waypointPool.filter(waypoint => {
+            const waypointGridSquare = waypoint.id.includes(gridSquare.name) ? gridSquare.name : null;
+            return waypointGridSquare === gridSquare.name;
+        });
+
+        if (matchingWaypoints.length > 0) {
+            usedWaypoints.push(matchingWaypoints[0]);
+        }
+    });
+
+    return usedWaypoints;
+}
+
+function findColoredLines(route: any[]): Record<string, string[]> {
+    const lineDirections: Record<string, string[]> = {};
+    const gridSquares = route.map(r => r.name.replace('04.2.', ''));
+
+    for (const [color, lineRoute] of Object.entries(coloredRoutes)) {
+        for (let i = 0; i < gridSquares.length - 1; i++) {
+            const current = gridSquares[i];
+            const next = gridSquares[i + 1];
+
+            for (let j = 0; j < lineRoute.length - 1; j++) {
+                if (lineRoute[j] === current && lineRoute[j + 1] === next) {
+                    if (!lineDirections[color]) {
+                        lineDirections[color] = [];
+                    }
+                    lineDirections[color].push(`04.2.${next}`);
+                    break;
+                }
+            }
+        }
+    }
+
+    return lineDirections;
+}
+
 export async function handleGuideRequest(c: Context) {
-    const startGridSquare = c.req.query('start_gridsquare') || ''
-    const destinationRoom = c.req.query('destination_room') || ''
-    const navigationMode = c.req.query('mode') === 'tactile' ? 'tactile' : 'visual'
+    console.log('Handling guide request...');
 
-    if (!startGridSquare) {
-        return c.json({ error: 'Invalid start grid square' }, 400)
+    const startGridSquare = c.req.query('start_gridsquare') || '';
+    const destinationRoom = c.req.query('destination_room') || '';
+    const navigationMode = c.req.query('mode') === 'tactile' ? 'tactile' : 'visual';
+
+    if (!startGridSquare || !destinationRoom) {
+        return c.json({ error: 'Invalid parameters' }, 400);
     }
 
-    if (!destinationRoom) {
-        return c.json({ error: 'Invalid destination room' }, 400)
+    try {
+        const params = new URLSearchParams();
+        params.append('application', 'visitor');
+        params.append('situation', 'KurzesterWeg');
+        params.append('query', 'KurzesterWeg');
+        params.append('part_StartPlanquadrat', JSON.stringify({ name: startGridSquare }));
+        params.append('part_ZielRaum', JSON.stringify({ name: destinationRoom }));
+        params.append('param_breakAfterMS', '1000');
+        params.append('param_resultSize', '1');
+        params.append('param_maxOptSteps', '300');
+
+        const response = await fetch('http://localhost:8080/contextserver/ContextServerAPI/predefined', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'User-Agent': 'insomnia/10.2.0'
+            },
+            body: params
+        });
+
+        if (!response.ok) {
+            throw new Error(`Server responded with status ${response.status}`);
+        }
+
+        const data = await response.json();
+        
+        // Extract simplified route information
+        const route = data.result[0]
+            .filter((element: { fromEntity: any }) => element.fromEntity)
+            .map((element: { fromEntity: { entitytype: any; name: any; attributes: { etage: any } } }) => ({
+                type: element.fromEntity.entitytype,
+                name: element.fromEntity.name,
+                floor: element.fromEntity.attributes.etage
+            }));
+
+        // Find relevant waypoints and colored lines
+        const usedWaypoints = findWaypointsForRoute(route, navigationMode);
+        const lineDirections = findColoredLines(route);
+
+        // Create simplified route steps
+        const routeSteps = route.map((gridSquare: { name: string }) => {
+            const matchingWaypoint = usedWaypoints.find(w => w.id.includes(gridSquare.name));
+            return {
+                gridSquare: gridSquare.name,
+                waypointId: matchingWaypoint?.id
+            };
+        });
+
+        return c.json({
+            success: true,
+            start: {
+                gridSquare: startGridSquare
+            },
+            destination: {
+                room: destinationRoom,
+                info: {
+                    type: data.result[0][data.result[0].length - 1].toEntity.entitytype,
+                    name: data.result[0][data.result[0].length - 1].toEntity.name,
+                    floor: data.result[0][data.result[0].length - 1].toEntity.attributes.etage
+                },
+                gridSquare: route[route.length - 1]?.name || ''
+            },
+            route: routeSteps,
+            waypoints: usedWaypoints,
+            lineDirections,
+            navigationMode
+        });
+
+    } catch (error: unknown) {
+        console.error('Error in handleGuideRequest:', error);
+        return c.json({ 
+            error: 'Failed to process routing request',
+            details: error instanceof Error ? error.message : 'Unknown error'
+        }, 500);
     }
-
-    // Wait for mock responses to be initialized if they haven't been yet
-    if (Object.keys(mockContextResponses).length === 0) {
-        await initializeMockResponses()
-    }
-    // Map user-friendly room names to actual room numbers
-    const mappedRoom = mapUserRequestToRoom(destinationRoom)
-    if (!mappedRoom) {
-        return c.json({ error: 'Invalid destination room type' }, 400)
-    }
-
-    // Get route from context server (currently using mock data)
-    const contextResponse = mockContextResponses[mappedRoom]
-
-    if (!contextResponse) {
-        return c.json({ error: 'Route not found for destination' }, 404)
-    }
-
-    const { steps, usedWaypoints, lineDirections } = generateRoute(startGridSquare, contextResponse, navigationMode)
-    const destinationGridSquare = getDestinationGridSquare(contextResponse)
-
-    return c.json({
-        start: {
-            gridSquare: startGridSquare
-        },
-        destination: {
-            room: destinationRoom,
-            gridSquare: destinationGridSquare
-        },
-        route: steps,
-        waypoints: usedWaypoints,
-        navigationMode,
-        lineDirections
-    })
 }
