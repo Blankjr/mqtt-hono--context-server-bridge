@@ -46,9 +46,28 @@ interface RouteElement {
             istWahr: boolean
         }
     }
-    fromEntity?: Entity
-    toEntity?: Entity
-    prioritySelectorResult?: number
+    fromEntity?: {
+        entitytype: string
+        id: number
+        name: string
+        fingerprint: string
+        attributes: {
+            groesse: number
+            etage: number
+            position: any  // Simplified for brevity
+        }
+    }
+    toEntity?: {
+        entitytype: string
+        id: number
+        name: string
+        fingerprint: string
+        attributes: {
+            groesse: number
+            etage: number
+            position: any  // Simplified for brevity
+        }
+    }
 }
 
 interface ContextResponse {
@@ -258,6 +277,46 @@ async function initializeMockResponses() {
     }
 }
 
+async function fetchRouteFromContextServer(startGridSquare: string, destinationRoom: string): Promise<ContextResponse> {
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'User-Agent': 'insomnia/10.2.0'
+        },
+        body: new URLSearchParams({
+            application: 'visitor',
+            situation: 'KurzesterWeg',
+            query: 'KurzesterWeg',
+            part_StartPlanquadrat: JSON.stringify({ name:"04.2.H1-P13" }),
+            part_ZielRaum: JSON.stringify({ name: "04.2.022" }),
+            param_breakAfterMS: '1000',
+            param_resultSize: '1',
+            param_maxOptSteps: '300'
+        })
+    };
+
+    try {
+        const response = await fetch('http://localhost:8080/contextserver/ContextServerAPI/predefined', options);
+        
+        if (!response.ok) {
+            throw new Error(`Context server responded with status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        
+        if (!isValidContextResponse(data)) {
+            throw new Error('Invalid response format from context server');
+        }
+
+        return data;
+    } catch (error) {
+        console.error('Failed to fetch route from context server:', error);
+        // Fallback to mock data if available
+        return mockContextResponses[destinationRoom] || null;
+    }
+}
+
 function getWaypointsForGridSquare(gridSquare: string): string[] {
     const queryData = mockWaypointData.find(item => item.query.name === gridSquare)
     if (!queryData) return []
@@ -354,50 +413,165 @@ function generateRoute(
 // Initialize on startup
 initializeMockResponses().catch(console.error)
 
+function findWaypointsForRoute(route: any[], navigationMode: 'visual' | 'tactile'): (ImageItem | TactileLandmark)[] {
+    const waypointPool = navigationMode === 'visual' ? images : tactileLandmarks;
+    const usedWaypoints: (ImageItem | TactileLandmark)[] = [];
+
+    route.forEach(gridSquare => {
+        const matchingWaypoints = waypointPool.filter(waypoint => {
+            // Extract grid square name from waypoint ID if it contains one
+            const waypointGridSquare = waypoint.id.includes(gridSquare.name) ? gridSquare.name : null;
+            return waypointGridSquare === gridSquare.name;
+        });
+
+        if (matchingWaypoints.length > 0) {
+            usedWaypoints.push(matchingWaypoints[0]); // Use the first matching waypoint
+        }
+    });
+
+    return usedWaypoints;
+}
+
+function findColoredLines(route: any[]): Record<string, string[]> {
+    const lineDirections: Record<string, string[]> = {};
+    const gridSquares = route.map(r => r.name.replace('04.2.', ''));
+
+    // Check each colored route for matches
+    for (const [color, lineRoute] of Object.entries(coloredRoutes)) {
+        let matchFound = false;
+        for (let i = 0; i < gridSquares.length - 1; i++) {
+            const current = gridSquares[i];
+            const next = gridSquares[i + 1];
+
+            // Check if this pair exists in the colored route
+            for (let j = 0; j < lineRoute.length - 1; j++) {
+                if (lineRoute[j] === current && lineRoute[j + 1] === next) {
+                    if (!lineDirections[color]) {
+                        lineDirections[color] = [];
+                    }
+                    lineDirections[color].push(`04.2.${next}`);
+                    matchFound = true;
+                }
+            }
+        }
+    }
+
+    return lineDirections;
+}
+
 export async function handleGuideRequest(c: Context) {
-    const startGridSquare = c.req.query('start_gridsquare') || ''
-    const destinationRoom = c.req.query('destination_room') || ''
-    const navigationMode = c.req.query('mode') === 'tactile' ? 'tactile' : 'visual'
+    console.log('Handling guide request...');
 
-    if (!startGridSquare) {
-        return c.json({ error: 'Invalid start grid square' }, 400)
+    const startGridSquare = c.req.query('start_gridsquare') || '';
+    const destinationRoom = c.req.query('destination_room') || '';
+    const navigationMode = c.req.query('mode') === 'tactile' ? 'tactile' : 'visual';
+
+    console.log('Params:', { startGridSquare, destinationRoom, navigationMode });
+
+    try {
+        // Create the form data params
+        const params = new URLSearchParams();
+        params.append('application', 'visitor');
+        params.append('situation', 'KurzesterWeg');
+        params.append('query', 'KurzesterWeg');
+        params.append('part_StartPlanquadrat', JSON.stringify({ name: startGridSquare }));
+        params.append('part_ZielRaum', JSON.stringify({ name: destinationRoom }));
+        params.append('param_breakAfterMS', '1000');
+        params.append('param_resultSize', '1');
+        params.append('param_maxOptSteps', '300');
+
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'User-Agent': 'insomnia/10.2.0'
+            },
+            body: params
+        };
+
+        console.log('Making request to context server with params:', {
+            startGridSquare,
+            destinationRoom,
+            rawBody: params.toString()
+        });
+        
+        const response = await fetch('http://localhost:8080/contextserver/ContextServerAPI/predefined', options);
+        console.log('Response status:', response.status);
+        
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Server responded with status ${response.status}: ${errorText}`);
+        }
+
+        const data: ContextResponse = await response.json();
+        
+        // Extract route information
+        
+        const route = data.result[0].map(element => {
+            if (element.fromEntity) {
+                return {
+                    type: element.fromEntity.entitytype,
+                    name: element.fromEntity.name,
+                    floor: element.fromEntity.attributes.etage,
+                    position: element.fromEntity.attributes.position
+                };
+            }
+            return null;
+        }).filter(Boolean);
+
+        // Find relevant waypoints for the route
+        const usedWaypoints = findWaypointsForRoute(route, navigationMode);
+
+        // Find colored lines that match parts of the route
+        const lineDirections = findColoredLines(route);
+
+        // Generate step-by-step distances
+        const steps = data.result[0].slice(1).map(element => ({
+            from: element.fromEntity?.name,
+            to: element.toEntity?.name,
+            stepDistance: element.aggregation?._step_distance || 0,
+            totalDistanceToHere: element.aggregation?.distance || 0
+        }));
+
+        // Create route steps including waypoints
+        const routeSteps = route.map(gridSquare => {
+            const matchingWaypoint = usedWaypoints.find(w => w.id.includes(gridSquare.name));
+            return {
+                gridSquare: gridSquare.name,
+                waypointId: matchingWaypoint?.id,
+                position: gridSquare.position
+            };
+        });
+
+        return c.json({
+            success: true,
+            executionTime: data.executionTimeMS,
+            start: {
+                gridSquare: startGridSquare
+            },
+            destination: {
+                room: destinationRoom,
+                info: {
+                    type: data.result[0][data.result[0].length - 1].toEntity.entitytype,
+                    name: data.result[0][data.result[0].length - 1].toEntity.name,
+                    floor: data.result[0][data.result[0].length - 1].toEntity.attributes.etage,
+                    position: data.result[0][data.result[0].length - 1].toEntity.attributes.position
+                },
+                gridSquare: route[route.length - 1]?.name || ''
+            },
+            route: routeSteps,
+            steps,
+            waypoints: usedWaypoints,
+            lineDirections,
+            totalDistance: data.result[0][0]?.aggregation?.distance || 0,
+            navigationMode
+        });
+
+    } catch (error) {
+        console.error('Error in handleGuideRequest:', error);
+        return c.json({ 
+            error: 'Failed to process routing request',
+            details: error.message 
+        }, 500);
     }
-
-    if (!destinationRoom) {
-        return c.json({ error: 'Invalid destination room' }, 400)
-    }
-
-    // Wait for mock responses to be initialized if they haven't been yet
-    if (Object.keys(mockContextResponses).length === 0) {
-        await initializeMockResponses()
-    }
-    // Map user-friendly room names to actual room numbers
-    const mappedRoom = mapUserRequestToRoom(destinationRoom)
-    if (!mappedRoom) {
-        return c.json({ error: 'Invalid destination room type' }, 400)
-    }
-
-    // Get route from context server (currently using mock data)
-    const contextResponse = mockContextResponses[mappedRoom]
-
-    if (!contextResponse) {
-        return c.json({ error: 'Route not found for destination' }, 404)
-    }
-
-    const { steps, usedWaypoints, lineDirections } = generateRoute(startGridSquare, contextResponse, navigationMode)
-    const destinationGridSquare = getDestinationGridSquare(contextResponse)
-
-    return c.json({
-        start: {
-            gridSquare: startGridSquare
-        },
-        destination: {
-            room: destinationRoom,
-            gridSquare: destinationGridSquare
-        },
-        route: steps,
-        waypoints: usedWaypoints,
-        navigationMode,
-        lineDirections
-    })
 }
