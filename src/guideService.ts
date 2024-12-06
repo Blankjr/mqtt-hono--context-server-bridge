@@ -2,38 +2,6 @@ import { Context } from 'hono'
 import { getBaseUrl } from './utils/url'
 import { ImageItem, images, TactileLandmark, tactileLandmarks } from './data/waypoints'
 
-interface Position {
-    xStart: number
-    xEnd: number
-    yStart: number
-    yEnd: number
-    zStart: number
-    zEnd: number
-    xCentral: number
-    yCentral: number
-    zCentral: number
-    xCircleCenter: number
-    yCircleCenter: number
-    radius: number
-    CoverIndex: number
-    PolygonPoints: any[]
-    PolygonType: string
-}
-
-interface Entity {
-    entitytype: string
-    id: number
-    name: string
-    fingerprint: string
-    attributes: {
-        groesse: number
-        etage: number
-        position: Position
-        art?: string
-        temperature?: number
-    }
-}
-
 interface RouteElement {
     aggregation?: {
         distance: number
@@ -419,13 +387,12 @@ function findWaypointsForRoute(route: any[], navigationMode: 'visual' | 'tactile
 
     route.forEach(gridSquare => {
         const matchingWaypoints = waypointPool.filter(waypoint => {
-            // Extract grid square name from waypoint ID if it contains one
             const waypointGridSquare = waypoint.id.includes(gridSquare.name) ? gridSquare.name : null;
             return waypointGridSquare === gridSquare.name;
         });
 
         if (matchingWaypoints.length > 0) {
-            usedWaypoints.push(matchingWaypoints[0]); // Use the first matching waypoint
+            usedWaypoints.push(matchingWaypoints[0]);
         }
     });
 
@@ -436,21 +403,18 @@ function findColoredLines(route: any[]): Record<string, string[]> {
     const lineDirections: Record<string, string[]> = {};
     const gridSquares = route.map(r => r.name.replace('04.2.', ''));
 
-    // Check each colored route for matches
     for (const [color, lineRoute] of Object.entries(coloredRoutes)) {
-        let matchFound = false;
         for (let i = 0; i < gridSquares.length - 1; i++) {
             const current = gridSquares[i];
             const next = gridSquares[i + 1];
 
-            // Check if this pair exists in the colored route
             for (let j = 0; j < lineRoute.length - 1; j++) {
                 if (lineRoute[j] === current && lineRoute[j + 1] === next) {
                     if (!lineDirections[color]) {
                         lineDirections[color] = [];
                     }
                     lineDirections[color].push(`04.2.${next}`);
-                    matchFound = true;
+                    break;
                 }
             }
         }
@@ -466,10 +430,11 @@ export async function handleGuideRequest(c: Context) {
     const destinationRoom = c.req.query('destination_room') || '';
     const navigationMode = c.req.query('mode') === 'tactile' ? 'tactile' : 'visual';
 
-    console.log('Params:', { startGridSquare, destinationRoom, navigationMode });
+    if (!startGridSquare || !destinationRoom) {
+        return c.json({ error: 'Invalid parameters' }, 400);
+    }
 
     try {
-        // Create the form data params
         const params = new URLSearchParams();
         params.append('application', 'visitor');
         params.append('situation', 'KurzesterWeg');
@@ -480,72 +445,45 @@ export async function handleGuideRequest(c: Context) {
         params.append('param_resultSize', '1');
         params.append('param_maxOptSteps', '300');
 
-        const options = {
+        const response = await fetch('http://localhost:8080/contextserver/ContextServerAPI/predefined', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'User-Agent': 'insomnia/10.2.0'
             },
             body: params
-        };
-
-        console.log('Making request to context server with params:', {
-            startGridSquare,
-            destinationRoom,
-            rawBody: params.toString()
         });
-        
-        const response = await fetch('http://localhost:8080/contextserver/ContextServerAPI/predefined', options);
-        console.log('Response status:', response.status);
-        
+
         if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(`Server responded with status ${response.status}: ${errorText}`);
+            throw new Error(`Server responded with status ${response.status}`);
         }
 
-        const data: ContextResponse = await response.json();
+        const data = await response.json();
         
-        // Extract route information
-        
-        const route = data.result[0].map(element => {
-            if (element.fromEntity) {
-                return {
-                    type: element.fromEntity.entitytype,
-                    name: element.fromEntity.name,
-                    floor: element.fromEntity.attributes.etage,
-                    position: element.fromEntity.attributes.position
-                };
-            }
-            return null;
-        }).filter(Boolean);
+        // Extract simplified route information
+        const route = data.result[0]
+            .filter((element: { fromEntity: any }) => element.fromEntity)
+            .map((element: { fromEntity: { entitytype: any; name: any; attributes: { etage: any } } }) => ({
+                type: element.fromEntity.entitytype,
+                name: element.fromEntity.name,
+                floor: element.fromEntity.attributes.etage
+            }));
 
-        // Find relevant waypoints for the route
+        // Find relevant waypoints and colored lines
         const usedWaypoints = findWaypointsForRoute(route, navigationMode);
-
-        // Find colored lines that match parts of the route
         const lineDirections = findColoredLines(route);
 
-        // Generate step-by-step distances
-        const steps = data.result[0].slice(1).map(element => ({
-            from: element.fromEntity?.name,
-            to: element.toEntity?.name,
-            stepDistance: element.aggregation?._step_distance || 0,
-            totalDistanceToHere: element.aggregation?.distance || 0
-        }));
-
-        // Create route steps including waypoints
-        const routeSteps = route.map(gridSquare => {
+        // Create simplified route steps
+        const routeSteps = route.map((gridSquare: { name: string }) => {
             const matchingWaypoint = usedWaypoints.find(w => w.id.includes(gridSquare.name));
             return {
                 gridSquare: gridSquare.name,
-                waypointId: matchingWaypoint?.id,
-                position: gridSquare.position
+                waypointId: matchingWaypoint?.id
             };
         });
 
         return c.json({
             success: true,
-            executionTime: data.executionTimeMS,
             start: {
                 gridSquare: startGridSquare
             },
@@ -554,24 +492,21 @@ export async function handleGuideRequest(c: Context) {
                 info: {
                     type: data.result[0][data.result[0].length - 1].toEntity.entitytype,
                     name: data.result[0][data.result[0].length - 1].toEntity.name,
-                    floor: data.result[0][data.result[0].length - 1].toEntity.attributes.etage,
-                    position: data.result[0][data.result[0].length - 1].toEntity.attributes.position
+                    floor: data.result[0][data.result[0].length - 1].toEntity.attributes.etage
                 },
                 gridSquare: route[route.length - 1]?.name || ''
             },
             route: routeSteps,
-            steps,
             waypoints: usedWaypoints,
             lineDirections,
-            totalDistance: data.result[0][0]?.aggregation?.distance || 0,
             navigationMode
         });
 
-    } catch (error) {
+    } catch (error: unknown) {
         console.error('Error in handleGuideRequest:', error);
         return c.json({ 
             error: 'Failed to process routing request',
-            details: error.message 
+            details: error instanceof Error ? error.message : 'Unknown error'
         }, 500);
     }
 }
