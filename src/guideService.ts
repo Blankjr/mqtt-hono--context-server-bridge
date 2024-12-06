@@ -265,7 +265,11 @@ async function fetchRouteFromContextServer(startGridSquare: string, destinationR
     };
 
     try {
-        const response = await fetch('http://localhost:8080/contextserver/ContextServerAPI/predefined', options);
+        // const response = await fetch('http://localhost:8080/contextserver/ContextServerAPI/predefined', options);
+        const response: any = {};
+        console.log("test");
+        
+        response.ok = null
         
         if (!response.ok) {
             throw new Error(`Context server responded with status: ${response.status}`);
