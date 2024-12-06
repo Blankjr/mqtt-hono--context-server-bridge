@@ -44,10 +44,14 @@ app.get('/simulatedPosition/', handleGetPosition)
 app.post('/simulatedPosition/', handleUpdatePosition)
 app.get('/simulatedPosition/gridSquare/', handleGetGridSquare)
 
-const localIp = getLocalIpAddress()
-console.log(`Server is running on:`)
-console.log(`- Local:   http://localhost:${SERVER_CONFIG.PORT}`)
-console.log(`- Network: http://${localIp}:${SERVER_CONFIG.PORT}`)
+if (SERVER_CONFIG.IS_LOCAL_NETWORK) {
+  const localIp = getLocalIpAddress()
+  console.log(`Server is running on:`)
+  console.log(`- Local:   http://localhost:${SERVER_CONFIG.PORT}`)
+  console.log(`- Network: http://${localIp}:${SERVER_CONFIG.PORT}`)
+} else {
+  console.log(`Server is running on port ${SERVER_CONFIG.PORT}`)
+}
 
 serve({
   fetch: app.fetch,
