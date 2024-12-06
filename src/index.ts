@@ -4,10 +4,9 @@ import { serveStatic } from '@hono/node-server/serve-static'
 import { handleGuideRequest } from './guideService'
 import { handleGetPosition, handleUpdatePosition, handlePositionInterface, handleGetGridSquare } from './positionService'
 import { handleApiGuide } from './apiGuide'
-import { SERVER_CONFIG } from './utils/config'
-import { getLocalIpAddress } from './utils/url'
 
 const app = new Hono()
+const port = 3000
 
 // Root route - API Guide
 app.get('/', handleApiGuide)
@@ -44,13 +43,10 @@ app.get('/simulatedPosition/', handleGetPosition)
 app.post('/simulatedPosition/', handleUpdatePosition)
 app.get('/simulatedPosition/gridSquare/', handleGetGridSquare)
 
-const localIp = getLocalIpAddress()
-console.log(`Server is running on:`)
-console.log(`- Local:   http://localhost:${SERVER_CONFIG.PORT}`)
-console.log(`- Network: http://${localIp}:${SERVER_CONFIG.PORT}`)
 
+
+console.log(`Server is running on port ${port}`)
 serve({
   fetch: app.fetch,
-  port: SERVER_CONFIG.PORT,
-  hostname: SERVER_CONFIG.HOST
+  port
 })
