@@ -52,5 +52,4 @@ console.log(`- Network: http://${localIp}:${SERVER_CONFIG.PORT}`)
 serve({
   fetch: app.fetch,
   port: SERVER_CONFIG.PORT,
-  hostname: SERVER_CONFIG.HOST
 })
