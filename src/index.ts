@@ -4,9 +4,10 @@ import { serveStatic } from '@hono/node-server/serve-static'
 import { handleGuideRequest } from './guideService'
 import { handleGetPosition, handleUpdatePosition, handlePositionInterface, handleGetGridSquare } from './positionService'
 import { handleApiGuide } from './apiGuide'
+import { SERVER_CONFIG } from "./utils/config";
 
 const app = new Hono()
-const port = 3000
+const port = SERVER_CONFIG.PORT
 
 // Root route - API Guide
 app.get('/', handleApiGuide)
