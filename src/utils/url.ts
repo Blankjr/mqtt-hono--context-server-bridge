@@ -21,7 +21,8 @@ export const getLocalIpAddress = () => {
 export function getBaseUrl(): string {
     // Check if we're in development mode
     if (process.env.NODE_ENV === 'development') {
-        return 'http://localhost:3000'
+        const localIp = getLocalIpAddress()
+        return `http://${localIp}:${SERVER_CONFIG.PORT}`
     }
 
     // For production, use RAILWAY_PUBLIC_DOMAIN
