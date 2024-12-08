@@ -120,12 +120,12 @@ interface LineSegment {
 function mapUserRequestToRoom(roomType: string): string {
     const roomMapping: { [key: string]: string } = {
         'lernraum': '04.2.022',
-        'fachschaft': '04.2.017',
-        'wc': '04.2.032',         // Central WC room
-        'toilette': '04.2.032',   // Alternative name for WC
-        'pc-pool': '04.2.010',    // Central PC Pool room
-        'pcpool': '04.2.010',     // Alternative spelling
-        'pc_pool': '04.2.010'     // Alternative spelling
+        'fachschaft': '04.2.029',
+        'wc': '04.2.031',         // Central WC room
+        'toilette': '04.2.031',   // Alternative name for WC
+        'pc-pool': '04.2.028',    // Central PC Pool room
+        'pcpool': '04.2.028',     // Alternative spelling
+        'pc_pool': '04.2.028'     // Alternative spelling
     };
 
     return roomMapping[roomType.toLowerCase()] || '';
@@ -413,12 +413,17 @@ function findColoredLines(route: any[]): Record<string, string[]> {
                     if (!lineDirections[color]) {
                         lineDirections[color] = [];
                     }
+                    lineDirections[color].push(`04.2.${current}`);
                     lineDirections[color].push(`04.2.${next}`);
                     break;
                 }
             }
         }
     }
+    // Remove duplicates while maintaining order ( ["Grid1", "Grid2", "Grid2", "Grid3"])
+    Object.keys(lineDirections).forEach(color => {
+        lineDirections[color] = [...new Set(lineDirections[color])];
+    });
 
     return lineDirections;
 }
