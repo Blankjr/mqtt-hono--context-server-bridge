@@ -5,6 +5,7 @@ import { handleGuideRequest } from './guideService'
 import { handleGetPosition, handleUpdatePosition, handlePositionInterface, handleGetGridSquare } from './positionService'
 import { handleApiGuide } from './apiGuide'
 import { SERVER_CONFIG } from "./utils/config";
+import { getLocalIpAddress } from './utils/url'
 
 const app = new Hono()
 const port = SERVER_CONFIG.PORT
@@ -45,6 +46,15 @@ app.post('/simulatedPosition/', handleUpdatePosition)
 app.get('/simulatedPosition/gridSquare/', handleGetGridSquare)
 
 
+
+if (SERVER_CONFIG.IS_LOCAL_NETWORK) {
+  const localIp = getLocalIpAddress()
+  console.log(`Server is running on:`)
+  console.log(`- Local:   http://localhost:${SERVER_CONFIG.PORT}`)
+  console.log(`- Network: http://${localIp}:${SERVER_CONFIG.PORT}`)
+} else {
+  console.log(`Server is running on port ${SERVER_CONFIG.PORT}`)
+}
 
 console.log(`Server is running on port ${port}`)
 serve({
