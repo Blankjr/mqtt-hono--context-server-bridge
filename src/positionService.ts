@@ -201,13 +201,17 @@ export async function handlePositionInterface(c: Context) {
             border-radius: 4px;
             border: 1px solid #eee;
           }
+          .grid-square {
+            color: #0066cc;
+            font-weight: bold;
+          }
         </style>
         <script>
           async function updatePosition(x, y, floor) {
             try {
-              // Log the data being sent
               console.log('Sending position:', { x, y, floor });
               
+              // Update position
               const response = await fetch('/simulatedPosition/', {
                 method: 'POST',
                 headers: {
@@ -220,11 +224,22 @@ export async function handlePositionInterface(c: Context) {
                 throw new Error('Network response was not ok');
               }
               
-              const data = await response.json();
-              console.log('Received data:', data);  // Log the received data
-              updateStatusDisplay(data);
+              const positionData = await response.json();
+              
+              // Fetch grid square
+              const gridSquareResponse = await fetch('/simulatedPosition/gridSquare');
+              const gridSquareData = await gridSquareResponse.json();
+              
+              // Combine the data
+              const combinedData = {
+                ...positionData,
+                gridSquare: gridSquareData.gridSquare
+              };
+              
+              console.log('Received data:', combinedData);
+              updateStatusDisplay(combinedData);
             } catch (error) {
-              console.error('Error:', error);  // Detailed error logging
+              console.error('Error:', error);
               document.getElementById('status').textContent = 'Error: ' + error.message;
             }
           }
@@ -233,7 +248,6 @@ export async function handlePositionInterface(c: Context) {
             const img = document.getElementById('map-image');
             const status = document.getElementById('status');
             
-            // Format the content with spaces and line breaks
             status.innerHTML = \`
               <div class="coordinates">
                 <div class="coordinate-box">
@@ -241,6 +255,10 @@ export async function handlePositionInterface(c: Context) {
                   X: \${data.x || 0}<br>
                   Y: \${data.y || 0}<br>
                   Floor: \${data.floor || '1'}
+                </div>
+                <div class="coordinate-box">
+                  <strong>Grid Square:</strong><br>
+                  <span class="grid-square">\${data.gridSquare || 'Not found'}</span>
                 </div>
                 <div class="coordinate-box">
                   <strong>Image Size:</strong><br>
@@ -252,7 +270,7 @@ export async function handlePositionInterface(c: Context) {
                   \${new Date(data.timestamp).toLocaleTimeString()}
                 </div>
               </div>
-            \`;img
+            \`;
           }
 
           function handleMapClick(event) {
@@ -260,14 +278,12 @@ export async function handlePositionInterface(c: Context) {
             const rect = img.getBoundingClientRect();
             const mapWrapper = document.querySelector('.map-wrapper');
             
-            // Calculate position
             const scrollLeft = mapWrapper.scrollLeft;
             const scrollTop = mapWrapper.scrollTop;
             
             const x = Math.round(event.clientX - rect.left + scrollLeft);
             const y = Math.round(event.clientY - rect.top + scrollTop);
             
-            // Log all relevant values
             console.log('Click event:', {
               clientX: event.clientX,
               clientY: event.clientY,
@@ -279,63 +295,67 @@ export async function handlePositionInterface(c: Context) {
               finalY: y
             });
             
-            // Update marker
             const marker = document.getElementById('marker');
             marker.style.left = x + 'px';
             marker.style.top = y + 'px';
             marker.style.display = 'block';
             
-            // Get floor and update position
             const floor = document.getElementById('floor-select').value;
             updatePosition(x, y, floor);
           }
 
-      function updateFloorPlan() {
-        const floor = document.getElementById('floor-select').value;
-        const mapImage = document.getElementById('map-image');
-        mapImage.src = '/maps/floor' + floor + '.png';
-        
-        // Reset marker when floor changes
-        const marker = document.getElementById('marker');
-        marker.style.display = 'none';
-      }
-
-      async function loadPosition() {
-        try {
-          const response = await fetch('/simulatedPosition');
-          const data = await response.json();
-          
-          // Set floor select
-          document.getElementById('floor-select').value = data.floor;
-          updateFloorPlan();
-          
-          // Wait for image to load before positioning marker
-          const mapImage = document.getElementById('map-image');
-          mapImage.onload = function() {
-            // Scale down coordinates for floor2 display
-            let displayX = data.x;
-            let displayY = data.y;
-            if (data.floor === '2') {
-              displayX = displayX / 2;
-              displayY = displayY / 2;
-            }
+          function updateFloorPlan() {
+            const floor = document.getElementById('floor-select').value;
+            const mapImage = document.getElementById('map-image');
+            mapImage.src = '/maps/floor' + floor + '.png';
             
-            // Update marker
             const marker = document.getElementById('marker');
-            marker.style.left = displayX + 'px';
-            marker.style.top = displayY + 'px';
-            marker.style.display = 'block';
-            
-            updateStatusDisplay(data);
-          };
-        } catch (error) {
-          document.getElementById('status').textContent = 'Error loading position: ' + error.message;
-        }
-      }
+            marker.style.display = 'none';
+          }
 
-      // Initialize on load
-      window.addEventListener('load', loadPosition);
-    </script>
+          async function loadPosition() {
+            try {
+              // Fetch both position and grid square data
+              const [positionResponse, gridSquareResponse] = await Promise.all([
+                fetch('/simulatedPosition'),
+                fetch('/simulatedPosition/gridSquare')
+              ]);
+              
+              const positionData = await positionResponse.json();
+              const gridSquareData = await gridSquareResponse.json();
+              
+              // Combine the data
+              const data = {
+                ...positionData,
+                gridSquare: gridSquareData.gridSquare
+              };
+              
+              document.getElementById('floor-select').value = data.floor;
+              updateFloorPlan();
+              
+              const mapImage = document.getElementById('map-image');
+              mapImage.onload = function() {
+                let displayX = data.x;
+                let displayY = data.y;
+                if (data.floor === '2') {
+                  displayX = displayX / 2;
+                  displayY = displayY / 2;
+                }
+                
+                const marker = document.getElementById('marker');
+                marker.style.left = displayX + 'px';
+                marker.style.top = displayY + 'px';
+                marker.style.display = 'block';
+                
+                updateStatusDisplay(data);
+              };
+            } catch (error) {
+              document.getElementById('status').textContent = 'Error loading position: ' + error.message;
+            }
+          }
+
+          window.addEventListener('load', loadPosition);
+        </script>
       </head>
       <body>
         <div class="map-container">
@@ -363,4 +383,4 @@ export async function handlePositionInterface(c: Context) {
       </body>
     </html>
   `);
-}
+}  
