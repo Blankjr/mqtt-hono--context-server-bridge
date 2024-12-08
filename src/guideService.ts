@@ -427,11 +427,22 @@ export async function handleGuideRequest(c: Context) {
     console.log('Handling guide request...');
 
     const startGridSquare = c.req.query('start_gridsquare') || '';
-    const destinationRoom = c.req.query('destination_room') || '';
+    const rawDestination = c.req.query('destination_room') || '';
     const navigationMode = c.req.query('mode') === 'tactile' ? 'tactile' : 'visual';
 
-    if (!startGridSquare || !destinationRoom) {
+    if (!startGridSquare || !rawDestination) {
         return c.json({ error: 'Invalid parameters' }, 400);
+    }
+
+    // Map user-friendly names to room numbers
+    const destinationRoom = mapUserRequestToRoom(rawDestination) || rawDestination;
+
+    // Validate the destination room format
+    if (!destinationRoom.match(/^04\.2\.\d{3}$/)) {
+        return c.json({ 
+            error: 'Invalid destination room format', 
+            details: 'Room must be in format 04.2.XXX or a valid room alias' 
+        }, 400);
     }
 
     try {
