@@ -99,14 +99,14 @@ interface LineRoutes {
 
 // available colored lines and their grid squares
 const coloredRoutes: LineRoutes = {
-    "red": ["H3-P6", "V3-P3", "V3-P2", "V3-P1", "H1-P13", "H1-P12", "H1-P11", "H1-P10", "H1-P9", "H1-P8", "H1-P7", "H1-P6", "H1-P5", "H1-P4"],
+    "orange": ["H3-P6", "V3-P3", "V3-P2", "V3-P1", "H1-P13", "H1-P12", "H1-P11", "H1-P10", "H1-P9", "H1-P8", "H1-P7", "H1-P6", "H1-P5", "H1-P4"],
     "green-long": ["H1-P4", "H1-P5", "H1-P6", "H1-P7", "H1-P8", "H1-P9", "H1-P10", "H1-P11", "H1-P12", "H1-P13", "V3-P1", "V3-P2", "V3-P3", "H3-P6"],
     "green-short": ["H2-P1", "H2-P2", "H2-P3", "H2-P4"],
     "green-short-reverse": ["H2-P4", "H2-P3", "H2-P2", "H2-P1"],
-    "yellow": ["H3-P3", "V2-P2", "H2-P4", "V2-P1", "H1-P7"],
-    "yellow-reverse": ["H1-P7", "V2-P1", "H2-P4", "V2-P2", "H3-P3"],
+    "dark-blue": ["H3-P3", "V2-P2", "H2-P4", "V2-P1", "H1-P7"],
+    "yellow": ["H1-P7", "V2-P1", "H2-P4", "V2-P2", "H3-P3"],
     "blue": ["H3-P6", "H3-P5", "H3-P4", "H3-P3", "H3-P2", "H3-P1", "V1-P5", "V1-P4", "H1-P1", "V1-P3", "V1-P2", "V1-P1", "H1-P4"],
-    "orange": ["H1-P4", "V1-P1", "V1-P2", "V1-P3", "H1-P1", "V1-P4", "V1-P5", "H3-P1", "H3-P2", "H3-P3", "H3-P4", "H3-P5", "H3-P6"]
+    "red": ["H1-P4", "V1-P1", "V1-P2", "V1-P3", "H1-P1", "V1-P4", "V1-P5", "H3-P1", "H3-P2", "H3-P3", "H3-P4", "H3-P5", "H3-P6"]
 }
 
 interface LineSegment {
