@@ -31,13 +31,6 @@ app.use('/maps/*', serveStatic({
   }
 }));
 
-app.use('/sample-waypoints/*', serveStatic({
-  root: 'static',
-  onNotFound: (path, c) => {
-    console.log(`${path} not found when accessing ${c.req.path}`)
-  }
-}));
-
 app.use('/waypoints/*', serveStatic({
   root: 'static',
   onNotFound: (path, c) => {
