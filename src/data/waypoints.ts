@@ -72,7 +72,7 @@ export interface WaypointDetails {
         visualDescription: "roten Wegweiser nach links folgen",
       }
     },
-    "short-green": {
+    "green-short": {
       "04.2.V1-P3": {
         visualDescription: "grünen Wegweiser nach links folgen",
       },

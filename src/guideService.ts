@@ -19,7 +19,7 @@ const coloredRoutes: LineRoutes = {
     "green-short-reverse": ["H2-P4", "H2-P3", "H2-P2", "H2-P1"],
     "dark-blue": ["H3-P3", "V2-P2", "H2-P4", "V2-P1", "H1-P7"],
     "yellow": ["H1-P7", "V2-P1", "H2-P4", "V2-P2", "H3-P3"],
-    "blue": ["H3-P6", "H3-P5", "H3-P4", "H3-P3", "H3-P2", "H3-P1", "V1-P5", "V1-P4", "H1-P1", "V1-P3", "V1-P2", "V1-P1", "H1-P4"],
+    "light-blue": ["H3-P6", "H3-P5", "H3-P4", "H3-P3", "H3-P2", "H3-P1", "V1-P5", "V1-P4", "H1-P1", "V1-P3", "V1-P2", "V1-P1", "H1-P4"],
     "red": ["H1-P4", "V1-P1", "V1-P2", "V1-P3", "H1-P1", "V1-P4", "V1-P5", "H3-P1", "H3-P2", "H3-P3", "H3-P4", "H3-P5", "H3-P6"]
 }
 
@@ -50,62 +50,82 @@ function constructWaypointUrl(color: string, gridSquare: string): string {
     return `${baseUrl}/waypoints/${color}/${gridSquare}.jpg`;
   }  
 
-function findWaypointsForRouteFromColors(
-    lineDirections: Record<string, string[]>
+  function findWaypointsForRouteFromColors(
+    lineDirections: Record<string, string[]>,
+    route: RouteStep[]
   ): { id: string; description: string; url: string }[] {
     const usedWaypoints: { id: string; description: string; url: string }[] = [];
+    const seenWaypoints = new Set<string>();
     
-    // Go through each color line
-    Object.entries(lineDirections).forEach(([color, gridSquares]) => {
-      // Look up waypoints for this color
-      const colorWaypoints = waypointsByColor[color];
-      if (!colorWaypoints) return;
-  
-      // For each grid square in this line
-      gridSquares.forEach(gridSquare => {
+    // Go through route steps in order
+    route.forEach(step => {
+      // For each step, check which color line it belongs to
+      Object.entries(lineDirections).forEach(([color, gridSquares]) => {
+        if (!gridSquares.includes(step.gridSquare)) return;
+        
+        // Handle green-short-reverse case by using green-short waypoints
+        const lookupColor = color === 'green-short-reverse' ? 'green-short' : color;
+        const colorWaypoints = waypointsByColor[lookupColor];
+        
+        if (!colorWaypoints || seenWaypoints.has(step.gridSquare)) return;
+        
         // If we have a waypoint for this grid square
-        if (colorWaypoints[gridSquare]) {
+        if (colorWaypoints[step.gridSquare]) {
           usedWaypoints.push({
-            id: gridSquare,
-            description: colorWaypoints[gridSquare].visualDescription,
-            url: constructWaypointUrl(color, gridSquare)
+            id: step.gridSquare,
+            description: colorWaypoints[step.gridSquare].visualDescription,
+            url: constructWaypointUrl(lookupColor, step.gridSquare)
           });
+          seenWaypoints.add(step.gridSquare);
         }
       });
     });
   
-    // Remove duplicates based on grid square id
-    return usedWaypoints.filter((waypoint, index, self) =>
-      index === self.findIndex((w) => w.id === waypoint.id)
-    );
-  }  
-function findColoredLines(route: any[]): Record<string, string[]> {
+    return usedWaypoints;
+  }
+  function findColoredLines(route: any[]): Record<string, string[]> {
     const lineDirections: Record<string, string[]> = {};
+    const lineOrder: string[] = [];
     const gridSquares = route.map(r => r.name.replace('04.2.', ''));
-
-    for (const [color, lineRoute] of Object.entries(coloredRoutes)) {
-        for (let i = 0; i < gridSquares.length - 1; i++) {
-            const current = gridSquares[i];
-            const next = gridSquares[i + 1];
-
-            for (let j = 0; j < lineRoute.length - 1; j++) {
-                if (lineRoute[j] === current && lineRoute[j + 1] === next) {
-                    if (!lineDirections[color]) {
-                        lineDirections[color] = [];
-                    }
-                    lineDirections[color].push(`04.2.${current}`);
-                    lineDirections[color].push(`04.2.${next}`);
-                    break;
-                }
+  
+    for (let i = 0; i < gridSquares.length - 1; i++) {
+      const current = gridSquares[i];
+      const next = gridSquares[i + 1];
+  
+      for (const [color, lineRoute] of Object.entries(coloredRoutes)) {
+        for (let j = 0; j < lineRoute.length - 1; j++) {
+          if (lineRoute[j] === current && lineRoute[j + 1] === next) {
+            if (!lineDirections[color]) {
+              lineDirections[color] = [];
+              lineOrder.push(color);
             }
+            lineDirections[color].push(`04.2.${current}`);
+            lineDirections[color].push(`04.2.${next}`);
+            break;
+          }
         }
+      }
     }
-    // Remove duplicates while maintaining order ( ["Grid1", "Grid2", "Grid2", "Grid3"])
+  
+    // Remove duplicates while maintaining order
     Object.keys(lineDirections).forEach(color => {
-        lineDirections[color] = [...new Set(lineDirections[color])];
+      lineDirections[color] = [...new Set(lineDirections[color])];
     });
-
-    return lineDirections;
+  
+    // Create ordered result
+    const orderedLineDirections: Record<string, string[]> = {};
+    // Use a Set to track seen colors to avoid duplicates
+    const seenColors = new Set<string>();
+    
+    // First add colors in the order they were found
+    lineOrder.forEach(color => {
+      if (!seenColors.has(color)) {
+        orderedLineDirections[color] = lineDirections[color];
+        seenColors.add(color);
+      }
+    });
+  
+    return orderedLineDirections;
 }
 
 export async function handleGuideRequest(c: Context) {
@@ -163,15 +183,22 @@ export async function handleGuideRequest(c: Context) {
             }));
 
         const lineDirections = findColoredLines(route);
-        const waypointInfo = findWaypointsForRouteFromColors(lineDirections);
+        
+        // Create route steps first
+        const routeSteps = route.map((gridSquare: { name: string }) => ({
+            gridSquare: gridSquare.name,
+            waypointId: undefined  // We'll fill this in after getting waypoint info
+        }));
 
-        // Create route steps with waypoint information
-        const routeSteps = route.map((gridSquare: { name: string }) => {
-            const matchingWaypoint = waypointInfo.find(w => w.id === gridSquare.name);
-            return {
-                gridSquare: gridSquare.name,
-                waypointId: matchingWaypoint ? matchingWaypoint.id : undefined
-            };
+        // Now get waypoint info using the route steps
+        const waypointInfo = findWaypointsForRouteFromColors(lineDirections, routeSteps);
+
+        // Update route steps with waypoint information
+        routeSteps.forEach(step => {
+            const matchingWaypoint = waypointInfo.find(w => w.id === step.gridSquare);
+            if (matchingWaypoint) {
+                step.waypointId = matchingWaypoint.id;
+            }
         });
 
         return c.json({
