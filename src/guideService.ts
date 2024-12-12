@@ -399,10 +399,15 @@ function findWaypointsForRoute(route: any[], navigationMode: 'visual' | 'tactile
     return usedWaypoints;
 }
 
+function constructWaypointUrl(color: string, gridSquare: string): string {
+    const baseUrl = getBaseUrl();
+    return `${baseUrl}/waypoints/${color}/${gridSquare}.jpg`;
+  }  
+
 function findWaypointsForRouteFromColors(
     lineDirections: Record<string, string[]>
-  ): { id: string; description: string }[] {
-    const usedWaypoints: { id: string; description: string }[] = [];
+  ): { id: string; description: string; url: string }[] {
+    const usedWaypoints: { id: string; description: string; url: string }[] = [];
     
     // Go through each color line
     Object.entries(lineDirections).forEach(([color, gridSquares]) => {
@@ -416,7 +421,8 @@ function findWaypointsForRouteFromColors(
         if (colorWaypoints[gridSquare]) {
           usedWaypoints.push({
             id: gridSquare,
-            description: colorWaypoints[gridSquare].visualDescription
+            description: colorWaypoints[gridSquare].visualDescription,
+            url: constructWaypointUrl(color, gridSquare)
           });
         }
       });
@@ -426,7 +432,7 @@ function findWaypointsForRouteFromColors(
     return usedWaypoints.filter((waypoint, index, self) =>
       index === self.findIndex((w) => w.id === waypoint.id)
     );
-}  
+  }  
 function findColoredLines(route: any[]): Record<string, string[]> {
     const lineDirections: Record<string, string[]> = {};
     const gridSquares = route.map(r => r.name.replace('04.2.', ''));

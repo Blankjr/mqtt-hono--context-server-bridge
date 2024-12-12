@@ -38,6 +38,13 @@ app.use('/sample-waypoints/*', serveStatic({
   }
 }));
 
+app.use('/waypoints/*', serveStatic({
+  root: 'static',
+  onNotFound: (path, c) => {
+    console.log(`${path} not found when accessing ${c.req.path}. Full path: ${c.req.url}`)
+  }
+}));
+
 // routes from external files
 app.get('/guide/', handleGuideRequest)
 app.get('/simulatedPosition/admin/', handlePositionInterface)
