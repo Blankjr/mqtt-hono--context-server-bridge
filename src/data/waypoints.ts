@@ -35,7 +35,7 @@ export interface WaypointDetails {
         visualDescription: "dunkel blauen Wegweiser in den Zwischenflur folgen",
       }
     },
-    "green": {
+    "green-long": {
       "04.2.H1-P4": {
         visualDescription: "grünen Wegweiser nach rechts folgen",
       },
