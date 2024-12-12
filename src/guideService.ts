@@ -1,6 +1,6 @@
 import { Context } from 'hono'
 import { getBaseUrl } from './utils/url'
-import { ImageItem, images, TactileLandmark, tactileLandmarks } from './data/waypoints'
+import { ImageItem, images, TactileLandmark, tactileLandmarks, waypointsByColor } from './data/waypoints'
 
 interface RouteElement {
     aggregation?: {
@@ -399,6 +399,34 @@ function findWaypointsForRoute(route: any[], navigationMode: 'visual' | 'tactile
     return usedWaypoints;
 }
 
+function findWaypointsForRouteFromColors(
+    lineDirections: Record<string, string[]>
+  ): { id: string; description: string }[] {
+    const usedWaypoints: { id: string; description: string }[] = [];
+    
+    // Go through each color line
+    Object.entries(lineDirections).forEach(([color, gridSquares]) => {
+      // Look up waypoints for this color
+      const colorWaypoints = waypointsByColor[color];
+      if (!colorWaypoints) return;
+  
+      // For each grid square in this line
+      gridSquares.forEach(gridSquare => {
+        // If we have a waypoint for this grid square
+        if (colorWaypoints[gridSquare]) {
+          usedWaypoints.push({
+            id: gridSquare,
+            description: colorWaypoints[gridSquare].visualDescription
+          });
+        }
+      });
+    });
+  
+    // Remove duplicates based on grid square id
+    return usedWaypoints.filter((waypoint, index, self) =>
+      index === self.findIndex((w) => w.id === waypoint.id)
+    );
+}  
 function findColoredLines(route: any[]): Record<string, string[]> {
     const lineDirections: Record<string, string[]> = {};
     const gridSquares = route.map(r => r.name.replace('04.2.', ''));
@@ -439,10 +467,8 @@ export async function handleGuideRequest(c: Context) {
         return c.json({ error: 'Invalid parameters' }, 400);
     }
 
-    // Map user-friendly names to room numbers
     const destinationRoom = mapUserRequestToRoom(rawDestination) || rawDestination;
 
-    // Validate the destination room format
     if (!destinationRoom.match(/^04\.2\.\d{3}$/)) {
         return c.json({ 
             error: 'Invalid destination room format', 
@@ -476,7 +502,6 @@ export async function handleGuideRequest(c: Context) {
 
         const data = await response.json();
         
-        // Extract simplified route information
         const route = data.result[0]
             .filter((element: { fromEntity: any }) => element.fromEntity)
             .map((element: { fromEntity: { entitytype: any; name: any; attributes: { etage: any } } }) => ({
@@ -485,16 +510,15 @@ export async function handleGuideRequest(c: Context) {
                 floor: element.fromEntity.attributes.etage
             }));
 
-        // Find relevant waypoints and colored lines
-        const usedWaypoints = findWaypointsForRoute(route, navigationMode);
         const lineDirections = findColoredLines(route);
+        const waypointInfo = findWaypointsForRouteFromColors(lineDirections);
 
-        // Create simplified route steps
+        // Create route steps with waypoint information
         const routeSteps = route.map((gridSquare: { name: string }) => {
-            const matchingWaypoint = usedWaypoints.find(w => w.id.includes(gridSquare.name));
+            const matchingWaypoint = waypointInfo.find(w => w.id === gridSquare.name);
             return {
                 gridSquare: gridSquare.name,
-                waypointId: matchingWaypoint?.id
+                waypointId: matchingWaypoint ? matchingWaypoint.id : undefined
             };
         });
 
@@ -513,7 +537,7 @@ export async function handleGuideRequest(c: Context) {
                 gridSquare: route[route.length - 1]?.name || ''
             },
             route: routeSteps,
-            waypoints: usedWaypoints,
+            waypoints: waypointInfo,
             lineDirections,
             navigationMode
         });
