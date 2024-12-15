@@ -12,18 +12,20 @@ const app = new Hono()
 const port = SERVER_CONFIG.PORT
 
 
-app.use('*', cors({
-  origin: [
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
-    'https://admin.freibewegen.info'
-  ],
-  allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowHeaders: ['Content-Type', 'Authorization'],
-  exposeHeaders: ['Content-Length'],
-  credentials: true,
-  maxAge: 86400,
-}))
+// Add CORS middleware before any routes
+app.use('*', async (c, next) => {
+  // Add CORS headers to every response
+  c.header('Access-Control-Allow-Origin', 'https://admin.freibewegen.info')
+  c.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+  c.header('Access-Control-Allow-Headers', 'Content-Type')
+
+  // Handle OPTIONS preflight requests
+  if (c.req.method === 'OPTIONS') {
+    return c.text('', 204)
+  }
+
+  await next()
+})
 
 // Add trailing slash middleware
 app.use('*', async (c, next) => {
