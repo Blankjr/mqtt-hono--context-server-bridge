@@ -15,7 +15,7 @@ const port = SERVER_CONFIG.PORT
 // Add CORS middleware before any routes
 app.use('*', async (c, next) => {
   // Add CORS headers to every response
-  c.header('Access-Control-Allow-Origin', 'https://admin.freibewegen.info')
+  c.header('Access-Control-Allow-Origin', '*')
   c.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
   c.header('Access-Control-Allow-Headers', 'Content-Type')
 
