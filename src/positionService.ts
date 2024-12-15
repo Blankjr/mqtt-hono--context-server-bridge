@@ -1,7 +1,8 @@
 import { Context } from 'hono'
 import * as fs from 'fs'
 import * as path from 'path'
-import { getBaseUrl } from './utils/url'
+import { getBaseUrl, getLocalIpAddress } from './utils/url'
+import { SERVER_CONFIG } from './utils/config'
 
 interface MockPosition {
   x: number
@@ -111,7 +112,10 @@ export async function handleGetGridSquare(c: Context) {
 }
 
 export async function handlePositionInterface(c: Context) {
-  const baseUrl = getBaseUrl();
+  // Get base URL that's appropriate for the environment
+  const baseUrl = process.env.NODE_ENV === 'production'
+    ? 'https://mqtt-hono-context-server-bridge-production.up.railway.app'
+    : `http://${getLocalIpAddress()}:${SERVER_CONFIG.PORT}`;
 
   return c.html(`
     <!DOCTYPE html>
@@ -210,17 +214,8 @@ export async function handlePositionInterface(c: Context) {
           }
         </style>
         <script>
-           // Inject the base URL from server config
-          const baseUrl = "${baseUrl}"
-          // Simple check for local development
-          const isLocalhost = window.location.hostname === 'localhost' || 
-                            window.location.hostname.startsWith('192.168') ||
-                            window.location.hostname.startsWith('127.0.0.1');
-          
-          if (!isLocalhost && window.location.protocol === 'http:') {
-            window.location.href = window.location.href.replace('http:', 'https:');
-          }
-            
+          const baseUrl = "${baseUrl}";
+           
           async function updatePosition(x, y, floor) {
             try {
               console.log('Sending position:', { x, y, floor });
