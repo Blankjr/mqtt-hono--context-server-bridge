@@ -11,12 +11,23 @@ import { cors } from 'hono/cors'
 const app = new Hono()
 const port = SERVER_CONFIG.PORT
 
-// Root route - API Guide
-app.get('/', handleApiGuide)
+// Force HTTPS in production
+app.use('*', async (c, next) => {
+  if (process.env.NODE_ENV === 'production') {
+    const url = new URL(c.req.url)
+    if (url.protocol === 'http:') {
+      url.protocol = 'https:'
+      return c.redirect(url.toString())
+    }
+  }
+  await next()
+})
 
-// Add CORS middleware early in the middleware chain
+// Add CORS middleware with strict HTTPS in production
 app.use('*', cors({
-  origin: SERVER_CONFIG.IS_LOCAL_NETWORK ? '*' : SERVER_CONFIG.PRODUCTION_URL,
+  origin: SERVER_CONFIG.IS_LOCAL_NETWORK
+    ? '*'
+    : ['https://mqtt-hono-context-server-bridge-production.up.railway.app'],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Content-Type', 'Authorization'],
   exposeHeaders: ['Content-Length', 'X-Requested-With'],
@@ -33,6 +44,9 @@ app.use('*', async (c, next) => {
   }
   await next()
 })
+
+// Root route - API Guide
+app.get('/', handleApiGuide)
 
 // Serve static files
 app.use('/maps/*', serveStatic({
