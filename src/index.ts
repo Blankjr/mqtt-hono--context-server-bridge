@@ -12,12 +12,17 @@ const app = new Hono()
 const port = SERVER_CONFIG.PORT
 
 
-// Simple CORS middleware
 app.use('*', cors({
-  origin: '*',  // You can restrict this if needed
+  origin: [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'https://admin.freibewegen.info'
+  ],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Content-Type', 'Authorization'],
+  exposeHeaders: ['Content-Length'],
   credentials: true,
+  maxAge: 86400,
 }))
 
 // Add trailing slash middleware
