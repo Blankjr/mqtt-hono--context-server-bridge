@@ -6,12 +6,23 @@ import { handleGetPosition, handleUpdatePosition, handlePositionInterface, handl
 import { handleApiGuide } from './apiGuide'
 import { SERVER_CONFIG } from "./utils/config";
 import { getLocalIpAddress } from './utils/url'
+import { cors } from 'hono/cors'
 
 const app = new Hono()
 const port = SERVER_CONFIG.PORT
 
 // Root route - API Guide
 app.get('/', handleApiGuide)
+
+// Add CORS middleware early in the middleware chain
+app.use('*', cors({
+  origin: SERVER_CONFIG.IS_LOCAL_NETWORK ? '*' : SERVER_CONFIG.PRODUCTION_URL,
+  allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowHeaders: ['Content-Type', 'Authorization'],
+  exposeHeaders: ['Content-Length', 'X-Requested-With'],
+  maxAge: 86400,
+  credentials: true,
+}))
 
 // Add trailing slash middleware
 app.use('*', async (c, next) => {

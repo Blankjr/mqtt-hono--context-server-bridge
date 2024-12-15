@@ -1,6 +1,7 @@
 import { Context } from 'hono'
 import * as fs from 'fs'
 import * as path from 'path'
+import { getBaseUrl } from './utils/url'
 
 interface MockPosition {
   x: number
@@ -49,8 +50,8 @@ function findClosestFingerprint(position: MockPosition): string {
     const rawData = fs.readFileSync(fingerprintPath, 'utf8');
     const data: FingerprintData = JSON.parse(rawData);
 
-     // Set default grid square for floor 2 if no fingerprint is found
-     const defaultGridSquare = '04.2.H1-P13';
+    // Set default grid square for floor 2 if no fingerprint is found
+    const defaultGridSquare = '04.2.H1-P13';
 
     let closestId = '';
     let minDistance = Infinity;
@@ -110,6 +111,8 @@ export async function handleGetGridSquare(c: Context) {
 }
 
 export async function handlePositionInterface(c: Context) {
+  const baseUrl = getBaseUrl();
+
   return c.html(`
     <!DOCTYPE html>
     <html>
@@ -207,12 +210,14 @@ export async function handlePositionInterface(c: Context) {
           }
         </style>
         <script>
+           // Inject the base URL from server config
+          const baseUrl = "${baseUrl}"
           async function updatePosition(x, y, floor) {
             try {
               console.log('Sending position:', { x, y, floor });
               
               // Update position
-              const response = await fetch('/simulatedPosition/', {
+              const response = await fetch(\`\${baseUrl}/simulatedPosition/\`, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
@@ -227,7 +232,7 @@ export async function handlePositionInterface(c: Context) {
               const positionData = await response.json();
               
               // Fetch grid square
-              const gridSquareResponse = await fetch('/simulatedPosition/gridSquare');
+              const gridSquareResponse = await fetch(\`\${baseUrl}/simulatedPosition/gridSquare\`);
               const gridSquareData = await gridSquareResponse.json();
               
               // Combine the data
@@ -317,8 +322,8 @@ export async function handlePositionInterface(c: Context) {
             try {
               // Fetch both position and grid square data
               const [positionResponse, gridSquareResponse] = await Promise.all([
-                fetch('/simulatedPosition'),
-                fetch('/simulatedPosition/gridSquare')
+                fetch(\`\${baseUrl}/simulatedPosition\`),
+                fetch(\`\${baseUrl}/simulatedPosition/gridSquare\`)
               ]);
               
               const positionData = await positionResponse.json();
