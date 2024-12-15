@@ -111,7 +111,13 @@ export async function handleGetGridSquare(c: Context) {
 }
 
 export async function handlePositionInterface(c: Context) {
-  const baseUrl = getBaseUrl();
+  const baseUrl = (() => {
+    const url = getBaseUrl();
+    if (process.env.NODE_ENV === 'production' && url.startsWith('http:')) {
+      return url.replace('http:', 'https:');
+    }
+    return url;
+  })();
 
   return c.html(`
     <!DOCTYPE html>

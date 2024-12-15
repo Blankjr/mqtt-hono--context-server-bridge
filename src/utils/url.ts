@@ -7,11 +7,11 @@ export const getLocalIpAddress = () => {
   const results = Object.keys(nets).reduce<string[]>((result, ifaceName) => {
     const iface = nets[ifaceName];
     if (!iface) return result;
-    
-    const validAddresses = iface.filter(net => 
+
+    const validAddresses = iface.filter(net =>
       !net.internal && net.family === 'IPv4'
     ).map(net => net.address);
-    
+
     return [...result, ...validAddresses];
   }, []);
 
@@ -19,16 +19,16 @@ export const getLocalIpAddress = () => {
 };
 
 export function getBaseUrl(): string {
-    // Check if we're in development mode
-    if (process.env.NODE_ENV === 'development') {
-        const localIp = getLocalIpAddress()
-        return `http://${localIp}:${SERVER_CONFIG.PORT}`
-    }
+  // Check if we're in development mode
+  if (process.env.NODE_ENV === 'development') {
+    const localIp = getLocalIpAddress()
+    return `http://${localIp}:${SERVER_CONFIG.PORT}`
+  }
 
-    // For production, use RAILWAY_PUBLIC_DOMAIN
-    if (process.env.RAILWAY_PUBLIC_DOMAIN) {
-        return `https://${process.env.RAILWAY_PUBLIC_DOMAIN}`
-    }
-    // Fallback if it can't read the env variable
-    return SERVER_CONFIG.PRODUCTION_URL
+  // For production, use RAILWAY_PUBLIC_DOMAIN
+  if (process.env.RAILWAY_PUBLIC_DOMAIN) {
+    return `https://${process.env.RAILWAY_PUBLIC_DOMAIN}`
+  }
+  // Fallback if it can't read the env variable
+  return SERVER_CONFIG.PRODUCTION_URL.replace('http:', 'https:')
 }
