@@ -55,19 +55,20 @@ app.get('/simulatedPosition/', handleGetPosition)
 app.post('/simulatedPosition/', handleUpdatePosition)
 app.get('/simulatedPosition/gridSquare/', handleGetGridSquare)
 
-
-
-if (SERVER_CONFIG.IS_LOCAL_NETWORK) {
-  const localIp = getLocalIpAddress()
-  console.log(`Server is running on:`)
-  console.log(`- Local:   http://localhost:${SERVER_CONFIG.PORT}`)
-  console.log(`- Network: http://${localIp}:${SERVER_CONFIG.PORT}`)
-} else {
-  console.log(`Server is running on port ${SERVER_CONFIG.PORT}`)
-}
-
-console.log(`Server is running on port ${port}`)
 serve({
   fetch: app.fetch,
-  port
+  port,
+  hostname: '::',  // This enables IPv6 support
 })
+
+// Log startup information
+if (SERVER_CONFIG.IS_LOCAL_NETWORK) {
+  const localIp = getLocalIpAddress()
+  console.log('Server is running on:')
+  console.log(`- Local: http://localhost:${SERVER_CONFIG.PORT}`)
+  console.log(`- Network: http://${localIp}:${SERVER_CONFIG.PORT}`)
+  console.log(`- IPv6: http://[::]:${SERVER_CONFIG.PORT}`)
+} else {
+  console.log(`Server is running on port ${port} with IPv6 support`)
+  console.log(`Service should be available at: http://${process.env.RAILWAY_SERVICE_NAME}.railway.internal:${port}`)
+}

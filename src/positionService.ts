@@ -112,10 +112,18 @@ export async function handleGetGridSquare(c: Context) {
 }
 
 export async function handlePositionInterface(c: Context) {
-  // Get base URL that's appropriate for the environment
-  const baseUrl = process.env.NODE_ENV === 'production'
-    ? 'https://mqtt-hono-context-server-bridge-production.up.railway.app'
-    : `http://${getLocalIpAddress()}:${SERVER_CONFIG.PORT}`;
+  // Get the appropriate base URL based on environment
+  const getInternalUrl = () => {
+    if (process.env.NODE_ENV === 'production') {
+      // Use Railway's internal DNS
+      return `http://${process.env.RAILWAY_SERVICE_NAME}.railway.internal:${SERVER_CONFIG.PORT}`
+    } else {
+      // Use localhost for development
+      return `http://localhost:${SERVER_CONFIG.PORT}`
+    }
+  }
+
+  const baseUrl = getInternalUrl()
 
   return c.html(`
     <!DOCTYPE html>
@@ -214,6 +222,7 @@ export async function handlePositionInterface(c: Context) {
           }
         </style>
         <script>
+          // Use the internal URL for all API calls
           const baseUrl = "${baseUrl}";
            
           async function updatePosition(x, y, floor) {
