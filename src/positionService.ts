@@ -111,13 +111,7 @@ export async function handleGetGridSquare(c: Context) {
 }
 
 export async function handlePositionInterface(c: Context) {
-  const baseUrl = (() => {
-    const url = getBaseUrl();
-    if (process.env.NODE_ENV === 'production' && url.startsWith('http:')) {
-      return url.replace('http:', 'https:');
-    }
-    return url;
-  })();
+  const baseUrl = getBaseUrl();
 
   return c.html(`
     <!DOCTYPE html>
@@ -218,6 +212,15 @@ export async function handlePositionInterface(c: Context) {
         <script>
            // Inject the base URL from server config
           const baseUrl = "${baseUrl}"
+          // Simple check for local development
+          const isLocalhost = window.location.hostname === 'localhost' || 
+                            window.location.hostname.startsWith('192.168') ||
+                            window.location.hostname.startsWith('127.0.0.1');
+          
+          if (!isLocalhost && window.location.protocol === 'http:') {
+            window.location.href = window.location.href.replace('http:', 'https:');
+          }
+            
           async function updatePosition(x, y, floor) {
             try {
               console.log('Sending position:', { x, y, floor });
