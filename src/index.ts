@@ -6,12 +6,26 @@ import { handleGetPosition, handleUpdatePosition, handlePositionInterface, handl
 import { handleApiGuide } from './apiGuide'
 import { SERVER_CONFIG } from "./utils/config";
 import { getLocalIpAddress } from './utils/url'
+import { cors } from 'hono/cors'
 
 const app = new Hono()
 const port = SERVER_CONFIG.PORT
 
-// Root route - API Guide
-app.get('/', handleApiGuide)
+
+// Add CORS middleware before any routes
+app.use('*', async (c, next) => {
+  // Add CORS headers to every response
+  c.header('Access-Control-Allow-Origin', '*')
+  c.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+  c.header('Access-Control-Allow-Headers', 'Content-Type')
+
+  // Handle OPTIONS preflight requests
+  if (c.req.method === 'OPTIONS') {
+    return c.text('', 204)
+  }
+
+  await next()
+})
 
 // Add trailing slash middleware
 app.use('*', async (c, next) => {
@@ -22,6 +36,9 @@ app.use('*', async (c, next) => {
   }
   await next()
 })
+
+// Root route - API Guide
+app.get('/', handleApiGuide)
 
 // Serve static files
 app.use('/maps/*', serveStatic({
@@ -45,19 +62,20 @@ app.get('/simulatedPosition/', handleGetPosition)
 app.post('/simulatedPosition/', handleUpdatePosition)
 app.get('/simulatedPosition/gridSquare/', handleGetGridSquare)
 
-
-
-if (SERVER_CONFIG.IS_LOCAL_NETWORK) {
-  const localIp = getLocalIpAddress()
-  console.log(`Server is running on:`)
-  console.log(`- Local:   http://localhost:${SERVER_CONFIG.PORT}`)
-  console.log(`- Network: http://${localIp}:${SERVER_CONFIG.PORT}`)
-} else {
-  console.log(`Server is running on port ${SERVER_CONFIG.PORT}`)
-}
-
-console.log(`Server is running on port ${port}`)
 serve({
   fetch: app.fetch,
-  port
+  port,
+  hostname: '::',  // This enables IPv6 support
 })
+
+// Log startup information
+if (SERVER_CONFIG.IS_LOCAL_NETWORK) {
+  const localIp = getLocalIpAddress()
+  console.log('Server is running on:')
+  console.log(`- Local: http://localhost:${SERVER_CONFIG.PORT}`)
+  console.log(`- Network: http://${localIp}:${SERVER_CONFIG.PORT}`)
+  console.log(`- IPv6: http://[::]:${SERVER_CONFIG.PORT}`)
+} else {
+  console.log(`Server is running on port ${port} with IPv6 support`)
+  console.log(`Service should be available at: http://${process.env.RAILWAY_SERVICE_NAME}.railway.internal:${port}`)
+}

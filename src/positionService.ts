@@ -1,6 +1,8 @@
 import { Context } from 'hono'
 import * as fs from 'fs'
 import * as path from 'path'
+import { getBaseUrl, getLocalIpAddress } from './utils/url'
+import { SERVER_CONFIG } from './utils/config'
 
 interface MockPosition {
   x: number
@@ -118,6 +120,19 @@ export async function handleGetGridSquare(c: Context) {
 }
 
 export async function handlePositionInterface(c: Context) {
+  // Get the appropriate base URL based on environment
+  const getInternalUrl = () => {
+    if (process.env.NODE_ENV === 'production') {
+      // Use Railway's internal DNS
+      return `http://${process.env.RAILWAY_SERVICE_NAME}.railway.internal:${SERVER_CONFIG.PORT}`
+    } else {
+      // Use localhost for development
+      return `http://localhost:${SERVER_CONFIG.PORT}`
+    }
+  }
+
+  const baseUrl = getInternalUrl()
+
   return c.html(`
     <!DOCTYPE html>
     <html>
@@ -215,12 +230,15 @@ export async function handlePositionInterface(c: Context) {
           }
         </style>
         <script>
+          // Use the internal URL for all API calls
+          const baseUrl = "${baseUrl}";
+           
           async function updatePosition(x, y, floor) {
             try {
               console.log('Sending position:', { x, y, floor });
               
               // Update position
-              const response = await fetch('/simulatedPosition/', {
+              const response = await fetch(\`\${baseUrl}/simulatedPosition/\`, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
@@ -235,7 +253,7 @@ export async function handlePositionInterface(c: Context) {
               const positionData = await response.json();
               
               // Fetch grid square
-              const gridSquareResponse = await fetch('/simulatedPosition/gridSquare');
+              const gridSquareResponse = await fetch(\`\${baseUrl}/simulatedPosition/gridSquare\`);
               const gridSquareData = await gridSquareResponse.json();
               
               // Combine the data
@@ -325,8 +343,8 @@ export async function handlePositionInterface(c: Context) {
             try {
               // Fetch both position and grid square data
               const [positionResponse, gridSquareResponse] = await Promise.all([
-                fetch('/simulatedPosition'),
-                fetch('/simulatedPosition/gridSquare')
+                fetch(\`\${baseUrl}/simulatedPosition\`),
+                fetch(\`\${baseUrl}/simulatedPosition/gridSquare\`)
               ]);
               
               const positionData = await positionResponse.json();
