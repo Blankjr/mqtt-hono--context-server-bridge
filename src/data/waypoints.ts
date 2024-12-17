@@ -10,6 +10,20 @@ export interface WaypointDetails {
   }
   
   export const waypointsByColor: ColorGroupedWaypoints = {
+    floors: {
+        "04.0.H3-P7": {
+            visualDescription: "Fahrstuhl zu Etage 2 nehmen",
+            tactileDescription: "Fahrstuhl zu Etage 2 nehmen"
+        },
+        "04.1.H3-P7": {
+            visualDescription: "Fahrstuhl zu Etage 2 nehmen",
+            tactileDescription: "Fahrstuhl zu Etage 2 nehmen"
+        },
+        "04.3.H3-P7": {
+            visualDescription: "Fahrstuhl zu Etage 2 nehmen",
+            tactileDescription: "Fahrstuhl zu Etage 2 nehmen"
+        }
+    },
     "dark-blue": {
       "04.2.H2-P4": {
         visualDescription: "dunkel blauen Wegweiser nach links folgen",

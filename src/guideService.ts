@@ -23,17 +23,9 @@ const coloredRoutes: LineRoutes = {
   "red": ["H1-P4", "V1-P1", "V1-P2", "V1-P3", "H1-P1", "V1-P4", "V1-P5", "H3-P1", "H3-P2", "H3-P3", "H3-P4", "H3-P5", "H3-P6"]
 }
 
-interface LineSegment {
-  color: string
-  startGridSquare: string
-  endGridSquare: string
-  waypoint: string
-}
-
 // Map user-friendly names to specific room numbers
 function mapUserRequestToRoom(roomType: string): string {
   const roomMapping: { [key: string]: string } = {
-
     'labor-interaktive-systeme': '04.2.001',
     'labor-mixed-reality': '04.2.003',
     'computergrafik': '04.2.012',
@@ -47,10 +39,10 @@ function mapUserRequestToRoom(roomType: string): string {
     'labor-av-produktion': '04.2.023',
     'sitzungs-raum': '04.2.025',
     'labor-mediengestaltung': '04.2.026',
-    'pc-pool': '04.2.028',    // Central PC Pool room
+    'pc-pool': '04.2.028',
     'fachschaft': '04.2.029',
-    'wc': '04.2.031',         // Central WC room
-    'toilette': '04.2.031',   // Alternative name for WC
+    'wc': '04.2.031',
+    'toilette': '04.2.031',
     'lehrbeauftragte': '04.2.040',
     'server-raum': '04.2.043'
   };
@@ -58,31 +50,42 @@ function mapUserRequestToRoom(roomType: string): string {
   return roomMapping[roomType.toLowerCase()] || '';
 }
 
-function constructWaypointUrl(color: string, gridSquare: string): string {
+function constructWaypointUrl(type: string, gridSquare: string): string {
   const baseUrl = getBaseUrl();
-  return `${baseUrl}/waypoints/${color}/${gridSquare}.jpg`;
+  if (gridSquare.startsWith('04.0.') || gridSquare.startsWith('04.1.') || gridSquare.startsWith('04.3.')) {
+    return `${baseUrl}/waypoints/floors/${gridSquare}.jpg`;
+  }
+  return `${baseUrl}/waypoints/${type}/${gridSquare}.jpg`;
 }
 
 function findWaypointsForRouteFromColors(
   lineDirections: Record<string, string[]>,
-  route: RouteStep[]
+  route: RouteStep[],
+  startGridSquare: string
 ): { id: string; description: string; url: string }[] {
   const usedWaypoints: { id: string; description: string; url: string }[] = [];
   const seenWaypoints = new Set<string>();
 
+  // Add elevator waypoint if starting from another floor
+  if (startGridSquare.match(/^04\.[013]\.H3-P7$/)) {
+    usedWaypoints.push({
+      id: startGridSquare,
+      description: waypointsByColor.floors[startGridSquare].visualDescription,
+      url: constructWaypointUrl('floors', startGridSquare)
+    });
+    seenWaypoints.add(startGridSquare);
+  }
+
   // Go through route steps in order
   route.forEach(step => {
-    // For each step, check which color line it belongs to
     Object.entries(lineDirections).forEach(([color, gridSquares]) => {
       if (!gridSquares.includes(step.gridSquare)) return;
 
-      // Handle green-short-reverse case by using green-short waypoints
       const lookupColor = color === 'green-short-reverse' ? 'green-short' : color;
       const colorWaypoints = waypointsByColor[lookupColor];
 
       if (!colorWaypoints || seenWaypoints.has(step.gridSquare)) return;
 
-      // If we have a waypoint for this grid square
       if (colorWaypoints[step.gridSquare]) {
         usedWaypoints.push({
           id: step.gridSquare,
@@ -96,6 +99,7 @@ function findWaypointsForRouteFromColors(
 
   return usedWaypoints;
 }
+
 function findColoredLines(route: any[]): Record<string, string[]> {
   const lineDirections: Record<string, string[]> = {};
   const lineOrder: string[] = [];
@@ -125,7 +129,6 @@ function findColoredLines(route: any[]): Record<string, string[]> {
     lineDirections[color] = [...new Set(lineDirections[color])];
   });
 
-  // Create ordered result
   const orderedLineDirections: Record<string, string[]> = {};
   // Use a Set to track seen colors to avoid duplicates
   const seenColors = new Set<string>();
@@ -162,11 +165,16 @@ export async function handleGuideRequest(c: Context) {
   }
 
   try {
+    // Determine if we're starting from another floor
+    const isStartingFromOtherFloor = startGridSquare.match(/^04\.[013]\.H3-P7$/);
+    const actualStartGridSquare = isStartingFromOtherFloor ? '04.2.H3-P7' : startGridSquare;
+
+    // Get route from floor 2 start point to destination
     const params = new URLSearchParams();
     params.append('application', 'visitor');
     params.append('situation', 'KurzesterWeg');
     params.append('query', 'KurzesterWeg');
-    params.append('part_StartPlanquadrat', JSON.stringify({ name: startGridSquare }));
+    params.append('part_StartPlanquadrat', JSON.stringify({ name: actualStartGridSquare }));
     params.append('part_ZielRaum', JSON.stringify({ name: destinationRoom }));
     params.append('param_breakAfterMS', '1000');
     params.append('param_resultSize', '1');
@@ -195,16 +203,25 @@ export async function handleGuideRequest(c: Context) {
         floor: element.fromEntity.attributes.etage
       }));
 
-    const lineDirections = findColoredLines(route);
-
-    // Create route steps first
-    const routeSteps = route.map((gridSquare: { name: string }) => ({
+    // Create complete route steps including elevator if needed
+    let routeSteps = route.map((gridSquare: { name: string }) => ({
       gridSquare: gridSquare.name,
-      waypointId: undefined  // We'll fill this in after getting waypoint info
+      waypointId: undefined
     }));
 
-    // Now get waypoint info using the route steps
-    const waypointInfo = findWaypointsForRouteFromColors(lineDirections, routeSteps);
+    if (isStartingFromOtherFloor) {
+      // Add elevator step at the beginning
+      routeSteps = [
+        {
+          gridSquare: startGridSquare,
+          waypointId: startGridSquare
+        },
+        ...routeSteps
+      ];
+    }
+
+    const lineDirections = findColoredLines(route);
+    const waypointInfo = findWaypointsForRouteFromColors(lineDirections, routeSteps, startGridSquare);
 
     // Update route steps with waypoint information
     routeSteps.forEach(step => {
