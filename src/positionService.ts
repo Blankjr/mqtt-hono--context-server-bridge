@@ -41,22 +41,30 @@ function calculateDistance(p1: { x: number, y: number }, p2: { x: number, y: num
   return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
 }
 
-// Find closest fingerprint position
 function findClosestFingerprint(position: MockPosition): string {
+  // Return specific grid squares for floors 0, 1, and 3
+  if (position.floor === '0') {
+    return '04.0.H3-P7';
+  }
+  if (position.floor === '1') {
+    return '04.1.H3-P7';
+  }
+  if (position.floor === '3') {
+    return '04.3.H3-P7';
+  }
+
+  // For floor 2, keep the existing logic
   try {
     // Read fingerprint data
     const fingerprintPath = path.join(process.cwd(), 'data', 'fingerprints-mock.json');
     const rawData = fs.readFileSync(fingerprintPath, 'utf8');
     const data: FingerprintData = JSON.parse(rawData);
 
-     // Set default grid square for floor 2 if no fingerprint is found
-     const defaultGridSquare = '04.2.H1-P13';
-
     let closestId = '';
     let minDistance = Infinity;
 
-    // Only compare fingerprints on the same floor
-    const sameFloorFingerprints = data.fingerprints.filter(fp => fp.position.floor === position.floor);
+    // Only compare fingerprints on floor 2
+    const sameFloorFingerprints = data.fingerprints.filter(fp => fp.position.floor === '2');
 
     for (const fingerprint of sameFloorFingerprints) {
       const distance = calculateDistance(
@@ -70,10 +78,10 @@ function findClosestFingerprint(position: MockPosition): string {
       }
     }
 
-    return closestId;
+    return closestId || '04.2.H1-P13'; // Default grid square for floor 2
   } catch (error) {
     console.error('Error reading fingerprint data:', error);
-    return '';
+    return '04.2.H1-P13'; // Default grid square for floor 2 in case of error
   }
 }
 
