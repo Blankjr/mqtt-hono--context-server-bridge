@@ -11,36 +11,6 @@ import { cors } from 'hono/cors'
 const app = new Hono()
 const port = SERVER_CONFIG.PORT
 
-
-
-// Add trailing slash middleware
-app.use('*', async (c, next) => {
-  const url = new URL(c.req.url);
-
-  // If path doesn't end with slash and doesn't include a dot (for files)
-  if (!url.pathname.endsWith('/') && !url.pathname.includes('.')) {
-    url.pathname += '/';
-
-    // Ensure we're using HTTPS for the redirect
-    url.protocol = 'https:';
-
-    // Set hostname if needed
-    if (!url.hostname) {
-      url.hostname = process.env.RAILWAY_SERVICE_NAME ?
-        `${process.env.RAILWAY_SERVICE_NAME}.railway.app` :
-        c.req.header('host') || '';
-    }
-
-    // Add CORS headers to the redirect response
-    c.header('Access-Control-Allow-Origin', '*');
-    c.header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
-    c.header('Access-Control-Allow-Headers', 'Content-Type,Accept');
-    c.header('Access-Control-Expose-Headers', 'Content-Length,X-Request-Id');
-
-    return c.redirect(url.toString());
-  }
-  await next();
-});
 // CORS middleware
 app.use('*', cors({
   origin: (origin) => {
@@ -101,9 +71,15 @@ app.use('/waypoints/*', serveStatic({
 // routes from external files
 app.get('/guide/', handleGuideRequest)
 app.get('/simulatedPosition/admin/', handlePositionInterface)
-app.get('/simulatedPosition/', handleGetPosition)
-app.post('/simulatedPosition/', handleUpdatePosition)
-app.get('/simulatedPosition/gridSquare/', handleGetGridSquare)
+// Regular routes for simulatedPosition
+app.get('/simulatedPosition', handleGetPosition);
+app.get('/simulatedPosition/', handleGetPosition);
+app.post('/simulatedPosition', handleUpdatePosition);
+app.post('/simulatedPosition/', handleUpdatePosition);
+
+// Grid square routes
+app.get('/simulatedPosition/gridSquare', handleGetGridSquare);
+app.get('/simulatedPosition/gridSquare/', handleGetGridSquare);
 
 app.onError((err, c) => {
   console.error(`Error handling request to ${c.req.url}:`, err);
