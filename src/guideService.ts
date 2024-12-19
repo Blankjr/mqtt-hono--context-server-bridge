@@ -28,7 +28,7 @@ function mapUserRequestToRoom(roomType: string): string {
   const roomMapping: { [key: string]: string } = {
     'labor-interaktive-systeme': '04.2.001',
     'labor-mixed-reality': '04.2.003',
-    'computergrafik': '04.2.012',
+    'labor-computergrafik': '04.2.012',
     'labor-it-sicherheit': '04.2.014',
     'labor-multimedia-kommunikation': '04.2.015',
     'labor-webtechnologie': '04.2.016',
