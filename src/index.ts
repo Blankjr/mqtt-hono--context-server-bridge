@@ -12,6 +12,29 @@ const app = new Hono()
 const port = SERVER_CONFIG.PORT
 
 
+
+// Add trailing slash middleware
+app.use('*', async (c, next) => {
+  const url = new URL(c.req.url);
+
+  // If path doesn't end with slash and doesn't include a dot (for files)
+  if (!url.pathname.endsWith('/') && !url.pathname.includes('.')) {
+    url.pathname += '/';
+
+    // Ensure we're using HTTPS for the redirect
+    url.protocol = 'https:';
+
+    // Set hostname if needed
+    if (!url.hostname) {
+      url.hostname = process.env.RAILWAY_SERVICE_NAME ?
+        `${process.env.RAILWAY_SERVICE_NAME}.railway.app` :
+        c.req.header('host') || '';
+    }
+
+    return c.redirect(url.toString());
+  }
+  await next();
+});
 // CORS middleware
 app.use('*', cors({
   origin: (origin) => {
@@ -31,15 +54,6 @@ app.use('*', cors({
   maxAge: 600,
   credentials: false,
 }))
-// Add trailing slash middleware
-app.use('*', async (c, next) => {
-  const url = new URL(c.req.url)
-  if (!url.pathname.endsWith('/') && !url.pathname.includes('.')) {
-    url.pathname += '/'
-    return c.redirect(url.toString())
-  }
-  await next()
-})
 
 app.use('*', async (c, next) => {
   await next();
