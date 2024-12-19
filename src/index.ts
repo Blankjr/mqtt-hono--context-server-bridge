@@ -31,6 +31,12 @@ app.use('*', async (c, next) => {
         c.req.header('host') || '';
     }
 
+    // Add CORS headers to the redirect response
+    c.header('Access-Control-Allow-Origin', '*');
+    c.header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+    c.header('Access-Control-Allow-Headers', 'Content-Type,Accept');
+    c.header('Access-Control-Expose-Headers', 'Content-Length,X-Request-Id');
+
     return c.redirect(url.toString());
   }
   await next();
