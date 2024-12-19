@@ -12,21 +12,25 @@ const app = new Hono()
 const port = SERVER_CONFIG.PORT
 
 
-// Add CORS middleware before any routes
-app.use('*', async (c, next) => {
-  // Add CORS headers to every response
-  c.header('Access-Control-Allow-Origin', '*')
-  c.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-  c.header('Access-Control-Allow-Headers', 'Content-Type')
+// CORS middleware
+app.use('*', cors({
+  origin: (origin) => {
+    // Allow any origin in development
+    if (SERVER_CONFIG.IS_LOCAL_NETWORK) return origin;
 
-  // Handle OPTIONS preflight requests
-  if (c.req.method === 'OPTIONS') {
-    return c.text('', 204)
-  }
+    // In production, allow specific origins
+    const allowedOrigins = [
+      '*'
+    ];
 
-  await next()
-})
-
+    return allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
+  },
+  allowMethods: ['GET', 'POST', 'OPTIONS'],
+  allowHeaders: ['Content-Type', 'Accept'],
+  exposeHeaders: ['Content-Length', 'X-Request-Id'],
+  maxAge: 600,
+  credentials: false,
+}))
 // Add trailing slash middleware
 app.use('*', async (c, next) => {
   const url = new URL(c.req.url)
@@ -35,6 +39,14 @@ app.use('*', async (c, next) => {
     return c.redirect(url.toString())
   }
   await next()
+})
+
+app.get('/health/', async (c) => {
+  return c.json({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    environment: SERVER_CONFIG.IS_LOCAL_NETWORK ? 'development' : 'production'
+  })
 })
 
 // Root route - API Guide
@@ -61,6 +73,16 @@ app.get('/simulatedPosition/admin/', handlePositionInterface)
 app.get('/simulatedPosition/', handleGetPosition)
 app.post('/simulatedPosition/', handleUpdatePosition)
 app.get('/simulatedPosition/gridSquare/', handleGetGridSquare)
+
+app.onError((err, c) => {
+  console.error(`Error handling request to ${c.req.url}:`, err);
+  return c.json({
+    error: {
+      message: 'Internal Server Error',
+      status: 500
+    }
+  }, 500)
+})
 
 serve({
   fetch: app.fetch,
