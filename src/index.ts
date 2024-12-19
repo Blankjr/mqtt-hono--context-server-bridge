@@ -41,6 +41,17 @@ app.use('*', async (c, next) => {
   await next()
 })
 
+app.use('*', async (c, next) => {
+  await next();
+
+  // If there's a redirect
+  const location = c.res.headers.get('location');
+  if (location && location.startsWith('http://')) {
+    // Force HTTPS for redirects
+    c.res.headers.set('location', location.replace('http://', 'https://'));
+  }
+});
+
 app.get('/health/', async (c) => {
   return c.json({
     status: 'ok',
