@@ -1,6 +1,7 @@
 import { Context } from 'hono'
 import { getBaseUrl } from './utils/url'
 import { waypointsByColor } from './data/waypoints'
+import { SERVER_CONFIG } from './utils/config'
 
 export interface RouteStep {
   gridSquare: string
@@ -179,15 +180,22 @@ export async function handleGuideRequest(c: Context) {
     params.append('param_breakAfterMS', '1000');
     params.append('param_resultSize', '1');
     params.append('param_maxOptSteps', '300');
-
-    const response = await fetch('http://localhost:8080/contextserver/ContextServerAPI/predefined', {
-      method: 'POST',
-      headers: {
+    
+    const headers = new Headers({
         'Content-Type': 'application/x-www-form-urlencoded',
         'User-Agent': 'insomnia/10.2.0'
-      },
-      body: params
-    });
+      });
+      
+      // Add Authorization separately to handle potential undefined
+      if (SERVER_CONFIG.CONTEXT_BASIC_AUTH) {
+        headers.append('Authorization', SERVER_CONFIG.CONTEXT_BASIC_AUTH);
+      }
+
+    const response = await fetch(`${SERVER_CONFIG.CONTEXT_URL}contextserver/ContextServerAPI/predefined`, {
+        method: 'POST',
+        headers,
+        body: params
+      });
 
     if (!response.ok) {
       throw new Error(`Server responded with status ${response.status}`);
