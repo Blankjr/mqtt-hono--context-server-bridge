@@ -13,15 +13,15 @@ export interface WaypointDetails {
     floors: {
         "04.0.H3-P7": {
             visualDescription: "Fahrstuhl zu Etage 2 nehmen",
-            tactileDescription: "Fahrstuhl zu Etage 2 nehmen"
+            tactileDescription: "Fahrstuhl zu Etage 2 nehmen. Vom Eingang aus gesehn rechts 15 Meter entfernt befinden sich 2 Aufzüge nebeneinander."
         },
         "04.1.H3-P7": {
             visualDescription: "Fahrstuhl zu Etage 2 nehmen",
-            tactileDescription: "Fahrstuhl zu Etage 2 nehmen"
+            tactileDescription: "Fahrstuhl zu Etage 2 nehmen. In diesem Bereich befinden  sich außen auf der einen Seite viele Stühle und Tische nutze die Innenseite um bis zum Fahrstuhl hinter dem letzten Flur zu navigieren."
         },
         "04.3.H3-P7": {
             visualDescription: "Fahrstuhl zu Etage 2 nehmen",
-            tactileDescription: "Fahrstuhl zu Etage 2 nehmen"
+            tactileDescription: "Fahrstuhl zu Etage 2 nehmen. Vorsicht auf der gegenüberliegenden Seite befinden sich Sitzgelegenheiten als Hindernis."
         }
     },
     "dark-blue": {
@@ -68,8 +68,9 @@ export interface WaypointDetails {
       "04.2.H1-P13": {
         visualDescription: "orangen Wegweiser nach links folgen",
       },
-      "04.2.H3-P6": {
+      "04.2.V3-P4": {
         visualDescription: "orangen Wegweiser nach rechts folgen",
+        tactileDescription: "Finde die innere Wand wenige Meter vor dir und folge dann den Flur nach rechts. Jetzt gerade aus gehen. Vorsichtig in 2 Meter befindet sich eine Tür. Im Anschluss den Weg gerade aus folgen.",
       }
     },
     "red": {
