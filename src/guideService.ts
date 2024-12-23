@@ -239,7 +239,7 @@ export async function handleGuideRequest(c: Context) {
     const lineDirections = findColoredLines(route);
     const waypointInfo = findWaypointsForRouteFromColors(lineDirections, routeSteps, startGridSquare, navigationMode);
 
-    routeSteps.forEach(step => {
+    routeSteps.forEach((step: { gridSquare: string; waypointId: string }) => {
       const matchingWaypoint = waypointInfo.find(w => w.id === step.gridSquare);
       if (matchingWaypoint) {
         step.waypointId = matchingWaypoint.id;
