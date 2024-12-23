@@ -62,18 +62,26 @@ function constructWaypointUrl(type: string, gridSquare: string): string {
 function findWaypointsForRouteFromColors(
   lineDirections: Record<string, string[]>,
   route: RouteStep[],
-  startGridSquare: string
-): { id: string; description: string; url: string }[] {
-  const usedWaypoints: { id: string; description: string; url: string }[] = [];
+  startGridSquare: string,
+  navigationMode: string
+): { id: string; description: string; url?: string }[] {
+  const usedWaypoints: { id: string; description: string; url?: string }[] = [];
   const seenWaypoints = new Set<string>();
 
   // Add elevator waypoint if starting from another floor
   if (startGridSquare.match(/^04\.[013]\.H3-P7$/)) {
-    usedWaypoints.push({
+    const waypoint: { id: string; description: string; url?: string } = {
       id: startGridSquare,
-      description: waypointsByColor.floors[startGridSquare].visualDescription,
-      url: constructWaypointUrl('floors', startGridSquare)
-    });
+      description: navigationMode === 'tactile' && waypointsByColor.floors[startGridSquare].tactileDescription
+        ? waypointsByColor.floors[startGridSquare].tactileDescription
+        : waypointsByColor.floors[startGridSquare].visualDescription
+    };
+
+    if (navigationMode === 'visual') {
+      waypoint.url = constructWaypointUrl('floors', startGridSquare);
+    }
+
+    usedWaypoints.push(waypoint);
     seenWaypoints.add(startGridSquare);
   }
 
@@ -87,12 +95,20 @@ function findWaypointsForRouteFromColors(
 
       if (!colorWaypoints || seenWaypoints.has(step.gridSquare)) return;
 
-      if (colorWaypoints[step.gridSquare]) {
-        usedWaypoints.push({
+      const wayPointDetails = colorWaypoints[step.gridSquare];
+      if (wayPointDetails) {
+        const waypoint: { id: string; description: string; url?: string } = {
           id: step.gridSquare,
-          description: colorWaypoints[step.gridSquare].visualDescription,
-          url: constructWaypointUrl(lookupColor, step.gridSquare)
-        });
+          description: navigationMode === 'tactile' && wayPointDetails.tactileDescription
+            ? wayPointDetails.tactileDescription
+            : wayPointDetails.visualDescription
+        };
+
+        if (navigationMode === 'visual') {
+          waypoint.url = constructWaypointUrl(lookupColor, step.gridSquare);
+        }
+
+        usedWaypoints.push(waypoint);
         seenWaypoints.add(step.gridSquare);
       }
     });
@@ -125,16 +141,13 @@ function findColoredLines(route: any[]): Record<string, string[]> {
     }
   }
 
-  // Remove duplicates while maintaining order
   Object.keys(lineDirections).forEach(color => {
     lineDirections[color] = [...new Set(lineDirections[color])];
   });
 
   const orderedLineDirections: Record<string, string[]> = {};
-  // Use a Set to track seen colors to avoid duplicates
   const seenColors = new Set<string>();
 
-  // First add colors in the order they were found
   lineOrder.forEach(color => {
     if (!seenColors.has(color)) {
       orderedLineDirections[color] = lineDirections[color];
@@ -166,11 +179,9 @@ export async function handleGuideRequest(c: Context) {
   }
 
   try {
-    // Determine if we're starting from another floor
     const isStartingFromOtherFloor = startGridSquare.match(/^04\.[013]\.H3-P7$/);
     const actualStartGridSquare = isStartingFromOtherFloor ? '04.2.H3-P7' : startGridSquare;
 
-    // Get route from floor 2 start point to destination
     const params = new URLSearchParams();
     params.append('application', 'visitor');
     params.append('situation', 'KurzesterWeg');
@@ -182,20 +193,19 @@ export async function handleGuideRequest(c: Context) {
     params.append('param_maxOptSteps', '300');
     
     const headers = new Headers({
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'User-Agent': 'insomnia/10.2.0'
-      });
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'User-Agent': 'insomnia/10.2.0'
+    });
       
-      // Add Authorization separately to handle potential undefined
-      if (SERVER_CONFIG.CONTEXT_BASIC_AUTH) {
-        headers.append('Authorization', SERVER_CONFIG.CONTEXT_BASIC_AUTH);
-      }
+    if (SERVER_CONFIG.CONTEXT_BASIC_AUTH) {
+      headers.append('Authorization', SERVER_CONFIG.CONTEXT_BASIC_AUTH);
+    }
 
     const response = await fetch(`${SERVER_CONFIG.CONTEXT_URL}contextserver/ContextServerAPI/predefined`, {
-        method: 'POST',
-        headers,
-        body: params
-      });
+      method: 'POST',
+      headers,
+      body: params
+    });
 
     if (!response.ok) {
       throw new Error(`Server responded with status ${response.status}`);
@@ -211,14 +221,12 @@ export async function handleGuideRequest(c: Context) {
         floor: element.fromEntity.attributes.etage
       }));
 
-    // Create complete route steps including elevator if needed
     let routeSteps = route.map((gridSquare: { name: string }) => ({
       gridSquare: gridSquare.name,
       waypointId: undefined
     }));
 
     if (isStartingFromOtherFloor) {
-      // Add elevator step at the beginning
       routeSteps = [
         {
           gridSquare: startGridSquare,
@@ -229,9 +237,8 @@ export async function handleGuideRequest(c: Context) {
     }
 
     const lineDirections = findColoredLines(route);
-    const waypointInfo = findWaypointsForRouteFromColors(lineDirections, routeSteps, startGridSquare);
+    const waypointInfo = findWaypointsForRouteFromColors(lineDirections, routeSteps, startGridSquare, navigationMode);
 
-    // Update route steps with waypoint information
     routeSteps.forEach(step => {
       const matchingWaypoint = waypointInfo.find(w => w.id === step.gridSquare);
       if (matchingWaypoint) {
