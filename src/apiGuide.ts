@@ -53,6 +53,10 @@ export function handleApiGuide(c: Context) {
             background: #dbeafe;
             color: #1e40af;
           }
+          .admin {
+            background: #fee2e2;
+            color: #991b1b;
+          }  
           .url {
             font-family: monospace;
             background: #f1f5f9;
@@ -95,14 +99,14 @@ export function handleApiGuide(c: Context) {
 
           <div class="endpoint">
             <h3>
-              <span class="method get">GET</span>
-              <span class="url">/simulatedPosition/admin</span>
+              <span class="method admin">UI</span>
+              <span class="url">/simulatedPosition Admin</span>
             </h3>
             <div class="description">
               Admin interface for simulating user positions on the floor plans. Allows clicking on maps to set positions.
             </div>
             <div class="try-it">
-              <a href="/simulatedPosition/admin">Open Admin Interface →</a>
+              <a href="https://admin.freibewegen.info/">Open Admin Interface →</a>
             </div>
           </div>
 
