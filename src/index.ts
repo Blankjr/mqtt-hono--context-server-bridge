@@ -7,6 +7,7 @@ import { handleApiGuide } from './apiGuide'
 import { SERVER_CONFIG } from "./utils/config";
 import { getLocalIpAddress } from './utils/url'
 import { cors } from 'hono/cors'
+import { handleGetFingerprints } from './fingerprintService'
 
 const app = new Hono()
 const port = SERVER_CONFIG.PORT
@@ -80,6 +81,10 @@ app.post('/simulatedPosition/', handleUpdatePosition);
 // Grid square routes
 app.get('/simulatedPosition/gridSquare', handleGetGridSquare);
 app.get('/simulatedPosition/gridSquare/', handleGetGridSquare);
+
+// Fingerprint Data
+app.get('/fingerprints', handleGetFingerprints)
+app.get('/fingerprints/', handleGetFingerprints)
 
 app.onError((err, c) => {
   console.error(`Error handling request to ${c.req.url}:`, err);
