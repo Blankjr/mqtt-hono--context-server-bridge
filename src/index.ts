@@ -2,7 +2,7 @@ import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { serveStatic } from '@hono/node-server/serve-static'
 import { handleGuideRequest } from './guideService'
-import { handleGetPosition, handleUpdatePosition, handlePositionInterface, handleGetGridSquare } from './positionService'
+import { handleGetPosition, handleUpdatePosition, handleGetGridSquare } from './positionService'
 import { handleApiGuide } from './apiGuide'
 import { SERVER_CONFIG } from "./utils/config";
 import { getLocalIpAddress } from './utils/url'
@@ -71,7 +71,6 @@ app.use('/waypoints/*', serveStatic({
 
 // routes from external files
 app.get('/guide/', handleGuideRequest)
-app.get('/simulatedPosition/admin/', handlePositionInterface)
 
 // simulatedPosition routes
 app.get('/simulatedPosition', handleGetPosition);
