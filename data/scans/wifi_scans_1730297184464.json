@@ -1,0 +1,942 @@
+{
+  "version": "1.0",
+  "exportDate": "2024-10-30T14:06:24.463Z",
+  "scans": [
+    {
+      "version:id": "1.0",
+      "id": "829cd137-0acd-47cd-aa4b-7a6045589420",
+      "timestamp": 1730293591701,
+      "token": "scanner_1",
+      "location": {
+        "position_px": {
+          "x": 289,
+          "y": 118
+        },
+        "floor": "Etage 1",
+        "building": "4"
+      },
+      "samples": [
+        {
+          "ssid": "eduroam",
+          "rssi": -47,
+          "channel": 11,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "2.4GHz",
+          "frequency": 2462,
+          "bssid": "f0:5c:19:86:1d:00"
+        },
+        {
+          "ssid": "FBM DIVA",
+          "rssi": -47,
+          "channel": 11,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "2.4GHz",
+          "frequency": 2462,
+          "bssid": "f0:5c:19:86:1d:02"
+        },
+        {
+          "ssid": "FBM 1510",
+          "rssi": -48,
+          "channel": 11,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "2.4GHz",
+          "frequency": 2462,
+          "bssid": "f0:5c:19:86:1d:01"
+        },
+        {
+          "ssid": "FBM 1510",
+          "rssi": -88,
+          "channel": 153,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5765,
+          "bssid": "f0:5c:19:88:01:90"
+        },
+        {
+          "ssid": "FBM DIVA2",
+          "rssi": -47,
+          "channel": 11,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "2.4GHz",
+          "frequency": 2462,
+          "bssid": "f0:5c:19:86:1d:04"
+        },
+        {
+          "ssid": "eduroam",
+          "rssi": -90,
+          "channel": 153,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5765,
+          "bssid": "f0:5c:19:88:01:91"
+        },
+        {
+          "ssid": "CIT_managed",
+          "rssi": -47,
+          "channel": 11,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "2.4GHz",
+          "frequency": 2462,
+          "bssid": "f0:5c:19:86:1d:03"
+        },
+        {
+          "ssid": "CIT_managed",
+          "rssi": -90,
+          "channel": 153,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5765,
+          "bssid": "f0:5c:19:88:01:92"
+        },
+        {
+          "ssid": "FBM Webtec",
+          "rssi": -48,
+          "channel": 11,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "2.4GHz",
+          "frequency": 2462,
+          "bssid": "f0:5c:19:86:1d:06"
+        },
+        {
+          "ssid": "Freifunk",
+          "rssi": -89,
+          "channel": 153,
+          "security": "OPEN",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5765,
+          "bssid": "f0:5c:19:88:01:93"
+        },
+        {
+          "ssid": "Freifunk",
+          "rssi": -82,
+          "channel": 116,
+          "security": "OPEN",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5580,
+          "bssid": "f0:5c:19:86:8b:12"
+        },
+        {
+          "ssid": "CIT_managed",
+          "rssi": -82,
+          "channel": 116,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5580,
+          "bssid": "f0:5c:19:86:8b:11"
+        },
+        {
+          "ssid": "FBM Webtec2",
+          "rssi": -48,
+          "channel": 11,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "2.4GHz",
+          "frequency": 2462,
+          "bssid": "f0:5c:19:86:1d:07"
+        },
+        {
+          "ssid": "eduroam",
+          "rssi": -83,
+          "channel": 116,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5580,
+          "bssid": "f0:5c:19:86:8b:10"
+        },
+        {
+          "ssid": "FBM_DAISY",
+          "rssi": -86,
+          "channel": 112,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5560,
+          "bssid": "f0:5c:19:86:29:d7"
+        },
+        {
+          "ssid": "FBM IT-Sicherheit",
+          "rssi": -85,
+          "channel": 112,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5560,
+          "bssid": "f0:5c:19:86:29:d8"
+        },
+        {
+          "ssid": "ZDD DSAI",
+          "rssi": -84,
+          "channel": 112,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5560,
+          "bssid": "f0:5c:19:86:29:d9"
+        },
+        {
+          "ssid": "FBM IT-Sicherheit",
+          "rssi": -67,
+          "channel": 48,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5240,
+          "bssid": "f0:5c:19:86:89:96"
+        },
+        {
+          "ssid": "Freifunk",
+          "rssi": -67,
+          "channel": 48,
+          "security": "OPEN",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5240,
+          "bssid": "f0:5c:19:86:89:97"
+        },
+        {
+          "ssid": "FBM Webtec",
+          "rssi": -67,
+          "channel": 48,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5240,
+          "bssid": "f0:5c:19:86:89:98"
+        },
+        {
+          "ssid": "CIT_managed",
+          "rssi": -67,
+          "channel": 48,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5240,
+          "bssid": "f0:5c:19:86:89:99"
+        },
+        {
+          "ssid": "eduroam",
+          "rssi": -63,
+          "channel": 6,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "2.4GHz",
+          "frequency": 2437,
+          "bssid": "a8:bd:27:7c:ca:00"
+        },
+        {
+          "ssid": "FBM 1510",
+          "rssi": -63,
+          "channel": 6,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "2.4GHz",
+          "frequency": 2437,
+          "bssid": "a8:bd:27:7c:ca:01"
+        },
+        {
+          "ssid": "Freifunk",
+          "rssi": -61,
+          "channel": 6,
+          "security": "OPEN",
+          "hidden": false,
+          "band": "2.4GHz",
+          "frequency": 2437,
+          "bssid": "a8:bd:27:7c:ca:08"
+        },
+        {
+          "ssid": "Freifunk",
+          "rssi": -77,
+          "channel": 44,
+          "security": "OPEN",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5220,
+          "bssid": "f0:5c:19:86:a2:73"
+        },
+        {
+          "ssid": "ZDD DSAI",
+          "rssi": -60,
+          "channel": 6,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "2.4GHz",
+          "frequency": 2437,
+          "bssid": "a8:bd:27:7c:ca:09"
+        },
+        {
+          "ssid": "CIT_managed",
+          "rssi": -77,
+          "channel": 44,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5220,
+          "bssid": "f0:5c:19:86:a2:72"
+        },
+        {
+          "ssid": "eduroam",
+          "rssi": -77,
+          "channel": 44,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5220,
+          "bssid": "f0:5c:19:86:a2:71"
+        },
+        {
+          "ssid": "FBM 1510",
+          "rssi": -78,
+          "channel": 44,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5220,
+          "bssid": "f0:5c:19:86:a2:70"
+        },
+        {
+          "ssid": "CIT_managed",
+          "rssi": -63,
+          "channel": 6,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "2.4GHz",
+          "frequency": 2437,
+          "bssid": "a8:bd:27:7c:ca:04"
+        },
+        {
+          "ssid": "FBM Webtec2",
+          "rssi": -62,
+          "channel": 6,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "2.4GHz",
+          "frequency": 2437,
+          "bssid": "a8:bd:27:7c:ca:05"
+        },
+        {
+          "ssid": "FBM MMK",
+          "rssi": -62,
+          "channel": 6,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "2.4GHz",
+          "frequency": 2437,
+          "bssid": "a8:bd:27:7c:ca:02"
+        },
+        {
+          "ssid": "FBM Webtec",
+          "rssi": -64,
+          "channel": 6,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "2.4GHz",
+          "frequency": 2437,
+          "bssid": "a8:bd:27:7c:ca:03"
+        },
+        {
+          "ssid": "eduroam",
+          "rssi": -68,
+          "channel": 48,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5240,
+          "bssid": "f0:5c:19:86:89:90"
+        },
+        {
+          "ssid": "FBM 1510",
+          "rssi": -67,
+          "channel": 48,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5240,
+          "bssid": "f0:5c:19:86:89:91"
+        },
+        {
+          "ssid": "FBM Webtec2",
+          "rssi": -67,
+          "channel": 48,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5240,
+          "bssid": "f0:5c:19:86:89:92"
+        },
+        {
+          "ssid": "FBM MMK",
+          "rssi": -67,
+          "channel": 48,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5240,
+          "bssid": "f0:5c:19:86:89:93"
+        },
+        {
+          "ssid": "FBM_DAISY",
+          "rssi": -67,
+          "channel": 48,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5240,
+          "bssid": "f0:5c:19:86:89:94"
+        },
+        {
+          "ssid": "ZDD DSAI",
+          "rssi": -67,
+          "channel": 48,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5240,
+          "bssid": "f0:5c:19:86:89:95"
+        },
+        {
+          "ssid": "FBM_DAISY",
+          "rssi": -66,
+          "channel": 6,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "2.4GHz",
+          "frequency": 2437,
+          "bssid": "f0:5c:19:86:89:86"
+        },
+        {
+          "ssid": "FBM IT-Sicherheit",
+          "rssi": -67,
+          "channel": 6,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "2.4GHz",
+          "frequency": 2437,
+          "bssid": "f0:5c:19:86:89:88"
+        },
+        {
+          "ssid": "FBM 1510",
+          "rssi": -63,
+          "channel": 52,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5260,
+          "bssid": "a8:bd:27:7c:ca:11"
+        },
+        {
+          "ssid": "FBM MMK",
+          "rssi": -63,
+          "channel": 52,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5260,
+          "bssid": "a8:bd:27:7c:ca:12"
+        },
+        {
+          "ssid": "eduroam",
+          "rssi": -66,
+          "channel": 52,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5260,
+          "bssid": "a8:bd:27:7c:ca:10"
+        },
+        {
+          "ssid": "ZDD DSAI",
+          "rssi": -64,
+          "channel": 52,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5260,
+          "bssid": "a8:bd:27:7c:ca:19"
+        },
+        {
+          "ssid": "FBM 1510",
+          "rssi": -87,
+          "channel": 128,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5640,
+          "bssid": "f0:5c:19:87:fd:f1"
+        },
+        {
+          "ssid": "CIT_managed",
+          "rssi": -89,
+          "channel": 128,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5640,
+          "bssid": "f0:5c:19:87:fd:f2"
+        },
+        {
+          "ssid": "FBM Webtec",
+          "rssi": -63,
+          "channel": 52,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5260,
+          "bssid": "a8:bd:27:7c:ca:17"
+        },
+        {
+          "ssid": "CIT_managed",
+          "rssi": -63,
+          "channel": 52,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5260,
+          "bssid": "a8:bd:27:7c:ca:18"
+        },
+        {
+          "ssid": "eduroam",
+          "rssi": -89,
+          "channel": 128,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5640,
+          "bssid": "f0:5c:19:87:fd:f0"
+        },
+        {
+          "ssid": "FBM IT-Sicherheit",
+          "rssi": -63,
+          "channel": 52,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5260,
+          "bssid": "a8:bd:27:7c:ca:15"
+        },
+        {
+          "ssid": "FBM MI-Projekte",
+          "rssi": -89,
+          "channel": 128,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5640,
+          "bssid": "f0:5c:19:87:fd:f5"
+        },
+        {
+          "ssid": "Freifunk",
+          "rssi": -63,
+          "channel": 52,
+          "security": "OPEN",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5260,
+          "bssid": "a8:bd:27:7c:ca:16"
+        },
+        {
+          "ssid": "FBM 1510_2",
+          "rssi": -89,
+          "channel": 128,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5640,
+          "bssid": "f0:5c:19:87:fd:f6"
+        },
+        {
+          "ssid": "FBM Webtec2",
+          "rssi": -63,
+          "channel": 52,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5260,
+          "bssid": "a8:bd:27:7c:ca:13"
+        },
+        {
+          "ssid": "",
+          "rssi": -89,
+          "channel": 128,
+          "security": "WPA2",
+          "hidden": true,
+          "band": "5GHz",
+          "frequency": 5640,
+          "bssid": "f0:5c:19:87:fd:f3"
+        },
+        {
+          "ssid": "FBM_DAISY",
+          "rssi": -63,
+          "channel": 52,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5260,
+          "bssid": "a8:bd:27:7c:ca:14"
+        },
+        {
+          "ssid": "FBM DIVA2",
+          "rssi": -89,
+          "channel": 128,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5640,
+          "bssid": "f0:5c:19:87:fd:f4"
+        },
+        {
+          "ssid": "Freifunk",
+          "rssi": -89,
+          "channel": 128,
+          "security": "OPEN",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5640,
+          "bssid": "f0:5c:19:87:fd:f7"
+        },
+        {
+          "ssid": "FBM_DAISY",
+          "rssi": -89,
+          "channel": 128,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5640,
+          "bssid": "f0:5c:19:87:fd:f8"
+        },
+        {
+          "ssid": "CIT_managed",
+          "rssi": -65,
+          "channel": 6,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "2.4GHz",
+          "frequency": 2437,
+          "bssid": "f0:5c:19:86:89:82"
+        },
+        {
+          "ssid": "FBM MMK",
+          "rssi": -67,
+          "channel": 6,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "2.4GHz",
+          "frequency": 2437,
+          "bssid": "f0:5c:19:86:89:83"
+        },
+        {
+          "ssid": "FBM Webtec",
+          "rssi": -65,
+          "channel": 6,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "2.4GHz",
+          "frequency": 2437,
+          "bssid": "f0:5c:19:86:89:84"
+        },
+        {
+          "ssid": "FBM 1510",
+          "rssi": -56,
+          "channel": 124,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5620,
+          "bssid": "f0:5c:19:86:1d:11"
+        },
+        {
+          "ssid": "FBM 1510",
+          "rssi": -83,
+          "channel": 112,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5560,
+          "bssid": "f0:5c:19:86:29:d3"
+        },
+        {
+          "ssid": "eduroam",
+          "rssi": -56,
+          "channel": 124,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5620,
+          "bssid": "f0:5c:19:86:1d:10"
+        },
+        {
+          "ssid": "FBM MMK",
+          "rssi": -83,
+          "channel": 112,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5560,
+          "bssid": "f0:5c:19:86:29:d4"
+        },
+        {
+          "ssid": "FBM Webtec2",
+          "rssi": -56,
+          "channel": 124,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5620,
+          "bssid": "f0:5c:19:86:1d:13"
+        },
+        {
+          "ssid": "FBM Webtec",
+          "rssi": -85,
+          "channel": 112,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5560,
+          "bssid": "f0:5c:19:86:29:d5"
+        },
+        {
+          "ssid": "FBM DIVA",
+          "rssi": -56,
+          "channel": 124,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5620,
+          "bssid": "f0:5c:19:86:1d:12"
+        },
+        {
+          "ssid": "FBM Webtec2",
+          "rssi": -85,
+          "channel": 112,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5560,
+          "bssid": "f0:5c:19:86:29:d6"
+        },
+        {
+          "ssid": "CIT_managed",
+          "rssi": -55,
+          "channel": 124,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5620,
+          "bssid": "f0:5c:19:86:1d:15"
+        },
+        {
+          "ssid": "FBM DIVA2",
+          "rssi": -55,
+          "channel": 124,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5620,
+          "bssid": "f0:5c:19:86:1d:14"
+        },
+        {
+          "ssid": "FBM 1510",
+          "rssi": -81,
+          "channel": 1,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "2.4GHz",
+          "frequency": 2412,
+          "bssid": "f0:5c:19:88:01:80"
+        },
+        {
+          "ssid": "eduroam",
+          "rssi": -85,
+          "channel": 112,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5560,
+          "bssid": "f0:5c:19:86:29:d0"
+        },
+        {
+          "ssid": "Freifunk",
+          "rssi": -55,
+          "channel": 124,
+          "security": "OPEN",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5620,
+          "bssid": "f0:5c:19:86:1d:17"
+        },
+        {
+          "ssid": "eduroam",
+          "rssi": -82,
+          "channel": 1,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "2.4GHz",
+          "frequency": 2412,
+          "bssid": "f0:5c:19:88:01:81"
+        },
+        {
+          "ssid": "Freifunk",
+          "rssi": -84,
+          "channel": 112,
+          "security": "OPEN",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5560,
+          "bssid": "f0:5c:19:86:29:d1"
+        },
+        {
+          "ssid": "CIT_managed",
+          "rssi": -83,
+          "channel": 1,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "2.4GHz",
+          "frequency": 2412,
+          "bssid": "f0:5c:19:88:01:82"
+        },
+        {
+          "ssid": "CIT_managed",
+          "rssi": -85,
+          "channel": 112,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5560,
+          "bssid": "f0:5c:19:86:29:d2"
+        },
+        {
+          "ssid": "FBM Webtec",
+          "rssi": -56,
+          "channel": 124,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5620,
+          "bssid": "f0:5c:19:86:1d:18"
+        },
+        {
+          "ssid": "eduroam",
+          "rssi": -74,
+          "channel": 11,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "2.4GHz",
+          "frequency": 2462,
+          "bssid": "f0:5c:19:86:8b:00"
+        },
+        {
+          "ssid": "FBM DIVA",
+          "rssi": -79,
+          "channel": 112,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5560,
+          "bssid": "f0:5c:19:86:8a:33"
+        },
+        {
+          "ssid": "Freifunk",
+          "rssi": -72,
+          "channel": 60,
+          "security": "OPEN",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5300,
+          "bssid": "f0:5c:19:86:8c:12"
+        },
+        {
+          "ssid": "eduroam",
+          "rssi": -79,
+          "channel": 112,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5560,
+          "bssid": "f0:5c:19:86:8a:30"
+        },
+        {
+          "ssid": "CIT_managed",
+          "rssi": -72,
+          "channel": 60,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5300,
+          "bssid": "f0:5c:19:86:8c:11"
+        },
+        {
+          "ssid": "CIT_managed",
+          "rssi": -80,
+          "channel": 112,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5560,
+          "bssid": "f0:5c:19:86:8a:31"
+        },
+        {
+          "ssid": "eduroam",
+          "rssi": -72,
+          "channel": 60,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5300,
+          "bssid": "f0:5c:19:86:8c:10"
+        },
+        {
+          "ssid": "Freifunk",
+          "rssi": -80,
+          "channel": 112,
+          "security": "OPEN",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5560,
+          "bssid": "f0:5c:19:86:8a:36"
+        },
+        {
+          "ssid": "FBM DIVA2",
+          "rssi": -80,
+          "channel": 112,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5560,
+          "bssid": "f0:5c:19:86:8a:34"
+        },
+        {
+          "ssid": "FBM IT-Sicherheit",
+          "rssi": -72,
+          "channel": 112,
+          "security": "WPA2",
+          "hidden": false,
+          "band": "5GHz",
+          "frequency": 5560,
+          "bssid": "f0:5c:19:86:8a:35"
+        },
+        {
+          "ssid": "Freifunk",
+          "rssi": -81,
+          "channel": 1,
+          "security": "OPEN",
+          "hidden": false,
+          "band": "2.4GHz",
+          "frequency": 2412,
+          "bssid": "f0:5c:19:88:01:83"
+        }
+      ]
+    }
+  ]
+}
