@@ -1,4 +1,3 @@
-// src/fingerprintService.ts
 import { Context } from 'hono'
 import fs from 'fs'
 import path from 'path'

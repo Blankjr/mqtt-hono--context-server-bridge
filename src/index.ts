@@ -72,17 +72,18 @@ app.use('/waypoints/*', serveStatic({
 // routes from external files
 app.get('/guide/', handleGuideRequest)
 app.get('/simulatedPosition/admin/', handlePositionInterface)
-// Regular routes for simulatedPosition
+
+// simulatedPosition routes
 app.get('/simulatedPosition', handleGetPosition);
 app.get('/simulatedPosition/', handleGetPosition);
 app.post('/simulatedPosition', handleUpdatePosition);
 app.post('/simulatedPosition/', handleUpdatePosition);
 
-// Grid square routes
+// GridSquare route
 app.get('/simulatedPosition/gridSquare', handleGetGridSquare);
 app.get('/simulatedPosition/gridSquare/', handleGetGridSquare);
 
-// Fingerprint Data
+// Fingerprint data route
 app.get('/fingerprints', handleGetFingerprints)
 app.get('/fingerprints/', handleGetFingerprints)
 
