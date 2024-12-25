@@ -72,6 +72,60 @@ GET /simulatedPosition/admin/
 ```
 Access position simulation interface
 
+### WiFi Fingerprints
+```
+GET /fingerprints/
+```
+Retrieve all WiFi scan fingerprints with their corresponding grid squares
+
+## Data Management
+
+### Generating Fingerprint Data
+
+The system includes a script to process WiFi scan data and generate fingerprint mappings:
+```bash
+npm run generate-fingerprints
+```
+This script:
+
+- Processes all WiFi scan files in data/scans/
+- Calculates corresponding grid squares
+- Generates a combined dataset at data/processed-fingerprints.json
+
+Run this script whenever new WiFi scan data is added to update the fingerprint database.
+
+### Data Structure
+
+WiFi scan data follows this structure:
+```json
+{
+  "scans": [
+    {
+      "id": "scan-id",
+      "timestamp": 1234567890,
+      "location": {
+        "position_px": {
+          "x": 289,
+          "y": 118
+        },
+        "floor": "Etage 1",
+        "building": "4",
+        "gridSquare": "04.1.H3-P7"
+      },
+      "samples": [
+        {
+          "ssid": "network-name",
+          "rssi": -47,
+          "channel": 11,
+          "band": "2.4GHz",
+          "bssid": "xx:xx:xx:xx:xx:xx"
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## Room Aliases
 
 The system supports user-friendly aliases for common destinations:

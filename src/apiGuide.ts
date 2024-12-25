@@ -144,6 +144,19 @@ export function handleApiGuide(c: Context) {
               <a href="/simulatedPosition/gridSquare">View Current Grid Square →</a>
             </div>
           </div>
+
+          <div class="endpoint">
+            <h3>
+              <span class="method get">GET</span>
+              <span class="url">/fingerprints</span>
+            </h3>
+            <div class="description">
+              Get all WiFi fingerprint scans with their corresponding grid squares and signal strength measurements.
+            </div>
+            <div class="try-it">
+              <a href="/fingerprints">View Fingerprints →</a>
+            </div>
+          </div>
         </div>
       </body>
     </html>
